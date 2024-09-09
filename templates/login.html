@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+  </head>
+  <body>
+    <div class="container-fluid mt-5">
+      <div class="row no-gutters">
+        <!-- Form Section -->
+        <div class="col-lg-6 d-flex align-items-center">
+          <div class="form-container mx-auto">
+            <h2 class="text-center" style="font-size: 40px">Log In</h2>
+            <div class="separator"></div>
+
+            <form>
+              <div class="form-group">
+                <input type="text" class="form-control" id="username" placeholder="Username" />
+              </div>
+              <div class="form-group position-relative">
+                <input type="password" class="form-control" id="password" placeholder="Password" />
+                <span class="toggle-password"><i class="fa fa-eye" aria-hidden="true"></i></span>
+              </div>
+              <div class="text-right">
+                <a href="" style="color: rgb(197, 197, 197);font-size:15px;">Forgot Password?</a>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">Log In</button>
+              <div class="text-center">
+                <span style="color: rgb(197, 197, 197);font-size:15px;">Don't have an account?<a href="/register" style="color: blueviolet">Sign Up</a></span>
+              </div>
+            </form>
+            <div class="container mt-5">
+              <div class="custom-outline">
+                <!-- Left Side: Icons -->
+                <div class="icon-container">
+                  <i class="fas fa-users"></i>
+                </div>
+
+                <!-- Right Side: Description and Subscribe Button -->
+                <div class="description">
+                  <p style="color: rgb(197, 197, 197) ">Become a member for exclusive benefits</p>
+                  <a href="/subscribe" class="btn btn-subscribe">Subscribe</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Image Section -->
+        <div class="col-lg-6 image-container">
+          <p class="col-lg-5 text-left" style="color: #ffffff; font-size: 22px">Discover the world of espionage and intrigue.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ellipse-17"></div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const togglePassword = document.querySelector('.toggle-password')
+        const passwordField = document.querySelector('#password')
+      
+        togglePassword.addEventListener('click', function () {
+          // Toggle the type attribute
+          const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password'
+          passwordField.setAttribute('type', type)
+      
+          // Toggle the eye icon
+          this.querySelector('i').classList.toggle('fa-eye')
+          this.querySelector('i').classList.toggle('fa-eye-slash')
+        })
+      })
+    </script>
+  </body>
+</html>
