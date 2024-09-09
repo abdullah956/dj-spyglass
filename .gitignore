@@ -166,3 +166,4 @@ cython_debug/
 .DS_Store
 schema.txt
 re.txt
+real_schema.txt
