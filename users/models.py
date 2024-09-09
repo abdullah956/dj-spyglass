@@ -20,6 +20,8 @@ class User(AbstractUser, BasedModel):
     state = models.CharField(max_length=100, blank=True, null=True)
     business_address = models.TextField(blank=True, null=True)
     subscription_status = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    username = models.CharField(max_length=150, unique=True, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -28,21 +30,3 @@ class User(AbstractUser, BasedModel):
     
     def __str__(self):
         return self.email
-
-    class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
-        # Set related_name to avoid clashes
-        permissions = [('can_change_password', 'Can change password')]
-
-    # Ensure that reverse accessor names don't clash
-    groups = models.ManyToManyField(
-        Group,
-        related_name='%(app_label)s_%(class)s',
-        blank=True,
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='%(app_label)s_%(class)s',
-        blank=True,
-    )
