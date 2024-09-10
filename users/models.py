@@ -19,7 +19,6 @@ class User(AbstractUser, BasedModel):
     company = models.CharField(max_length=255, blank=True, null=True)
     state = models.CharField(max_length=100, blank=True, null=True)
     business_address = models.TextField(blank=True, null=True)
-    subscription_status = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
     username = models.CharField(max_length=150, unique=True, blank=True, null=True)
 

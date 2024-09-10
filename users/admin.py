@@ -9,7 +9,7 @@ class UserAdmin(BaseUserAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password', 'role')}),
-        ('Personal info', {'fields': ('name','phone', 'company', 'state', 'business_address', 'subscription_status', 'is_verified')}),
+        ('Personal info', {'fields': ('name','phone', 'company', 'state', 'business_address', 'is_verified')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
@@ -17,7 +17,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'role', 'name','phone', 'company', 'state', 'business_address', 'subscription_status', 'is_verified'),
+            'fields': ('email', 'password1', 'password2', 'role', 'name','phone', 'company', 'state', 'business_address','is_verified'),
         }),
     )
     
