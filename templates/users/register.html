@@ -23,27 +23,61 @@
             <h2 class="text-center" style="font-size: 40px">Join Us</h2>
             <div class="separator"></div>
             <p class="text-center">Create Account</p>
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required />
+              </div>
 
-            <form>
               <div class="form-group">
-                <input type="text" class="form-control" id="username" placeholder="Username" />
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required />
               </div>
-              <div class="form-group">
-                <input type="email" class="form-control" id="email" placeholder="Email address" />
-              </div>
+
               <div class="form-group position-relative">
-                <input type="password" class="form-control" id="password" placeholder="Password" />
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password1" placeholder="Password" required />
                 <span class="toggle-password"><i class="fa fa-eye" aria-hidden="true"></i></span>
               </div>
+
+              <div class="form-group position-relative">
+                <label for="password2">Confirm Password</label>
+                <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password" required />
+                <span class="toggle-password"><i class="fa fa-eye" aria-hidden="true"></i></span>
+              </div>
+
               <div class="form-group">
-                <select class="form-control" id="state">
-                  <option>Select State</option>
-                  <option>New York</option>
-                  <option>California</option>
-                  <option>Texas</option>
+                <label for="role">Role</label>
+                <select class="form-control" id="role" name="role" required>
+                  <option value="" disabled selected>Select Role</option>
+                  <option value="Agent">Agent</option>
+                  <option value="Homeowner">Homeowner</option>
+                  <option value="Assistant">Assistant</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary btn-block">Register</button>
+
+              <div class="form-group">
+                <label for="company">Company</label>
+                <input type="text" class="form-control" id="company" name="company" placeholder="Company" required />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" required />
+              </div>
+
+              <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" class="form-control" id="state" name="state" placeholder="State" required />
+              </div>
+
+              <div class="form-group">
+                <label for="business_address">Business Address</label>
+                <textarea class="form-control" id="business_address" name="business_address" rows="3" placeholder="Business Address" required></textarea>
+              </div>
+
+              <button style="margin-top: 100px;"type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
           </div>
         </div>
