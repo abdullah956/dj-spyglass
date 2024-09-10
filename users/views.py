@@ -12,7 +12,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
-            return render(request, 'home.html') 
+            return redirect('home')
     else:
         form = CustomUserCreationForm()
     return render(request, 'users/register.html', {'form': form})
@@ -25,7 +25,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return render(request, 'home.html') 
+            return redirect('home')
         else:
             messages.error(request, 'Invalid email or password.')
             return redirect('login')
