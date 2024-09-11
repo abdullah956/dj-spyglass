@@ -1,4 +1,13 @@
 <h2>All Agents</h2>
+{% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 <table class="table">
     <thead>
         <tr>
@@ -15,8 +24,9 @@
             <td>{{ agent.user.email }}</td>
             <td>{{ agent.user.company }}</td>
             <td>
-                <form method="post" action="">
+                <form method="post" action="{% url 'send_connection_request' %}">
                     {% csrf_token %}
+                    <input type="hidden" name="agent_id" value="{{ agent.id }}">
                     <button type="submit" class="btn btn-primary">Connect</button>
                 </form>
             </td>

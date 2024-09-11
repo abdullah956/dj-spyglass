@@ -33,8 +33,8 @@ class Property(BasedModel):
         return f"Property at {self.address} - {self.state}"
 
 class ConnectionRequest(models.Model):
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sent_requests', on_delete=models.CASCADE)
-    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='received_requests', on_delete=models.CASCADE)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sent_requests', on_delete=models.CASCADE ,blank=True, null=True)
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='received_requests', on_delete=models.CASCADE ,blank=True, null=True)
     STATUS_CHOICES = [
         ('P', 'Pending'),
         ('A', 'Accepted'),
