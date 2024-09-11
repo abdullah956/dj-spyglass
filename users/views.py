@@ -54,6 +54,8 @@ def login_view(request):
                 login(request, user)
                 if user.role == 'Homeowner':
                     return redirect('homeowner_home')
+                elif user.role == 'Agent':
+                    return redirect('agent_home')
                 else:
                     return redirect('home')
             else:
@@ -95,6 +97,8 @@ def verify_otp(request):
                 login(request, user)
                 if user.role == 'Homeowner':
                     return redirect('homeowner_home')
+                elif user.role == 'Agent':
+                    return redirect('agent_home')
                 else:
                     return redirect('home') 
             except User.DoesNotExist:
