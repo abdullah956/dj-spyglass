@@ -1,0 +1,26 @@
+
+<h2>Properties Awaiting Approval</h2>
+<ul>
+    {% for property in properties %}
+      <li>
+        <strong>Address:</strong> {{ property.address }}<br>
+        <strong>Price:</strong> {{ property.price }}<br>
+        <strong>State:</strong> {{ property.state }}<br>
+        <strong>Bedrooms:</strong> {{ property.bedrooms }}<br>
+        <strong>Bathrooms:</strong> {{ property.bathrooms }}<br>
+        <strong>Square Feet:</strong> {{ property.square_feet }}<br>
+        <strong>Agent Remarks:</strong> {{ property.agent_remarks }}<br>
+        <strong>Process:</strong> {{ property.process }}<br>
+        <strong>Compensation:</strong> {{ property.compensation }}<br>
+        <strong>Homeowner:</strong> {{ property.homeowner.user.email }}<br>
+
+        {% if property.contract %}
+          <a href="{{ property.contract.url }}" class="btn btn-info" download>Download Contract</a>
+        {% endif %}
+        
+        <a href="{% url 'property_approve' property.id %}" class="btn btn-primary">Approve</a>
+      </li>
+    {% empty %}
+      <li>No properties awaiting approval.</li>
+    {% endfor %}
+</ul>
