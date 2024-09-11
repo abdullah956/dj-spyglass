@@ -7,6 +7,8 @@ from django.conf import settings
 import pyotp
 from users.models import User
 from django.contrib.auth.forms import SetPasswordForm
+from .models import Agent, Homeowner, Assistant, User
+from .forms import CustomUserCreationForm
 
 
 def home_view(request):
@@ -19,6 +21,12 @@ def register_view(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
+            if user.role == 'Agent':
+                Agent.objects.create(user=user)
+            elif user.role == 'Homeowner':
+                Homeowner.objects.create(user=user)
+            elif user.role == 'Assistant':
+                Assistant.objects.create(user=user)
             otp = pyotp.TOTP(settings.OTP_SECRET_KEY)
             otp_code = otp.now()
             send_mail(

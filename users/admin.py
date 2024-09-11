@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User
+from .models import User , Agent , Homeowner , Assistant
 from .forms import UserCreationForm, UserChangeForm
 
 class UserAdmin(BaseUserAdmin):
@@ -27,3 +27,6 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ('groups', 'user_permissions')
 
 admin.site.register(User, UserAdmin)
+admin.site.register(Agent)
+admin.site.register(Homeowner)
+admin.site.register(Assistant)

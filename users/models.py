@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth.models import AbstractUser
 from config.models import BasedModel
 from .managers import UserManager
+from django.conf import settings
 
 class User(AbstractUser, BasedModel):
     ROLE_CHOICES = [
@@ -29,3 +30,24 @@ class User(AbstractUser, BasedModel):
     
     def __str__(self):
         return self.email
+    
+from django.conf import settings
+
+
+class Agent(BasedModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='agent_profile')
+
+    def __str__(self):
+        return f"Agent: {self.user.email}"
+
+class Homeowner(BasedModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='homeowner_profile')
+
+    def __str__(self):
+        return f"Homeowner: {self.user.email}"
+
+class Assistant(BasedModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='assistant_profile')
+
+    def __str__(self):
+        return f"Assistant: {self.user.email}"
