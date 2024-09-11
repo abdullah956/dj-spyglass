@@ -9,7 +9,7 @@ from django.db import models
 class Property(BasedModel):
     PROCESS_CHOICES = [
         ('%', 'Percentage'),
-        ('&', 'And'),
+        ('$', 'Dollar'),
         ('Contact Agent', 'Contact Agent'),
         ('Send Offer', 'Send Offer'),
     ]
@@ -21,7 +21,7 @@ class Property(BasedModel):
     bathrooms = models.IntegerField()
     agent_remarks = models.TextField(blank=True, null=True)
     process = models.CharField(max_length=15, choices=PROCESS_CHOICES)
-    compensation = models.DecimalField(max_digits=10, decimal_places=2)
+    compensation = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
     square_feet = models.IntegerField()
     contract = models.FileField(upload_to='contracts/', blank=True, null=True)
     property_images = models.ImageField(upload_to='property_images/', blank=True, null=True)
