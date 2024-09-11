@@ -1,4 +1,5 @@
 from django.db import models
+from config import settings
 from config.models import BasedModel
 from django.db import models
 from users.models import Agent , Homeowner
@@ -31,3 +32,15 @@ class Property(BasedModel):
     def __str__(self):
         return f"Property at {self.address} - {self.state}"
 
+class ConnectionRequest(models.Model):
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sent_requests', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='received_requests', on_delete=models.CASCADE)
+    STATUS_CHOICES = [
+        ('P', 'Pending'),
+        ('A', 'Accepted'),
+        ('R', 'Rejected'),
+    ]
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+
+    def __str__(self):
+        return f"Request from {self.sender} to {self.receiver} ({self.get_status_display()})"
