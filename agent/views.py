@@ -10,7 +10,10 @@ def agent_home_view(request):
     return render(request, 'agent/agent_home.html')
 
 def connection_requests_view(request):
-    requests = ConnectionRequest.objects.filter(receiver=request.user)
+    requests = ConnectionRequest.objects.filter(
+        receiver=request.user,
+        sender__role='Homeowner'
+    )
     return render(request, 'agent/connection_requests.html', {'requests': requests})
 
 
@@ -38,3 +41,20 @@ def property_approve(request, property_id):
         property_obj.save()
         return redirect('property_approval_list') 
     return render(request, 'agent/property_approve_confirm.html', {'property': property_obj})
+
+def assistant_connection_requests_view(request):
+    requests = ConnectionRequest.objects.filter(
+        receiver=request.user,
+        sender__role='Assistant'
+    )
+    return render(request, 'agent/assistant_connection_requests.html', {'requests': requests})
+
+def assistant_update_request_status(request, request_id):
+    if request.method == 'POST':
+        connection_request = get_object_or_404(ConnectionRequest, id=request_id, receiver=request.user)
+        new_status = request.POST.get('status')
+        if new_status in dict(ConnectionRequest.STATUS_CHOICES):
+            connection_request.status = new_status
+            connection_request.save()
+            return redirect('assistant_connection_requests')  
+    return redirect('assistant_connection_requests')
