@@ -17,6 +17,9 @@
         {% if property.contract %}
           <a href="{{ property.contract.url }}" class="btn btn-info" download>Download Contract</a>
         {% endif %}
+        {% if property.document %}
+          <a href="{{ property.document.url }}" class="btn btn-info" download>Download Document</a>
+        {% endif %}
         
         <a href="{% url 'property_approve' property.id %}" class="btn btn-primary">Approve</a>
       </li>

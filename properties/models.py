@@ -23,6 +23,7 @@ class Property(BasedModel):
     process = models.CharField(max_length=15, choices=PROCESS_CHOICES)
     compensation = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
     square_feet = models.IntegerField()
+    document = models.FileField(upload_to='document/', blank=True, null=True)
     contract = models.FileField(upload_to='contracts/', blank=True, null=True)
     property_images = models.ImageField(upload_to='property_images/', blank=True, null=True)
     agent = models.ForeignKey(Agent, on_delete=models.CASCADE,blank=True, null=True)

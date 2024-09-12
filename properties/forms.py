@@ -4,4 +4,4 @@ from .models import Property
 class PropertyForm(forms.ModelForm):
     class Meta:
         model = Property
-        fields = ['address', 'price', 'state', 'bedrooms', 'bathrooms', 'process', 'compensation', 'square_feet', 'contract', 'property_images']
+        fields = ['address', 'price', 'state', 'bedrooms', 'bathrooms', 'process', 'compensation', 'square_feet', 'document','contract', 'property_images']
