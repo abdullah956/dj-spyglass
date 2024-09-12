@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agents List</title>
+</head>
+<body>
+    <h1>Agents List</h1>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    {% if agents %}
+        <ul>
+            {% for agent in agents %}
+                <li>
+                    <strong>{{ agent.user.email }}</strong> - {{ agent.user.company }}
+                    <form method="post" action="{% url 'assistant_send_connection_request' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="agent_id" value="{{ agent.id }}">
+                    <button type="submit" class="btn btn-primary">Connect</button>
+                </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No agents found.</p>
+    {% endif %}
+</body>
+</html>

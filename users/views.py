@@ -56,6 +56,8 @@ def login_view(request):
                     return redirect('homeowner_home')
                 elif user.role == 'Agent':
                     return redirect('agent_home')
+                elif user.role == 'Assistant':
+                    return redirect('assistant_home')
                 else:
                     return redirect('home')
             else:
@@ -99,6 +101,8 @@ def verify_otp(request):
                     return redirect('homeowner_home')
                 elif user.role == 'Agent':
                     return redirect('agent_home')
+                elif user.role == 'Assistant':
+                    return redirect('assistant_home')
                 else:
                     return redirect('home') 
             except User.DoesNotExist:
@@ -161,6 +165,10 @@ def password_change(request, user_id):
                 login(request, user)
                 if user.role == 'Homeowner':
                     return redirect('homeowner_home')
+                elif user.role == 'Agent':
+                    return redirect('agent_home')
+                elif user.role == 'Assistant':
+                    return redirect('assistant_home')
                 else:
                     return redirect('home')
             else:
