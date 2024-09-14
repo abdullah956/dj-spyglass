@@ -1,3 +1,5 @@
+{% extends "agent/agent_dashboard.html" %}
+{% block content %}
 
 <h2>Approve Property</h2>
 <p>Are you sure you want to approve the following property?</p>
@@ -14,3 +16,4 @@
     <a href="{% url 'property_approval_list' %}" class="btn btn-secondary">Cancel</a>
 </form>
 
+{% endblock %}

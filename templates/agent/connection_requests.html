@@ -1,3 +1,17 @@
+
+  {% extends "agent/agent_dashboard.html" %}
+
+{% block content %}
+<style>
+  select{
+    height: 40px;
+    border: 1px solid lightgray;
+  } 
+  li{
+    list-style-type: none;
+    margin-top: 15px;
+  }
+</style>
 <h2>Connection Requests</h2>
   <ul>
     {% for request in requests %}
@@ -8,13 +22,14 @@
           {% csrf_token %}
           <select name="status">
             {% for key, value in request.STATUS_CHOICES %}
-              <option value="{{ key }}" {% if request.status == key %}selected{% endif %}>{{ value }}</option>
+              <option  value="{{ key }}" {% if request.status == key %}selected{% endif %}>{{ value }}</option>
             {% endfor %}
           </select>
-          <button type="submit" class="btn btn-primary">Update</button>
+          <button type="submit" class="btn btn-primary btn-md mx-3">Update</button>
         </form>
       </li>
     {% empty %}
       <li>No connection requests found.</li>
     {% endfor %}
   </ul>
+{% endblock %}

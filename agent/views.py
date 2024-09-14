@@ -58,3 +58,6 @@ def assistant_update_request_status(request, request_id):
             connection_request.save()
             return redirect('assistant_connection_requests')  
     return redirect('assistant_connection_requests')
+
+def agent_dashboard_view(request):
+    return render(request, 'agent/agent_dashboard.html')

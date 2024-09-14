@@ -1,4 +1,12 @@
 
+  {% extends "agent/agent_dashboard.html" %}
+
+{% block content %}
+<style>
+  li{
+    list-style-type: none;
+  }
+</style>
 <h2>Properties Awaiting Approval</h2>
 <ul>
     {% for property in properties %}
@@ -27,3 +35,5 @@
       <li>No properties awaiting approval.</li>
     {% endfor %}
 </ul>
+
+{% endblock %}
