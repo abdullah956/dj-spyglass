@@ -131,23 +131,26 @@
     <div class="container card-container">
       <div class="row">
         {% for property in properties %}
-        <div class="col-md-4">
+          <div class="col-md-4">
             <div class="property-card">
-                <img src="{{ property.property_images.url }}" alt="Property Image" />
-                <div class="property-info">
-                    <p class="property-price">${{ property.price }}</p>
-                    <span class="float-right email-btn"><i class="fas fa-envelope"></i> Email</span>
-                    <p class="property-concession">Concession: {{ property.compensation }}%</p>
-                    <p class="property-location">{{ property.address }}, {{ property.state }}</p>
-                    <p class="property-details">
-                        <i class="fas fa-bed property-icons"></i> {{ property.bedrooms }} Beds
-                        <span class="mx-2"></span>
-                        <i class="fas fa-bath property-icons"></i> {{ property.bathrooms }} Bath
-                    </p>
-                    <a href="{{ property.contract.url }}" class="property-doc-btn">Property Document <i class="fas fa-cloud-download-alt"></i></a>
-                </div>
+              <img src="{{ property.property_images.url }}" alt="Property Image" />
+              <div class="property-info">
+                <p class="property-price">${{ property.price }}</p>
+                <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.build_absolute_uri }}')"><i class="fas fa-link"></i> Copy Link</span>
+                {% if user.is_authenticated %}
+                  <p class="property-concession">Concession: {{ property.compensation }}%</p>
+                {% endif %}
+
+                <p class="property-location">{{ property.address }}, {{ property.state }}</p>
+                <p class="property-details">
+                  <i class="fas fa-bed property-icons"></i> {{ property.bedrooms }} Beds
+                  <span class="mx-2"></span>
+                  <i class="fas fa-bath property-icons"></i> {{ property.bathrooms }} Bath
+                </p>
+                <a href="{{ property.contract.url }}" class="property-doc-btn">Property Document <i class="fas fa-cloud-download-alt"></i></a>
+              </div>
             </div>
-        </div>
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -209,7 +212,18 @@
         </div>
       </div>
     </div>
-
+    <script>
+      function copyToClipboard(link) {
+        var tempInput = document.createElement('input')
+        document.body.appendChild(tempInput)
+        tempInput.value = link
+        tempInput.select()
+        tempInput.setSelectionRange(0, 99999)
+        document.execCommand('copy')
+        document.body.removeChild(tempInput)
+        alert('Property link copied to clipboard!')
+      }
+    </script>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

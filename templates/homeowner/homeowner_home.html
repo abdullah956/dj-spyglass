@@ -79,7 +79,13 @@
         </div>
       </div>
     </nav>
-
+{% if messages %}
+        <div>
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
     <div class="contact-section">
       <div class="row justify-content-center" style="width: 90%">
         <!-- Left Side: Heading, Caption, and Carousel in Column -->
