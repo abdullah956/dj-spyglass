@@ -51,7 +51,8 @@ def property_create(request):
             property_obj = form.save(commit=False)
             property_obj.homeowner = homeowner
             property_obj.agent = agent
-            #property_obj.state = homeowner.user.state
+            property_obj.state = homeowner.user.state
+            property_obj.assistant = agent.assistant
             property_obj.save()
             messages.success(request, 'Property successfully created.')
             return redirect('homeowner_home')

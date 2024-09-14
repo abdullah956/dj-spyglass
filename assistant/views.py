@@ -2,29 +2,36 @@ from django.shortcuts import render ,redirect,get_object_or_404
 from users.models import Agent
 from properties.models import ConnectionRequest
 from django.contrib import messages
-
+from users.models import Assistant
 def assistant_home_view(request):
     return render(request, 'assistant/assistant_home.html')
 
+
 def agent_list(request):
-    agents = Agent.objects.all()
+    assistant = get_object_or_404(Assistant, user=request.user)
+    agents = Agent.objects.filter(user__state=assistant.user.state)
     return render(request, 'assistant/agents_list.html', {'agents': agents})
 
 
 def send_connection_request(request):
-    if not request.user.role == 'Assistant':
-        messages.error(request, 'You must be a assistant to send a connection request.')
+    if request.user.role != 'Assistant':
+        messages.error(request, 'You must be an assistant to send a connection request.')
         return redirect('agents_list')
 
     if request.method == 'POST':
         agent_id = request.POST.get('agent_id')
         agent = get_object_or_404(Agent, id=agent_id)
 
-        ConnectionRequest.objects.create(
-            sender=request.user,
-            receiver=agent.user
-        )
+        existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=agent.user).exists()
 
-        messages.success(request, 'Connection request sent to the agent.')
-    
+        if existing_request:
+            messages.error(request, 'You have already sent a connection request to this agent.')
+        else:
+            ConnectionRequest.objects.create(
+                sender=request.user,
+                receiver=agent.user
+            )
+            messages.success(request, 'Connection request sent to the agent.')
+
     return redirect('agents_list')
+

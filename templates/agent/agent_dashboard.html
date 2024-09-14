@@ -4,29 +4,21 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
-    <meta
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-      name="viewport"
-    />
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
 
     <!-- Fonts and icons -->
     <script src="{% static 'assets/js/plugin/webfont/webfont.min.js' %}"></script>
     <script>
       WebFont.load({
-        google: { families: ["Public Sans:300,400,500,600,700"] },
+        google: { families: ['Public Sans:300,400,500,600,700'] },
         custom: {
-          families: [
-            "Font Awesome 5 Solid",
-            "Font Awesome 5 Regular",
-            "Font Awesome 5 Brands",
-            "simple-line-icons",
-          ],
-          urls: ["{% static 'assets/css/fonts.min.css' %}"],
+          families: ['Font Awesome 5 Solid', 'Font Awesome 5 Regular', 'Font Awesome 5 Brands', 'simple-line-icons'],
+          urls: ["{% static 'assets/css/fonts.min.css' %}"]
         },
         active: function () {
-          sessionStorage.fonts = true;
-        },
-      });
+          sessionStorage.fonts = true
+        }
+      })
     </script>
 
     <!-- CSS Files -->
@@ -36,7 +28,7 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
-</head>
+  </head>
 
   <body>
     <div class="wrapper">
@@ -45,58 +37,44 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo">
-              <img
-                src="{% static 'assets/img/logo.png' %}"
-                alt="navbar brand"
-                class="navbar-brand"
-                
-                width="150"              />
-            </a>
+            <a href="index.html" class="logo"><img src="{% static 'assets/img/logo.png' %}" alt="navbar brand" class="navbar-brand" width="150" /></a>
             <div class="nav-toggle">
-              <button class="btn btn-toggle toggle-sidebar">
-                <i class="gg-menu-right"></i>
-              </button>
-              <button class="btn btn-toggle sidenav-toggler">
-                <i class="gg-menu-left"></i>
-              </button>
+              <button class="btn btn-toggle toggle-sidebar"><i class="gg-menu-right"></i></button>
+              <button class="btn btn-toggle sidenav-toggler"><i class="gg-menu-left"></i></button>
             </div>
-            <button class="topbar-toggler more">
-              <i class="gg-more-vertical-alt"></i>
-            </button>
+            <button class="topbar-toggler more"><i class="gg-more-vertical-alt"></i></button>
           </div>
           <!-- End Logo Header -->
         </div>
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
-              <li class="nav-item ">
+              <li class="nav-item">
                 <a href="{% url 'connection_requests' %}">
                   <i class="fas fa-home"></i>
                   <p>Homeowner Requests</p>
                 </a>
-              </li>  
-              
+              </li>
             </ul>
             <ul class="nav nav-secondary">
-              <li class="nav-item ">
-                <a href="{% url 'assistant_connection_requests'%}">
-                  <i class="fas fa-home"></i>
-                  <p>Assistant Requests</p>
-                </a>
-              </li>  
+              {% if request.user.role == 'Agent' %}
+                <li class="nav-item">
+                  <a href="{% url 'assistant_connection_requests' %}">
+                    <i class="fas fa-home"></i>
+                    <p>Assistant Requests</p>
+                  </a>
+                </li>
+              {% endif %}
             </ul>
             <ul class="nav nav-secondary">
-              <li class="nav-item ">
+              <li class="nav-item">
                 <a href="{% url 'property_approval_list' %}">
                   <i class="fas fa-home"></i>
                   <p>Property Approval</p>
                 </a>
-              </li>  
+              </li>
             </ul>
-
           </div>
-          
         </div>
       </div>
       <!-- End Sidebar -->
@@ -106,49 +84,23 @@
           <div class="main-header-logo">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-              <a href="index.html" class="logo">
-                <img
-                  src="{% static 'assets/img/logo.png' %}"
-                  alt="navbar brand"
-                  class="navbar-brand"
-                  width="150"
-                />
-              </a>
+              <a href="index.html" class="logo"><img src="{% static 'assets/img/logo.png' %}" alt="navbar brand" class="navbar-brand" width="150" /></a>
               <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar">
-                  <i class="gg-menu-right"></i>
-                </button>
-                <button class="btn btn-toggle sidenav-toggler">
-                  <i class="gg-menu-left"></i>
-                </button>
+                <button class="btn btn-toggle toggle-sidebar"><i class="gg-menu-right"></i></button>
+                <button class="btn btn-toggle sidenav-toggler"><i class="gg-menu-left"></i></button>
               </div>
-              <button class="topbar-toggler more">
-                <i class="gg-more-vertical-alt"></i>
-              </button>
+              <button class="topbar-toggler more"><i class="gg-more-vertical-alt"></i></button>
             </div>
             <!-- End Logo Header -->
           </div>
           <!-- Navbar Header -->
-          <nav
-            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom" data-background-color="dark"
-          >
+          <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom" data-background-color="dark">
             <div class="container-fluid">
-              <nav
-                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
-              >
-               
-              </nav>
+              <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"></nav>
 
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                
-
                 <li class="nav-item topbar-user dropdown hidden-caret">
-                  <a
-                    class="dropdown-toggle profile-pic"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false"
-                  >
+                  <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <span class="profile-username">
                       <span class="op-7">Hi,</span>
                       <span class="fw-bold">Hizrian</span>
@@ -180,46 +132,45 @@
       </div>
 
       <!-- Custom template | don't include it in your project! -->
-      
+
       <!-- End Custom template -->
     </div>
     {% load static %}
-<!--   Core JS Files   -->
-<script src="{% static 'assets/js/core/jquery-3.7.1.min.js' %}"></script>
-<script src="{% static 'assets/js/core/popper.min.js' %}"></script>
-<script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+    <!-- Core JS Files -->
+    <script src="{% static 'assets/js/core/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
 
-<!-- jQuery Scrollbar -->
-<script src="{% static 'assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
+    <!-- jQuery Scrollbar -->
+    <script src="{% static 'assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
 
-<!-- Chart JS -->
-<script src="{% static 'assets/js/plugin/chart.js/chart.min.js' %}"></script>
+    <!-- Chart JS -->
+    <script src="{% static 'assets/js/plugin/chart.js/chart.min.js' %}"></script>
 
-<!-- jQuery Sparkline -->
-<script src="{% static 'assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js' %}"></script>
+    <!-- jQuery Sparkline -->
+    <script src="{% static 'assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js' %}"></script>
 
-<!-- Chart Circle -->
-<script src="{% static 'assets/js/plugin/chart-circle/circles.min.js' %}"></script>
+    <!-- Chart Circle -->
+    <script src="{% static 'assets/js/plugin/chart-circle/circles.min.js' %}"></script>
 
-<!-- Datatables -->
-<script src="{% static 'assets/js/plugin/datatables/datatables.min.js' %}"></script>
+    <!-- Datatables -->
+    <script src="{% static 'assets/js/plugin/datatables/datatables.min.js' %}"></script>
 
-<!-- Bootstrap Notify -->
-<!-- <script src="{% static 'js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script> -->
+    <!-- Bootstrap Notify -->
+    <!-- <script src="{% static 'js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script> -->
 
-<!-- jQuery Vector Maps -->
-<script src="{% static 'assets/js/plugin/jsvectormap/jsvectormap.min.js' %}"></script>
-<script src="{% static 'assets/js/plugin/jsvectormap/world.js' %}"></script>
+    <!-- jQuery Vector Maps -->
+    <script src="{% static 'assets/js/plugin/jsvectormap/jsvectormap.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugin/jsvectormap/world.js' %}"></script>
 
-<!-- Sweet Alert -->
-<!-- <script src="{% static 'js/plugin/sweetalert/sweetalert.min.js' %}"></script> -->
+    <!-- Sweet Alert -->
+    <!-- <script src="{% static 'js/plugin/sweetalert/sweetalert.min.js' %}"></script> -->
 
-<!-- Kaiadmin JS -->
-<script src="{% static 'assets/js/kaiadmin.min.js' %}"></script>
+    <!-- Kaiadmin JS -->
+    <script src="{% static 'assets/js/kaiadmin.min.js' %}"></script>
 
-<!-- Kaiadmin DEMO methods, don't include it in your project! -->
-<script src="{% static 'assets/js/setting-demo.js' %}"></script>
-<script src="{% static 'assets/js/demo.js' %}"></script>
-
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="{% static 'assets/js/setting-demo.js' %}"></script>
+    <script src="{% static 'assets/js/demo.js' %}"></script>
   </body>
 </html>

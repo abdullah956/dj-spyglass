@@ -13,6 +13,13 @@
   }
 </style>
 <h2>Connection Requests</h2>
+{% if messages %}
+  <div class="alert-container">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
   <ul>
     {% for request in requests %}
       <li>

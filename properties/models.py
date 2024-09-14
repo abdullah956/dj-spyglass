@@ -2,7 +2,7 @@ from django.db import models
 from config import settings
 from config.models import BasedModel
 from django.db import models
-from users.models import Agent , Homeowner
+from users.models import Agent , Homeowner , Assistant
 
 from django.db import models
 
@@ -28,6 +28,7 @@ class Property(BasedModel):
     property_images = models.ImageField(upload_to='property_images/', blank=True, null=True)
     agent = models.ForeignKey(Agent, on_delete=models.CASCADE,blank=True, null=True)
     homeowner = models.ForeignKey(Homeowner, on_delete=models.CASCADE, blank=True, null=True)
+    assistant = models.ForeignKey(Assistant, on_delete=models.CASCADE, blank=True, null=True)
     approval_status = models.BooleanField(default=False)
 
     def __str__(self):
