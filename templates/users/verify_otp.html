@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Verify</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
@@ -21,29 +21,17 @@
 
             <form method="post">
               {% csrf_token %}
-              <label for="otp_code">Enter OTP:</label>
-              <input type="text" id="otp_code" name="otp_code" required />
-              <button type="submit">Verify OTP</button>
+              
+              <input type="text" id="otp_code" class="form-control" name="otp_code" placeholder="Enter OTP" required />
+              <button type="submit" class="btn btn-primary btn-block">Verify OTP</button>
             </form>
 
-            <div class="container mt-5">
-              <div class="custom-outline">
-                <!-- Left Side: Icons -->
-                <div class="icon-container">
-                  <i class="fas fa-users"></i>
-                </div>
-
-                <!-- Right Side: Description and Subscribe Button -->
-                <div class="description">
-                  <p style="color: rgb(197, 197, 197) ">Become a member for exclusive benefits</p>
-                  <a href="/subscribe" class="btn btn-subscribe">Subscribe</a>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
         <!-- Image Section -->
-        <div class="col-lg-6 image-container">
+        <div class="col-lg-6 image-container" style="  background: url('{% static 'images/subscribe.png' %}') no-repeat center center;background-repeat: no-repeat;
+  background-size: cover;" >
           <p class="col-lg-5 text-left" style="color: #ffffff; font-size: 22px">Discover the world of espionage and intrigue.</p>
         </div>
       </div>

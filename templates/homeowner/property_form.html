@@ -5,60 +5,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Property</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
 </head>
 <body>
-    <div class="container mt-5">
+    
+    <div class="container-fluid mt-5"  >
         <h2 class="mb-4">Create Property</h2>
-        <form method="post" enctype="multipart/form-data">
+        
+        <form method="post" enctype="multipart/form-data" class="form-container">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="{{ form.address.id_for_label }}" class="form-label">Address:</label>
-                {{ form.address }}
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <input type="text" class="form-control" id="address" name="address" required placeholder="Address">
+                </div>
+                <div class="col-md-6 form-group">
+                    <input type="number" class="form-control" id="price" name="price" required placeholder="Price">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <select class="form-control" id="state" name="state">
+                        <option value="">Select a state</option>
+                        <!-- Options would be populated here -->
+                    </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <input type="number" class="form-control" id="bedrooms" name="bedrooms" required placeholder="Bedrooms">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <input type="number" class="form-control" id="bathrooms" name="bathrooms" required placeholder="Bathrooms">
+                </div>
+                <div class="col-md-6 form-group">
+                    <input type="text" class="form-control" id="process" name="process" placeholder="Process">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <input type="number" class="form-control" id="compensation" name="compensation" placeholder="Compensation">
+                </div>
+                <div class="col-md-6 form-group">
+                    <input type="number" class="form-control" id="square_feet" name="square_feet" required placeholder="Square Feet">
+                </div>
             </div>
             <div class="form-group">
-                <label for="{{ form.price.id_for_label }}" class="form-label">Price:</label>
-                {{ form.price }}
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="document" name="document">
+                    <label class="custom-file-label" for="document">Property Document</label>
+                </div>
             </div>
             <div class="form-group">
-                <label for="{{ form.state.id_for_label }}" class="form-label">State:</label>
-                {{ form.state }}
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="contract" name="contract">
+                    <label class="custom-file-label" for="contract">Upload Contract</label>
+                </div>
             </div>
             <div class="form-group">
-                <label for="{{ form.bedrooms.id_for_label }}" class="form-label">Bedrooms:</label>
-                {{ form.bedrooms }}
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="property_images" name="property_images" multiple>
+                    <label class="custom-file-label" for="property_images">Property Images</label>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="{{ form.bathrooms.id_for_label }}" class="form-label">Bathrooms:</label>
-                {{ form.bathrooms }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.process.id_for_label }}" class="form-label">Process:</label>
-                {{ form.process }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.compensation.id_for_label }}" class="form-label">Compensation:</label>
-                {{ form.compensation }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.square_feet.id_for_label }}" class="form-label">Square Feet:</label>
-                {{ form.square_feet }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.document.id_for_label }}" class="form-label">Document:</label>
-                {{ form.document }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.contract.id_for_label }}" class="form-label">Contract:</label>
-                {{ form.contract }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.property_images.id_for_label }}" class="form-label">Property Images:</label>
-                {{ form.property_images }}
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary " style="width: 100%;">Create</button>
         </form>
+        
+        
+        
     </div>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const processField = document.getElementById('{{ form.process.id_for_label }}');
