@@ -56,7 +56,7 @@
             <li class="nav-item">
               <a class="contact nav-link" href="{% url 'agent_dashboard' %}">Dashboard</a>
             </li>
-            <li class="nav-item">
+            {% comment %} <li class="nav-item">
               <a class="contact nav-link" href="{% url 'connection_requests' %}">Homeowner Requests</a>
             </li>
             <li class="nav-item">
@@ -64,7 +64,7 @@
             </li>
             <li class="nav-item">
               <a class="contact nav-link" href="{% url 'property_approval_list' %}">Approval Property</a>
-            </li>
+            </li> {% endcomment %}
           </ul>
           <div class="d-flex align-items-center">
     {% if user.is_authenticated %}
