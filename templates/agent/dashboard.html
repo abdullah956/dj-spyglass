@@ -50,7 +50,7 @@
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
               <li class="nav-item">
-                <a href="{% url 'connection_requests' %}">
+                <a href="{% url 'homeowner_connection_requests' %}">
                   <i class="fas fa-home"></i>
                   <p>Homeowner Requests</p>
                 </a>
@@ -106,25 +106,7 @@
             <div class="container-fluid">
               <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"></nav>
 
-              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <li class="nav-item topbar-user dropdown hidden-caret">
-                  <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-                    <span class="profile-username">
-                      <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Hizrian</span>
-                    </span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-user animated fadeIn">
-                    <div class="dropdown-user-scroll scrollbar-outer">
-                      <li>
-                        <a class="dropdown-item" href="#">Forget Password</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
-                      </li>
-                    </div>
-                  </ul>
-                </li>
-              </ul>
+              
             </div>
           </nav>
           <!-- End Navbar -->
@@ -133,7 +115,13 @@
         <div class="container">
           <div class="page-inner">
             {% block content %}
-
+              {% if messages %}
+                <div class="alert-container">
+                  {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
             {% endblock %}
           </div>
         </div>

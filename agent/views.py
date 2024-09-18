@@ -3,45 +3,38 @@ from properties.models import ConnectionRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from users.models import  Agent , Assistant
 from properties.models import Property
-from properties.forms import PropertyForm
 from django.contrib import messages
 
-def agent_home_view(request):
-    return render(request, 'agent/agent_home.html')
 
-
-def connection_requests_view(request):
+def homeowner_connection_requests_view(request):
     if request.user.role == 'Agent':
-        requests = ConnectionRequest.objects.filter(
+        connection = ConnectionRequest.objects.filter(
+            sender__role='Assistant',
             receiver=request.user,
-            sender__role='Homeowner'
-        )
-    else:
-        accepted_request = ConnectionRequest.objects.filter(
-            sender=request.user,
             status='A'
         ).first()
-        if accepted_request:
-            agent = Agent.objects.filter(user=accepted_request.receiver).first()
-            print(agent)
-            if agent:
-                requests = ConnectionRequest.objects.filter(
-                    receiver=agent.user,
-                    sender__role='Homeowner'
-                )
+        if connection:
+            requests = ConnectionRequest.objects.filter(
+                receiver=request.user,
+                sender__role='Homeowner',
+            )
+            if requests.exists():
+                pass
             else:
-                requests = None
-                messages.error(request, "No agent found related to the accepted request.")
+                messages.error(request, "You need to make a connection with an assistant first.")
+                return redirect('dashboard')
         else:
-            requests = None
-            messages.error(request, "No accepted connection request found.")
+            messages.error(request, "No accepted connection request found. Please make a connection with an assistant first.")
+            return redirect('dashboard')
+
+    else:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('dashboard')
 
     if not requests:
         messages.info(request, "No connection requests available.")
 
-    return render(request, 'agent/connection_requests.html', {'requests': requests})
-
-
+    return render(request, 'agent/homeowner_connection_requests.html', {'requests': requests})
 
 def update_request_status(request, request_id):
     if request.method == 'POST':
@@ -56,7 +49,7 @@ def update_request_status(request, request_id):
     else:
         messages.warning(request, "Invalid request method.")
     
-    return redirect('connection_requests')
+    return redirect('homeowner_connection_requests')
 
 def property_approval_list(request):
     if request.user.role == 'Agent':

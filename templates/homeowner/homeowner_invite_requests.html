@@ -62,7 +62,7 @@
             <td>{{ agent.user.email }}</td>
             <td>{{ agent.user.company }}</td>
             <td>
-              <form method="post" action="{% url 'send_connection_request' %}">
+              <form method="post" action="{% url 'homeowner_send_connection_request' %}">
                 {% csrf_token %}
                 <input type="hidden" name="agent_id" value="{{ agent.id }}" />
                 <button

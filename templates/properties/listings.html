@@ -30,7 +30,7 @@
     </div>
 
     <!-- Main Header -->
-    <nav class="navbar navbar-expand-lg navbar-light main-header py-3">
+  <nav class="navbar navbar-expand-lg navbar-light main-header py-3">
       <div class="container">
         <a class="navbar-brand" href="#" style="color:  #86469c;">Spyglass</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -44,7 +44,7 @@
             </li>
             {% if user.role == 'Agent' or user.role == 'Assistant' %}
               <li class="nav-item">
-                <a class="contact nav-link" href="{% url 'agent_dashboard' %}">Dashboard</a>
+                <a class="contact nav-link" href="{% url 'dashboard' %}">Dashboard</a>
               </li>
             {% endif %}
             {% if user.role == 'Homeowner' %}
@@ -54,9 +54,10 @@
             {% endif %}
             {% if user.role == 'Assistant' %}
               <li class="nav-item">
-                <a class="contact nav-link" href="{% url 'asssistant_invite_requests' %}">Requests</a>
-              </li>
+              <a class="contact nav-link" href="{% url 'asssistant_invite_requests'%}">Requests</a>
+            </li>
             {% endif %}
+            
           </ul>
           <div class="d-flex align-items-center">
             {% if user.is_authenticated %}
