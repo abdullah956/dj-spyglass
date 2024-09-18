@@ -34,7 +34,7 @@ class Property(BasedModel):
     def __str__(self):
         return f"Property at {self.address} - {self.state}"
 
-class ConnectionRequest(models.Model):
+class ConnectionRequest(BasedModel):
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sent_requests', on_delete=models.CASCADE ,blank=True, null=True)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='received_requests', on_delete=models.CASCADE ,blank=True, null=True)
     STATUS_CHOICES = [

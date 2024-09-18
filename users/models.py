@@ -30,8 +30,6 @@ class User(AbstractUser, BasedModel):
     
     def __str__(self):
         return self.email
-    
-from django.conf import settings
 
 
 class Agent(BasedModel):
