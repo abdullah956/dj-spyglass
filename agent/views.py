@@ -4,36 +4,19 @@ from django.shortcuts import render, get_object_or_404, redirect
 from users.models import  Agent , Assistant
 from properties.models import Property
 from django.contrib import messages
+from users.models import User
 
 
 def homeowner_connection_requests_view(request):
     if request.user.role == 'Agent':
-        connection = ConnectionRequest.objects.filter(
-            sender__role='Assistant',
-            receiver=request.user,
-            status='A'
-        ).first()
-        if connection:
-            requests = ConnectionRequest.objects.filter(
-                receiver=request.user,
-                sender__role='Homeowner',
-            )
-            if requests.exists():
-                pass
-            else:
-                messages.error(request, "You need to make a connection with an assistant first.")
-                return redirect('dashboard')
-        else:
-            messages.error(request, "No accepted connection request found. Please make a connection with an assistant first.")
+        agent = Agent.objects.filter(user=request.user).first()
+        if not agent or not agent.assistant:
+            messages.error(request, "You need to make a connection with an assistant first.")
             return redirect('dashboard')
-
-    else:
-        messages.error(request, "You are not authorized to view this page.")
-        return redirect('dashboard')
-
-    if not requests:
-        messages.info(request, "No connection requests available.")
-
+        requests = ConnectionRequest.objects.filter(
+            receiver=request.user,
+            sender__role='Homeowner'
+        )
     return render(request, 'agent/homeowner_connection_requests.html', {'requests': requests})
 
 def update_request_status(request, request_id):

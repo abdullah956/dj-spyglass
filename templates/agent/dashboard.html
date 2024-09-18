@@ -49,15 +49,18 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
             <ul class="nav nav-secondary">
+              {% if user.role == 'Assistant' %}
               <li class="nav-item">
-                <a href="{% url 'homeowner_connection_requests' %}">
+                <a href="{% url 'homeowner_connection_requests_all_agents' %}">
                   <i class="fas fa-home"></i>
                   <p>Homeowner Requests</p>
                 </a>
               </li>
+              {% endif %}
+              
             </ul>
             <ul class="nav nav-secondary">
-              {% if request.user.role == 'Agent' %}
+              {% if user.role == 'Agent' %}
                 <li class="nav-item">
                   <a href="{% url 'assistant_connection_requests' %}">
                     <i class="fas fa-home"></i>
@@ -82,6 +85,16 @@
                 </a>
               </li>
             </ul>
+            <ul class="nav nav-secondary">
+            {% if user.role == 'Agent' %}
+                <li class="nav-item">
+                  <a href="{% url 'homeowner_connection_requests' %}">
+                    <i class="fas fa-home"></i>
+                    <p>Homeowner Requests</p>
+                  </a>
+                </li>
+              {% endif %} 
+              </ul>
           </div>
         </div>
       </div>

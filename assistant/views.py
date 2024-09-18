@@ -3,8 +3,6 @@ from users.models import Agent
 from properties.models import ConnectionRequest
 from django.contrib import messages
 from users.models import Assistant
-def assistant_home_view(request):
-    return render(request, 'assistant/assistant_home.html')
 
 
 def asssistant_invite_requests(request):
@@ -35,3 +33,24 @@ def send_connection_request(request):
 
     return redirect('asssistant_invite_requests')
 
+
+def homeowner_connection_requests_all_agents(request):
+    if request.user.role == 'Assistant':
+        assistant = Assistant.objects.filter(user=request.user).first()
+        print(assistant)
+        if not assistant:
+            messages.error(request, "No agent profile found for your account.")
+            return redirect('dashboard')
+        agents = Agent.objects.filter(assistant=assistant)
+        print(agents)
+        requests = ConnectionRequest.objects.filter(
+            receiver__in=[agent.user for agent in agents],
+            sender__role='Homeowner'
+        )
+        if not requests:
+            messages.info(request, "No connection requests from homeowners are available for the agents you are connected to.")
+    else:
+        messages.error(request, "You are not authorized to view this page.")
+        return redirect('dashboard')
+
+    return render(request, 'agent/homeowner_connection_requests.html', {'requests': requests})
