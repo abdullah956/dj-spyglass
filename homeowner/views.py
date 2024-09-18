@@ -10,15 +10,15 @@ def homeowner_home_view(request):
     return render(request, 'homeowner/homeowner_home.html')
 
 
-def list_agents(request):
+def homeowner_invite_requests(request):
     homeowner = get_object_or_404(Homeowner, user=request.user)
     agents = Agent.objects.filter(user__state=homeowner.user.state)
-    return render(request, 'homeowner/list_agents.html', {'agents': agents})
+    return render(request, 'homeowner/homeowner_invite_requests.html', {'agents': agents})
 
 def send_connection_request(request):
     if request.user.role != 'Homeowner':
         messages.error(request, 'You must be a homeowner to send a connection request.')
-        return redirect('list_agents')
+        return redirect('homeowner_invite_requests')
 
     if request.method == 'POST':
         agent_id = request.POST.get('agent_id')
@@ -34,11 +34,15 @@ def send_connection_request(request):
             )
             messages.success(request, 'Connection request sent to the agent.')
 
-    return redirect('list_agents')
+    return redirect('homeowner_invite_requests')
  
-
 def property_create(request):
-    homeowner = get_object_or_404(Homeowner, user=request.user)
+    try:
+        homeowner = Homeowner.objects.get(user=request.user)
+    except Homeowner.DoesNotExist:
+        messages.error(request, "You must be a homeowner to create a property.")
+        return redirect('home')
+
     try:
         connection = ConnectionRequest.objects.filter(sender=request.user, status='A').first()
         agent = get_object_or_404(Agent, user=connection.receiver) if connection else None
@@ -52,12 +56,12 @@ def property_create(request):
             property_obj.homeowner = homeowner
             property_obj.agent = agent
             property_obj.state = homeowner.user.state
-            property_obj.assistant = agent.assistant
+            property_obj.assistant = agent.assistant if agent else None
             property_obj.save()
-            messages.success(request, 'Property successfully created.')
+            messages.success(request, f'{homeowner.user.username}, your property has been successfully created.')
             return redirect('homeowner_home')
         else:
-            messages.error(request, 'Please correct the errors in the form.')
+            messages.error(request, f'{homeowner.user.username}, please correct the errors in the form.')
     else:
         form = PropertyForm()
 

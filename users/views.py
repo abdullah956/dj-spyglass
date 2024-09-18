@@ -52,14 +52,7 @@ def login_view(request):
         if user is not None:
             if user.is_verified:
                 login(request, user)
-                if user.role == 'Homeowner':
-                    return redirect('homeowner_home')
-                elif user.role == 'Agent':
-                    return redirect('agent_home')
-                elif user.role == 'Assistant':
-                    return redirect('assistant_home')
-                else:
-                    return redirect('home')
+                return redirect('home')
             else:
                 otp = pyotp.TOTP(settings.OTP_SECRET_KEY)
                 otp_code = otp.now()
@@ -97,14 +90,7 @@ def verify_otp(request):
                 user.is_verified = True
                 user.save()
                 login(request, user)
-                if user.role == 'Homeowner':
-                    return redirect('homeowner_home')
-                elif user.role == 'Agent':
-                    return redirect('agent_home')
-                elif user.role == 'Assistant':
-                    return redirect('assistant_home')
-                else:
-                    return redirect('home') 
+                return redirect('home') 
             except User.DoesNotExist:
                 return render(request, 'users/verify_otp.html', {'error': 'User not found'})
         else:
@@ -163,14 +149,7 @@ def password_change(request, user_id):
             user = authenticate(request, username=user.email, password=request.POST.get('new_password1'))
             if user is not None:
                 login(request, user)
-                if user.role == 'Homeowner':
-                    return redirect('homeowner_home')
-                elif user.role == 'Agent':
-                    return redirect('agent_home')
-                elif user.role == 'Assistant':
-                    return redirect('assistant_home')
-                else:
-                    return redirect('home')
+                return redirect('home')
             else:
                 messages.error(request, 'Authentication failed. Please try logging in again.')
     else:

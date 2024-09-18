@@ -7,16 +7,16 @@ def assistant_home_view(request):
     return render(request, 'assistant/assistant_home.html')
 
 
-def agent_list(request):
+def assistant_invite_requests(request):
     assistant = get_object_or_404(Assistant, user=request.user)
     agents = Agent.objects.filter(user__state=assistant.user.state)
-    return render(request, 'assistant/agents_list.html', {'agents': agents})
+    return render(request, 'assistant/assistant_invite_requests.html', {'agents': agents})
 
 
 def send_connection_request(request):
     if request.user.role != 'Assistant':
         messages.error(request, 'You must be an assistant to send a connection request.')
-        return redirect('agents_list')
+        return redirect('assistant_invite_requests')
 
     if request.method == 'POST':
         agent_id = request.POST.get('agent_id')
@@ -33,5 +33,5 @@ def send_connection_request(request):
             )
             messages.success(request, 'Connection request sent to the agent.')
 
-    return redirect('agents_list')
+    return redirect('assistant_invite_requests')
 
