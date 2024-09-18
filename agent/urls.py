@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import agent_dashboard_view,assistant_update_request_status,agent_home_view,connection_requests_view,update_request_status,property_approval_list,property_approve, assistant_connection_requests_view
+from .views import dashboard_view,assistant_update_request_status,agent_home_view,connection_requests_view,update_request_status,property_approval_list,property_approve, assistant_connection_requests_view
 
 urlpatterns = [
     path('', agent_home_view, name='agent_home'),
@@ -9,5 +9,5 @@ urlpatterns = [
     path('properties/approve/<int:property_id>/', property_approve, name='property_approve'),
     path('assistant-requests/', assistant_connection_requests_view, name='assistant_connection_requests'),
     path('assistant-requests/update/<int:request_id>/', assistant_update_request_status, name='assistant_update_request_status'),
-    path('agent-dashboard/', agent_dashboard_view, name='agent_dashboard'),
+    path('agent-dashboard/', dashboard_view, name='dashboard'),
 ]

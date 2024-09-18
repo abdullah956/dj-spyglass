@@ -122,5 +122,5 @@ def assistant_update_request_status(request, request_id):
     return redirect('assistant_connection_requests')
 
 
-def agent_dashboard_view(request):
-    return render(request, 'agent/agent_dashboard.html')
+def dashboard_view(request):
+    return render(request, 'agent/dashboard.html')
