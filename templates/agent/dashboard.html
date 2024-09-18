@@ -48,53 +48,35 @@
         </div>
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
+            {% if user.role == 'Agent' %}
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'all_homeowners' %}"><p>Request Homeowner</p></a>
+                </li>
+              </ul>
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href=""><p>Assistant Requests</p></a>
+                </li>
+              </ul>
+            {% endif %}
             <ul class="nav nav-secondary">
               {% if user.role == 'Assistant' %}
-              <li class="nav-item">
-                <a href="{% url 'homeowner_connection_requests_all_agents' %}">
-                  <i class="fas fa-home"></i>
-                  <p>Homeowner Requests</p>
-                </a>
-              </li>
-              {% endif %}
-              
-            </ul>
-            <ul class="nav nav-secondary">
-              {% if user.role == 'Agent' %}
                 <li class="nav-item">
-                  <a href="{% url 'assistant_connection_requests' %}">
-                    <i class="fas fa-home"></i>
-                    <p>Assistant Requests</p>
-                  </a>
+                  <a href=""><p>Homeowner Requests</p></a>
                 </li>
               {% endif %}
             </ul>
             <ul class="nav nav-secondary">
               <li class="nav-item">
-                <a href="{% url 'property_approval_list' %}">
-                  <i class="fas fa-home"></i>
-                  <p>Property Approval</p>
-                </a>
+                <a href="{% url 'properties_tobe_approved' %}"><p>Property Approval</p></a>
               </li>
             </ul>
             <ul class="nav nav-secondary">
               <li class="nav-item">
-                <a href="{% url 'home' %}">
-                  <i class="fas fa-home"></i>
-                  <p>Home</p>
-                </a>
+                <a href="{% url 'home' %}"><p>Home</p></a>
               </li>
             </ul>
-            <ul class="nav nav-secondary">
-            {% if user.role == 'Agent' %}
-                <li class="nav-item">
-                  <a href="{% url 'homeowner_connection_requests' %}">
-                    <i class="fas fa-home"></i>
-                    <p>Homeowner Requests</p>
-                  </a>
-                </li>
-              {% endif %} 
-              </ul>
           </div>
         </div>
       </div>
@@ -118,8 +100,6 @@
           <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom" data-background-color="dark">
             <div class="container-fluid">
               <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"></nav>
-
-              
             </div>
           </nav>
           <!-- End Navbar -->
@@ -127,14 +107,15 @@
 
         <div class="container">
           <div class="page-inner">
+            {% if messages %}
+              <div class="alert-container">
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
             {% block content %}
-              {% if messages %}
-                <div class="alert-container">
-                  {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                  {% endfor %}
-                </div>
-              {% endif %}
+
             {% endblock %}
           </div>
         </div>

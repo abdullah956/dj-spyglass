@@ -5,33 +5,8 @@ from django.contrib import messages
 from users.models import Agent, Homeowner
 from properties.models import ConnectionRequest
 from properties.forms import PropertyForm
-
-def homeowner_invite_requests(request):
-    homeowner = get_object_or_404(Homeowner, user=request.user)
-    agents = Agent.objects.filter(user__state=homeowner.user.state)
-    return render(request, 'homeowner/homeowner_invite_requests.html', {'agents': agents})
-
-def homeownersend_connection_request(request):
-    if request.user.role != 'Homeowner':
-        messages.error(request, 'You must be a homeowner to send a connection request.')
-        return redirect('homeowner_invite_requests')
-
-    if request.method == 'POST':
-        agent_id = request.POST.get('agent_id')
-        agent = get_object_or_404(Agent, id=agent_id)
-        existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=agent.user).exists()
-
-        if existing_request:
-            messages.error(request, 'You have already sent a connection request to this agent.')
-        else:
-            ConnectionRequest.objects.create(
-                sender=request.user,
-                receiver=agent.user
-            )
-            messages.success(request, 'Connection request sent to the agent.')
-
-    return redirect('homeowner_invite_requests')
  
+# to create properties
 def property_create(request):
     try:
         homeowner = Homeowner.objects.get(user=request.user)
@@ -66,3 +41,30 @@ def property_create(request):
         form = PropertyForm()
 
     return render(request, 'homeowner/property_form.html', {'form': form})
+
+# to show all agent invites to homeowner
+def agents_invites(request):
+    current_user = request.user
+    requests = ConnectionRequest.objects.filter(receiver=current_user)
+    if request.method == 'POST':
+        request_id = request.POST.get('request_id')
+        new_status = request.POST.get('status')
+        connection_request = ConnectionRequest.objects.get(id=request_id)
+        connection_request.status = new_status
+        connection_request.save()
+        return redirect('agent_invites')
+    return render(request, 'homeowner/agent_invites.html', {'requests': requests})
+
+# to update the requests of agent
+def agent_update_request_status(request):
+    if request.method == 'POST':
+        request_id = request.POST.get('request_id')
+        new_status = request.POST.get('status')
+        
+        connection_request = get_object_or_404(ConnectionRequest, id=request_id)
+        connection_request.status = new_status
+        connection_request.save()
+        
+        return redirect('agent_invites')
+
+    return redirect('agent_invites')

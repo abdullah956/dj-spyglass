@@ -1,0 +1,41 @@
+{% extends 'agent/dashboard.html' %}
+
+{% block content %}
+  <style>
+    select {
+      height: 40px;
+      border: 1px solid lightgray;
+    }
+    li {
+      list-style-type: none;
+      margin-top: 15px;
+    }
+  </style>
+  <h2>Connection Requests</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Company</th>
+        <th>Connect</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for homeowner in homeowners %}
+        <tr>
+          <td>{{ homeowner.user.name }}</td>
+          <td>{{ homeowner.user.email }}</td>
+          <td>{{ homeowner.user.company }}</td>
+          <td>
+            <form method="post" action="{% url 'homeowner_send_connection_request' %}">
+              {% csrf_token %}
+              <input type="hidden" name="homeowner_id" value="{{ homeowner.id }}" />
+              <button type="submit" class="btn btn-md" style="background-color: blueviolet; color: white">Connect</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

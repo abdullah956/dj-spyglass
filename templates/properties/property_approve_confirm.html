@@ -1,0 +1,17 @@
+{% extends 'agent/dashboard.html' %}
+{% block content %}
+  <h2>Approve Property</h2>
+  <p>Are you sure you want to approve the following property?</p>
+  <p>
+    Address: {{ property.address }}<br />
+    Price: {{ property.price }}<br />
+    Bedrooms: {{ property.bedrooms }}<br />
+    Bathrooms: {{ property.bathrooms }}<br />
+    Square Feet: {{ property.square_feet }}<br />
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Approve</button>
+    <a href="{% url 'properties_tobe_approved' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

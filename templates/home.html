@@ -40,7 +40,7 @@
               <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'approved_properties' %}">Listings</a>
+              <a class="nav-link" href="{% url 'listed_properties' %}">Listings</a>
             </li>
             {% if user.role == 'Agent' or user.role == 'Assistant' %}
               <li class="nav-item">
@@ -49,15 +49,14 @@
             {% endif %}
             {% if user.role == 'Homeowner' %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'homeowner_invite_requests' %}">Requests</a>
+                <a class="nav-link" href="{% url 'agent_invites' %}">Requests</a>
               </li>
             {% endif %}
             {% if user.role == 'Assistant' %}
               <li class="nav-item">
-              <a class="contact nav-link" href="{% url 'asssistant_invite_requests'%}">Requests</a>
-            </li>
+                <a class="contact nav-link" href="">Requests</a>
+              </li>
             {% endif %}
-            
           </ul>
           <div class="d-flex align-items-center">
             {% if user.is_authenticated %}

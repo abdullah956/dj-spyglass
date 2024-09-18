@@ -1,13 +1,11 @@
 from django.urls import path
-from .views import dashboard_view,assistant_update_request_status,homeowner_connection_requests_view,update_request_status,property_approval_list,property_approve, assistant_connection_requests_view
+from .views import all_homeowners,homeowner_send_connection_request,dashboard_view
 
 urlpatterns = [
-    path('requests/', homeowner_connection_requests_view, name='homeowner_connection_requests'),
-    path('requests/update/<int:request_id>/', update_request_status, name='update_request_status'),
-    path('properties/approval/', property_approval_list, name='property_approval_list'),
-    path('properties/approve/<int:property_id>/', property_approve, name='property_approve'),
-
-    path('assistant-requests/', assistant_connection_requests_view, name='assistant_connection_requests'),
-    path('assistant-requests/update/<int:request_id>/', assistant_update_request_status, name='assistant_update_request_status'),
+    # dashboard for agent and assistant
     path('agent-dashboard/', dashboard_view, name='dashboard'),
+    # to see all homeowners
+    path('all_homeowners/', all_homeowners, name='all_homeowners'),
+    # to send invite to all homeowners
+    path('homeowner_send_connection_request/', homeowner_send_connection_request, name='homeowner_send_connection_request'),
 ]

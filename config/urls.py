@@ -8,7 +8,7 @@ urlpatterns = [
     path('',include('users.urls')),
     path('homeowner/',include('homeowner.urls')),
     path('agent/',include('agent.urls')),
-    path('assistant/',include('assistant.urls')),
+    #path('assistant/',include('assistant.urls')),
     path('properties/',include('properties.urls')),
 ]
 
