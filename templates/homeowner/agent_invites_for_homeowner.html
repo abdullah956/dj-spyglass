@@ -52,7 +52,7 @@
       <li>
         Request from {{ request.sender }} to {{ request.receiver }} - 
         Status: 
-        <form method="post" action="{% url 'agent_invites' %}">
+        <form method="post" action="{% url 'agent_invites_for_homeowner' %}">
                 {% csrf_token %}
                 <input type="hidden" name="request_id" value="{{ request.id }}">
                 <select name="status">
