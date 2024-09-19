@@ -32,20 +32,25 @@ def agent_invites_for_assistant(request):
         return redirect('agent_invites_for_assistant')
     return render(request, 'assistant/agent_invites_for_assistant.html', {'requests': requests})
 
-# to see all homeowners for the agent
+# to see all availablen homeowners for the assistant
 def all_homeowners_for_assistant(request):
     try:
-        assistant_profile = Assistant.objects.get(user=request.user)
-        agent_profile = Agent.objects.get(assistant=assistant_profile)
+        assistant_profile = get_object_or_404(Assistant, user=request.user)
+        agent_profile = get_object_or_404(Agent, assistant=assistant_profile)
     except Assistant.DoesNotExist:
         messages.error(request, 'You need to be an assistant to view this page.')
         return redirect('home')
     except Agent.DoesNotExist:
         messages.error(request, 'You need to be assigned to an agent first.')
         return redirect('home')
-    homeowners = Homeowner.objects.all()
+    homeowners_with_requests = Homeowner.objects.filter(
+        user__in=ConnectionRequest.objects.filter(
+            status__in=['P', 'R'],
+            sender=agent_profile.user
+        ).values_list('receiver', flat=True)
+    )
     context = {
-        'homeowners': homeowners,
+        'homeowners': homeowners_with_requests,
     }
     return render(request, 'assistant/all_homeowners_for_assistant.html', context)
 
