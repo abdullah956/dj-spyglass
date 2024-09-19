@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import assistant_profile,homeowner_profile,all_homeowners,assistant_requests_status_by_agent,homeowner_requests_status_by_agent,homeowner_send_connection_request,dashboard_view, all_assistants , assistant_send_connection_request
+from .views import agent_profile,assistant_profile,homeowner_profile,all_homeowners,assistant_requests_status_by_agent,homeowner_requests_status_by_agent,homeowner_send_connection_request,dashboard_view, all_assistants , assistant_send_connection_request
 urlpatterns = [
     # dashboard for agent and assistant
     path('agent-dashboard/', dashboard_view, name='dashboard'),
@@ -19,4 +19,6 @@ urlpatterns = [
     path('homeowner/profile/', homeowner_profile, name='homeowner_profile'),
     # assistant profile by agent pov
     path('assistant/profile/', assistant_profile, name='assistant_profile'),
+    # agent profile by agent pov
+    path('profile/', agent_profile, name='agent_profile'),
 ]

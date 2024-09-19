@@ -172,3 +172,9 @@ def assistant_profile(request):
         messages.error(request, "Assistant profile not found.")
         return redirect('dashboard') 
     return render(request, 'agent/assistant_profile.html', {'assistant': assistant})
+
+# agent profile
+def agent_profile(request):
+    user = request.user
+    agent = Agent.objects.get(user=user)
+    return render(request, 'agent/agent_profile.html', {'agent': agent})

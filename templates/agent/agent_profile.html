@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Agent Profile</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Agent Information</h5>
+                <p><strong>Email:</strong> {{ agent.user.email }}</p>
+                <p><strong>Name:</strong> {{ agent.user.name }}</p>
+                <p><strong>Phone:</strong> {{ agent.user.phone }}</p>
+                <p><strong>Company:</strong> {{ agent.user.company }}</p>
+                <p><strong>State:</strong> {{ agent.user.state }}</p>
+                <p><strong>Business Address:</strong> {{ agent.user.business_address }}</p>
+                <p><strong>Role:</strong> {{ agent.user.get_role_display }}</p>
+                <p><strong>Verified:</strong> {{ agent.user.is_verified }}</p>
+
+                {% if agent.homeowner %}
+                    <h5 class="mt-4">Homeowner Information</h5>
+                    <p><strong>Homeowner Email:</strong> {{ agent.homeowner.user.email }}</p>
+                    <!-- Add more homeowner details if needed -->
+                {% else %}
+                    <p class="text-muted mt-2">No associated homeowner.</p>
+                {% endif %}
+
+                {% if agent.assistant %}
+                    <h5 class="mt-4">Assistant Information</h5>
+                    <p><strong>Assistant Email:</strong> {{ agent.assistant.user.email }}</p>
+                    <!-- Add more assistant details if needed -->
+                {% else %}
+                    <p class="text-muted mt-2">No assigned assistant.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Bootstrap JS and dependencies -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </div>
+</body>
+</html>
