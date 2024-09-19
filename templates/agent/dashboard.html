@@ -94,11 +94,11 @@
             {% endif %}
 
             {% if user.role == 'Assistant' %}
-              <ul class="nav nav-secondary">
+              {% comment %} <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'all_homeowners_for_assistant' %}"><p>Homeowner Requests</p></a>
                 </li>
-              </ul>
+              </ul> {% endcomment %}
               <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'homeowner_requests_status_by_assistant' %}"><p>Homeowner Requests Status</p></a>

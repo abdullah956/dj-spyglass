@@ -15,20 +15,28 @@ def agent_invites_for_homeowner(request):
         new_status = request.POST.get('status')
         try:
             connection_request = ConnectionRequest.objects.get(id=request_id, receiver=current_user)
+            agent = Agent.objects.get(user=connection_request.sender)
+            homeowner = Homeowner.objects.get(user=current_user)
+            if agent.homeowner and agent.homeowner != homeowner:
+                messages.error(request, 'The agent already has a homeowner assigned and cannot entertain more requests.')
+                return redirect('agent_invites_for_homeowner')
             connection_request.status = new_status
             connection_request.save()
-            homeowner = Homeowner.objects.get(user=current_user)
             if new_status == 'A':
-                Agent.objects.update_or_create(
-                    user=connection_request.sender,
-                    defaults={'homeowner': homeowner}
-                )
+                if agent.homeowner and agent.homeowner != homeowner:
+                    messages.error(request, 'The agent is already connected to another homeowner. Cannot update.')
+                else:
+                    agent.homeowner = homeowner
+                    agent.save()
+                    messages.success(request, 'Connection request approved and homeowner assigned to the agent.')
             elif new_status in ['P', 'R']:
-                agent = Agent.objects.filter(user=connection_request.sender).first()
-                if agent and agent.homeowner == homeowner:
+                if agent.homeowner == homeowner:
                     agent.homeowner = None
                     agent.save()
-        except (ConnectionRequest.DoesNotExist, Homeowner.DoesNotExist):
-            pass
+                    messages.info(request, 'Connection request updated, homeowner removed from agent.')
+        except ConnectionRequest.DoesNotExist:
+            messages.error(request, 'Connection request not found.')
+        except Homeowner.DoesNotExist:
+            messages.error(request, 'Homeowner profile not found.')
         return redirect('agent_invites_for_homeowner')
     return render(request, 'homeowner/agent_invites_for_homeowner.html', {'requests': requests})

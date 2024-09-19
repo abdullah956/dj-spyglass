@@ -14,45 +14,54 @@ def agent_invites_for_assistant(request):
         new_status = request.POST.get('status')
         try:
             connection_request = ConnectionRequest.objects.get(id=request_id, receiver=current_user)
+            agent = Agent.objects.get(user=connection_request.sender)
+            assistant = Assistant.objects.get(user=current_user)
+            assigned_agents_count = Agent.objects.filter(assistant=assistant).count()
+            if new_status == 'A' and assigned_agents_count >= 2:
+                messages.error(request, 'You cannot accept more than 2 connection requests as an assistant.')
+                return redirect('agent_invites_for_assistant')
+            if agent.assistant and agent.assistant != assistant:
+                messages.error(request, 'The agent is already connected to another assistant and cannot entertain this request.')
+                return redirect('agent_invites_for_assistant')
             connection_request.status = new_status
             connection_request.save()
-            assistant = Assistant.objects.get(user=current_user)
             if new_status == 'A':
-                Agent.objects.update_or_create(
-                    user=connection_request.sender,
-                    defaults={'assistant': assistant}
-                )
+                agent.assistant = assistant
+                agent.save()
+                messages.success(request, 'Connection request approved and assistant assigned to the agent.')
             elif new_status in ['P', 'R']:
-                agent = Agent.objects.filter(user=connection_request.sender).first()
-                if agent and agent.assistant == assistant:
+                if agent.assistant == assistant:
                     agent.assistant = None
                     agent.save()
-        except (ConnectionRequest.DoesNotExist, Assistant.DoesNotExist):
-            pass
+                    messages.info(request, 'Connection request updated, assistant removed from agent.')
+        except ConnectionRequest.DoesNotExist:
+            messages.error(request, 'Connection request not found.')
+        except Assistant.DoesNotExist:
+            messages.error(request, 'Assistant profile not found.')
         return redirect('agent_invites_for_assistant')
     return render(request, 'assistant/agent_invites_for_assistant.html', {'requests': requests})
 
 # to see all availablen homeowners for the assistant
-def all_homeowners_for_assistant(request):
-    try:
-        assistant_profile = get_object_or_404(Assistant, user=request.user)
-        agent_profile = get_object_or_404(Agent, assistant=assistant_profile)
-    except Assistant.DoesNotExist:
-        messages.error(request, 'You need to be an assistant to view this page.')
-        return redirect('home')
-    except Agent.DoesNotExist:
-        messages.error(request, 'You need to be assigned to an agent first.')
-        return redirect('home')
-    homeowners_with_requests = Homeowner.objects.filter(
-        user__in=ConnectionRequest.objects.filter(
-            status__in=['P', 'R'],
-            sender=agent_profile.user
-        ).values_list('receiver', flat=True)
-    )
-    context = {
-        'homeowners': homeowners_with_requests,
-    }
-    return render(request, 'assistant/all_homeowners_for_assistant.html', context)
+# def all_homeowners_for_assistant(request):
+#     try:
+#         assistant_profile = get_object_or_404(Assistant, user=request.user)
+#         agent_profile = get_object_or_404(Agent, assistant=assistant_profile)
+#     except Assistant.DoesNotExist:
+#         messages.error(request, 'You need to be an assistant to view this page.')
+#         return redirect('home')
+#     except Agent.DoesNotExist:
+#         messages.error(request, 'You need to be assigned to an agent first.')
+#         return redirect('home')
+#     homeowners_with_requests = Homeowner.objects.filter(
+#         user__in=ConnectionRequest.objects.filter(
+#             status__in=['P', 'R'],
+#             sender=agent_profile.user
+#         ).values_list('receiver', flat=True)
+#     )
+#     context = {
+#         'homeowners': homeowners_with_requests,
+#     }
+#     return render(request, 'assistant/all_homeowners_for_assistant.html', context)
 
 # send connection requests to homeowenrs by the assistant
 def assistant_send_connection_request_homeowner(request):
