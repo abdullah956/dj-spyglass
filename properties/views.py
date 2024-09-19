@@ -12,11 +12,13 @@ def property_create(request):
         messages.error(request, "You must be a homeowner to create a property.")
         return redirect('home')
     agent = Agent.objects.filter(homeowner=homeowner).first()
-    
     if not agent:
         messages.error(request, "You must be connected with an agent before creating a property.")
         return redirect('home')
-    
+    property_count = Property.objects.filter(homeowner=homeowner).count()
+    if property_count >= 10:
+        messages.error(request, "You cannot upload more than 10 properties.")
+        return redirect('home')
     if request.method == 'POST':
         form = PropertyForm(request.POST, request.FILES)
         if form.is_valid():
@@ -32,7 +34,6 @@ def property_create(request):
             messages.error(request, 'Please correct the errors in the form.')
     else:
         form = PropertyForm()
-    
     return render(request, 'properties/property_form.html', {'form': form})
 
 # listed properties
