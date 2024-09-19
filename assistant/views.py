@@ -48,3 +48,32 @@ def all_homeowners_for_assistant(request):
         'homeowners': homeowners,
     }
     return render(request, 'assistant/all_homeowners_for_assistant.html', context)
+
+# send connection requests to homeowenrs by the assistant
+def assistant_send_connection_request_homeowner(request):
+    try:
+        assistant_profile = Assistant.objects.get(user=request.user)
+        agent_profile = Agent.objects.get(assistant=assistant_profile)
+    except Assistant.DoesNotExist:
+        messages.error(request, 'You need to be an assistant to view this page.')
+        return redirect('home')
+    except Agent.DoesNotExist:
+        messages.error(request, 'You need to be assigned to an agent first.')
+        return redirect('home')
+    if request.method == 'POST':
+        homeowner_id = request.POST.get('homeowner_id')
+        homeowner = get_object_or_404(Homeowner, id=homeowner_id)
+        existing_request = ConnectionRequest.objects.filter(sender=agent_profile.user, receiver=homeowner.user).exists()
+        if existing_request:
+            messages.error(request, 'A connection request has already been sent to this homeowner.')
+        else:
+            ConnectionRequest.objects.create(
+                sender=agent_profile.user,
+                receiver=homeowner.user
+            )
+            messages.success(request, 'Connection request sent on behalf of the agent.')
+    homeowners = Homeowner.objects.all()
+    context = {
+        'homeowners': homeowners,
+    }
+    return render(request, 'assistant/all_homeowners_for_assistant.html', context)

@@ -28,7 +28,7 @@
           <td>{{ homeowner.user.email }}</td>
           <td>{{ homeowner.user.company }}</td>
           <td>
-            <form method="post" action="">
+            <form method="post" action="{% url 'assistant_send_connection_request_homeowner' %}">
               {% csrf_token %}
               <input type="hidden" name="homeowner_id" value="{{ homeowner.id }}" />
               <button type="submit" class="btn btn-md" style="background-color: blueviolet; color: white">Connect</button>
