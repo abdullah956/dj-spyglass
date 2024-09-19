@@ -77,3 +77,25 @@ def assistant_send_connection_request_homeowner(request):
         'homeowners': homeowners,
     }
     return render(request, 'assistant/all_homeowners_for_assistant.html', context)
+
+
+# homeowner request status assistant pov
+def homeowner_requests_status_by_assistant(request):
+    assistant_profile = get_object_or_404(Assistant, user=request.user)
+    agents = Agent.objects.filter(assistant=assistant_profile)
+    connection_requests = ConnectionRequest.objects.filter(
+        sender__in=agents.values_list('user', flat=True),
+        receiver__in=Homeowner.objects.values_list('user', flat=True)
+    )
+    homeowner_statuses = []
+    for req in connection_requests:
+        try:
+            homeowner = get_object_or_404(Homeowner, user=req.receiver)
+            status_display = req.get_status_display()
+            homeowner_statuses.append({
+                'homeowner': homeowner,
+                'status': status_display
+            })
+        except Homeowner.DoesNotExist:
+            continue
+    return render(request, 'assistant/homeowner_requests_status_by_assistant.html', {'homeowner_statuses': homeowner_statuses})
