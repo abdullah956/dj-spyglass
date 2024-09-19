@@ -72,7 +72,6 @@ def property_approve(request, property_id):
     else:
         messages.error(request, "You do not have permission to approve this property.")
         return redirect('home')
-    
     if request.method == 'POST':
         property_obj.approval_status = True
         property_obj.assistant = agent.assistant
@@ -81,3 +80,32 @@ def property_approve(request, property_id):
         return redirect('properties_tobe_approved')
     return render(request, 'properties/property_approve_confirm.html', {'property': property_obj})
 
+
+# for properties_to_be_approved_by_assistant
+def properties_to_be_approved_by_assistant(request):
+    try:
+        assistant_profile = Assistant.objects.get(user=request.user)
+    except Assistant.DoesNotExist:
+        messages.error(request, 'You need to be an assistant to view this page.')
+        return redirect('home')
+
+    agents = Agent.objects.filter(assistant=assistant_profile)
+
+    if not agents:
+        messages.error(request, 'You need to be assigned to at least one agent first.')
+        return redirect('home')
+
+    properties = Property.objects.filter(agent__in=agents, approval_status=False)
+
+    if not properties:
+        messages.info(request, "No properties available for approval.")
+
+    if request.method == 'POST':
+        property_id = request.POST.get('property_id')
+        property_to_approve = get_object_or_404(Property, id=property_id, agent__in=agents)
+        property_to_approve.approval_status = True
+        property_to_approve.save()
+        messages.success(request, "Property has been approved successfully.")
+        return redirect('properties_to_be_approved_by_assistant')
+
+    return render(request, 'properties/properties_tobe_approved_by_assistant.html', {'properties': properties})
