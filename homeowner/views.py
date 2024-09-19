@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -8,7 +7,7 @@ from properties.forms import PropertyForm
 
 
 # to show all agent invites to homeowner
-def agents_invites(request):
+def agent_invites_for_homeowner(request):
     current_user = request.user
     requests = ConnectionRequest.objects.filter(receiver=current_user)
     if request.method == 'POST':
@@ -17,5 +16,5 @@ def agents_invites(request):
         connection_request = ConnectionRequest.objects.get(id=request_id)
         connection_request.status = new_status
         connection_request.save()
-        return redirect('agent_invites')
-    return render(request, 'homeowner/agent_invites.html', {'requests': requests})
+        return redirect('agent_invites_for_homeowner')
+    return render(request, 'homeowner/agent_invites_for_homeowner.html', {'requests': requests})

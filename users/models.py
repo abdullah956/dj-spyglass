@@ -35,6 +35,8 @@ class User(AbstractUser, BasedModel):
 class Agent(BasedModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='agent_profile')
     assistant = models.ForeignKey('Assistant', on_delete=models.SET_NULL, null=True, blank=True, related_name='agents')
+    homeowner = models.ForeignKey('Homeowner', on_delete=models.SET_NULL, null=True, blank=True, related_name='agents')
+    
     def __str__(self):
         return f"Agent: {self.user.email}"
 

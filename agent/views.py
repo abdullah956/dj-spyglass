@@ -12,10 +12,8 @@ def dashboard_view(request):
 
 # to see all homeowners
 def all_homeowners(request):
-    agent = get_object_or_404(Agent, user=request.user)
-    Homeowners = Homeowner.objects.filter(user__state=agent.user.state)
+    Homeowners = Homeowner.objects.filter()
     return render(request, 'agent/all_homeowners.html', {'homeowners': Homeowners})
-
 
 # send connection to homeowner
 def homeowner_send_connection_request(request):
@@ -32,4 +30,28 @@ def homeowner_send_connection_request(request):
                 receiver=homeowner.user
             )
             messages.success(request, 'Connection request sent to the homeowner.')
+    return redirect('all_homeowners')
+
+
+# to see all assistants
+def all_assistants(request):
+    Assistants = Assistant.objects.filter()
+    return render(request, 'agent/all_assistants.html', {'assistants': Assistants})
+
+
+# send connection to assistant
+def assistant_send_connection_request(request):
+    if request.method == 'POST':
+        assistant_id = request.POST.get('assistant_id')
+        assistant = get_object_or_404(Assistant, id=assistant_id)
+        existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=assistant.user).exists()
+
+        if existing_request:
+            messages.error(request, 'You have already sent a connection request to this assistant.')
+        else:
+            ConnectionRequest.objects.create(
+                sender=request.user,
+                receiver=assistant.user
+            )
+            messages.success(request, 'Connection request sent to the assistant.')
     return redirect('all_homeowners')
