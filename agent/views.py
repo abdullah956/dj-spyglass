@@ -80,3 +80,27 @@ def homeowner_requests_status_by_agent(request):
         except Homeowner.DoesNotExist:
             continue
     return render(request, 'agent/homeowner_requests_status_by_agent.html', {'homeowner_statuses': homeowner_statuses})
+
+
+
+# assistant_requests_status_by_agent 
+def homeowner_requests_status_by_agent(request):
+    if request.user.role == 'Agent':
+        connection_requests = ConnectionRequest.objects.filter(
+            sender=request.user,
+            receiver__in=Homeowner.objects.values_list('user', flat=True)
+        )
+    else:
+        connection_requests = []
+    homeowner_statuses = []
+    for req in connection_requests:
+        try:
+            homeowner = get_object_or_404(Homeowner, user=req.receiver)
+            status_display = req.get_status_display()
+            homeowner_statuses.append({
+                'homeowner': homeowner,
+                'status': status_display
+            })
+        except Homeowner.DoesNotExist:
+            continue
+    return render(request, 'agent/homeowner_requests_status_by_agent.html', {'homeowner_statuses': homeowner_statuses})
