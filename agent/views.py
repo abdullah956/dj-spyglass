@@ -33,6 +33,10 @@ def homeowner_send_connection_request(request):
         homeowner_id = request.POST.get('homeowner_id')
         homeowner = get_object_or_404(Homeowner, id=homeowner_id)
         agent_profile = Agent.objects.filter(user=request.user, assistant__isnull=False).exists()
+        agent = get_object_or_404(Agent, user=request.user)
+        if agent.homeowner:
+            messages.error(request, 'You already have a connection with a homeowner.')
+            return redirect('all_homeowners')
         if not agent_profile:
             messages.error(request, 'You must have an assigned assistant before sending a connection request to a homeowner.')
             return redirect('all_homeowners')
@@ -75,7 +79,10 @@ def assistant_send_connection_request(request):
         assistant_id = request.POST.get('assistant_id')
         assistant = get_object_or_404(Assistant, id=assistant_id)
         existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=assistant.user).exists()
-
+        agent = get_object_or_404(Agent, user=request.user)
+        if agent.homeowner:
+            messages.error(request, 'You already have a connection with a assistant.')
+            return redirect('all_assistants')
         if existing_request:
             messages.error(request, 'You have already sent a connection request to this assistant.')
         else:
@@ -84,7 +91,7 @@ def assistant_send_connection_request(request):
                 receiver=assistant.user
             )
             messages.success(request, 'Connection request sent to the assistant.')
-    return redirect('all_homeowners')
+    return redirect('all_assistants')
 
 
 # homeowner_requests_status_by_agent 
@@ -131,3 +138,37 @@ def assistant_requests_status_by_agent(request):
         except Homeowner.DoesNotExist:
             continue
     return render(request, 'agent/assistant_requests_status_by_agent.html', {'assistant_statuses': assistant_statuses})
+
+# homeowner profile
+def homeowner_profile(request):
+    user = request.user
+    try:
+        agent = Agent.objects.get(user=user)
+        if agent.homeowner is None:
+            messages.error(request, "Homeowner profile not found.")
+            return redirect('dashboard')
+        homeowner = agent.homeowner
+    except Agent.DoesNotExist:
+        messages.error(request, "Agent profile not found.")
+        return redirect('dashboard')
+    except Homeowner.DoesNotExist:
+        messages.error(request, "Homeowner profile not found.")
+        return redirect('dashboard')
+    return render(request, 'agent/homeowner_profile.html', {'homeowner': homeowner})
+
+# assistant profile
+def assistant_profile(request):
+    user = request.user
+    try:
+        agent = Agent.objects.get(user=user)
+        if agent.assistant is None:
+            messages.error(request, "Assistant profile not found.")
+            return redirect('dashboard')
+        assistant = agent.assistant
+    except Agent.DoesNotExist:
+        messages.error(request, "Agent profile not found.")
+        return redirect('dashboard') 
+    except Assistant.DoesNotExist:
+        messages.error(request, "Assistant profile not found.")
+        return redirect('dashboard') 
+    return render(request, 'agent/assistant_profile.html', {'assistant': assistant})

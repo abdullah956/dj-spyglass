@@ -56,17 +56,18 @@
               </ul>
               <ul class="nav nav-secondary">
                 <li class="nav-item">
-                  <a href="{% url 'all_assistants' %}"><p>Request Assistants</p></a>
-                </li>
-              </ul>
-              <ul class="nav nav-secondary">
-                <li class="nav-item">
-                  <a href="{% url 'properties_tobe_approved' %}"><p>Property Approval</p></a>
-                </li>
-              </ul>
-              <ul class="nav nav-secondary">
-                <li class="nav-item">
                   <a href="{% url 'homeowner_requests_status_by_agent' %}"><p>Homeowner Requests Status</p></a>
+                </li>
+              </ul>
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'homeowner_profile' %}"><p>Homeowner Profile</p></a>
+                </li>
+              </ul>
+
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'all_assistants' %}"><p>Request Assistants</p></a>
                 </li>
               </ul>
               <ul class="nav nav-secondary">
@@ -74,7 +75,19 @@
                   <a href="{% url 'assistant_requests_status_by_agent' %}"><p>Assistant Requests Status</p></a>
                 </li>
               </ul>
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'assistant_profile' %}"><p>Assistant Profile</p></a>
+                </li>
+              </ul>
+
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'properties_tobe_approved' %}"><p>Property Approval</p></a>
+                </li>
+              </ul>
             {% endif %}
+
             {% if user.role == 'Assistant' %}
               <ul class="nav nav-secondary">
                 <li class="nav-item">
@@ -83,12 +96,12 @@
               </ul>
               <ul class="nav nav-secondary">
                 <li class="nav-item">
-                  <a href="{% url 'properties_to_be_approved_by_assistant' %}"><p>Property Approval</p></a>
+                  <a href="{% url 'homeowner_requests_status_by_assistant' %}"><p>Homeowner Requests Status</p></a>
                 </li>
               </ul>
               <ul class="nav nav-secondary">
                 <li class="nav-item">
-                  <a href="{% url 'homeowner_requests_status_by_assistant' %}"><p>Homeowner Requests Status</p></a>
+                  <a href="{% url 'properties_to_be_approved_by_assistant' %}"><p>Property Approval</p></a>
                 </li>
               </ul>
             {% endif %}

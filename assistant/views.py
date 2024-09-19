@@ -65,6 +65,9 @@ def assistant_send_connection_request_homeowner(request):
     except Agent.DoesNotExist:
         messages.error(request, 'You need to be assigned to an agent first.')
         return redirect('home')
+    if agent_profile.homeowner:
+            messages.error(request, 'You already have a connection with a homeowner.')
+            return redirect('all_homeowners_for_assistant')
     if request.method == 'POST':
         homeowner_id = request.POST.get('homeowner_id')
         homeowner = get_object_or_404(Homeowner, id=homeowner_id)
