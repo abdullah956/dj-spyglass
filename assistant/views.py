@@ -5,8 +5,6 @@ from users.models import Agent, Homeowner , Assistant
 from properties.models import ConnectionRequest
 from properties.forms import PropertyForm
 
-
-
 # to see all invites form the agents and update process
 def agent_invites_for_assistant(request):
     current_user = request.user
@@ -33,3 +31,20 @@ def agent_invites_for_assistant(request):
             pass
         return redirect('agent_invites_for_assistant')
     return render(request, 'assistant/agent_invites_for_assistant.html', {'requests': requests})
+
+# to see all homeowners for the agent
+def all_homeowners_for_assistant(request):
+    try:
+        assistant_profile = Assistant.objects.get(user=request.user)
+        agent_profile = Agent.objects.get(assistant=assistant_profile)
+    except Assistant.DoesNotExist:
+        messages.error(request, 'You need to be an assistant to view this page.')
+        return redirect('home')
+    except Agent.DoesNotExist:
+        messages.error(request, 'You need to be assigned to an agent first.')
+        return redirect('home')
+    homeowners = Homeowner.objects.all()
+    context = {
+        'homeowners': homeowners,
+    }
+    return render(request, 'assistant/all_homeowners_for_assistant.html', context)
