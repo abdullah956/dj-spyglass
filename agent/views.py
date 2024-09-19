@@ -5,15 +5,27 @@ from users.models import  Agent , Assistant
 from properties.models import Property
 from django.contrib import messages
 from users.models import User , Homeowner
+from django.db.models import Count, Q
+
 
 # for dashbaord
 def dashboard_view(request):
     return render(request, 'agent/dashboard.html')
 
-# to see all homeowners
+
+# to see all avaible homeowners
 def all_homeowners(request):
-    Homeowners = Homeowner.objects.filter()
-    return render(request, 'agent/all_homeowners.html', {'homeowners': Homeowners})
+    relevant_statuses = ['P', 'R']
+    relevant_users = ConnectionRequest.objects.filter(
+        status__in=relevant_statuses,
+        receiver__in=Homeowner.objects.values_list('user', flat=True)
+    ).values_list('receiver', flat=True)
+    
+    pending_rejected_homeowners = Homeowner.objects.filter(
+        user__in=relevant_users
+    )
+    return render(request, 'agent/all_homeowners.html', {'homeowners': pending_rejected_homeowners})
+
 
 # send connection to homeowner
 def homeowner_send_connection_request(request):
@@ -36,11 +48,26 @@ def homeowner_send_connection_request(request):
     return redirect('all_homeowners')
 
 
-# to see all assistants
+# to see all available assistants
 def all_assistants(request):
-    Assistants = Assistant.objects.filter()
-    return render(request, 'agent/all_assistants.html', {'assistants': Assistants})
-
+    relevant_statuses = ['P', 'R']
+    assistants_with_relevant_requests = Assistant.objects.filter(
+        user__in=ConnectionRequest.objects.filter(
+            status__in=relevant_statuses
+        ).values_list('receiver', flat=True)
+    ).distinct()
+    assistant_ids_with_one_accepted_request = ConnectionRequest.objects.filter(
+        status='A'
+    ).values('receiver').annotate(
+        num_accepted_requests=Count('id')
+    ).filter(
+        num_accepted_requests=1
+    ).values_list('receiver', flat=True)
+    assistants_with_one_accepted_request = Assistant.objects.filter(
+        user__in=assistant_ids_with_one_accepted_request
+    ).distinct()
+    assistants_to_display = assistants_with_relevant_requests | assistants_with_one_accepted_request
+    return render(request, 'agent/all_assistants.html', {'assistants': assistants_to_display})
 
 # send connection to assistant
 def assistant_send_connection_request(request):
@@ -58,6 +85,7 @@ def assistant_send_connection_request(request):
             )
             messages.success(request, 'Connection request sent to the assistant.')
     return redirect('all_homeowners')
+
 
 # homeowner_requests_status_by_agent 
 def homeowner_requests_status_by_agent(request):
@@ -80,7 +108,6 @@ def homeowner_requests_status_by_agent(request):
         except Homeowner.DoesNotExist:
             continue
     return render(request, 'agent/homeowner_requests_status_by_agent.html', {'homeowner_statuses': homeowner_statuses})
-
 
 
 # assistant_requests_status_by_agent 
