@@ -1,0 +1,35 @@
+{% extends 'agent/dashboard.html' %}
+
+{% block content %}
+  <h2>My Assistant Requests</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Assistant Name</th>
+        <th>Assistant Email</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in assistant_statuses %}
+        <tr>
+          <td>{{ item.assistant.user.name }}</td>
+          <td>{{ item.assistant.user.email }}</td>
+          <td>
+            {% if item.status == 'Accepted' %}
+              <span class="badge badge-success">Accepted</span>
+            {% elif item.status == 'Rejected' %}
+              <span class="badge badge-danger">Rejected</span>
+            {% else %}
+              <span class="badge badge-warning">Pending</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3">No connection requests found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
