@@ -20,8 +20,11 @@ def homeowner_send_connection_request(request):
     if request.method == 'POST':
         homeowner_id = request.POST.get('homeowner_id')
         homeowner = get_object_or_404(Homeowner, id=homeowner_id)
+        agent_profile = Agent.objects.filter(user=request.user, assistant__isnull=False).exists()
+        if not agent_profile:
+            messages.error(request, 'You must have an assigned assistant before sending a connection request to a homeowner.')
+            return redirect('all_homeowners')
         existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=homeowner.user).exists()
-
         if existing_request:
             messages.error(request, 'You have already sent a connection request to this homeowner.')
         else:

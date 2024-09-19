@@ -11,14 +11,12 @@ def property_create(request):
     except Homeowner.DoesNotExist:
         messages.error(request, "You must be a homeowner to create a property.")
         return redirect('home')
-    connection = ConnectionRequest.objects.filter(receiver=request.user, status='A').first()
-    if not connection:
-        messages.error(request, "You must make a connection with an agent before creating a property.")
+    agent = Agent.objects.filter(homeowner=homeowner).first()
+    
+    if not agent:
+        messages.error(request, "You must be connected with an agent before creating a property.")
         return redirect('home')
-    try:
-        agent = get_object_or_404(Agent, user=connection.sender)
-    except (ConnectionRequest.DoesNotExist, AttributeError):
-        agent = None
+    
     if request.method == 'POST':
         form = PropertyForm(request.POST, request.FILES)
         if form.is_valid():
@@ -26,7 +24,7 @@ def property_create(request):
             property_obj.homeowner = homeowner
             property_obj.agent = agent
             property_obj.state = homeowner.user.state
-            property_obj.assistant = agent.assistant if agent else None
+            property_obj.assistant = agent.assistant
             property_obj.save()
             messages.success(request, 'Your property has been successfully created.')
             return redirect('home')
@@ -34,8 +32,8 @@ def property_create(request):
             messages.error(request, 'Please correct the errors in the form.')
     else:
         form = PropertyForm()
+    
     return render(request, 'properties/property_form.html', {'form': form})
-
 
 # listed properties
 def listed_properties(request):
@@ -64,19 +62,22 @@ def properties_tobe_approved(request):
 def property_approve(request, property_id):
     if request.user.role == 'Agent':
         agent = get_object_or_404(Agent, user=request.user)
+        if agent.assistant is None:
+            messages.error(request, "You must have an assigned assistant to approve properties.")
+            return redirect('properties_tobe_approved')
         property_obj = get_object_or_404(Property, id=property_id, agent=agent)
     elif request.user.role == 'Assistant':
         assistant = get_object_or_404(Assistant, user=request.user)
         property_obj = get_object_or_404(Property, id=property_id, assistant=assistant)
     else:
         messages.error(request, "You do not have permission to approve this property.")
-        return redirect('home') 
+        return redirect('home')
+    
     if request.method == 'POST':
         property_obj.approval_status = True
+        property_obj.assistant = agent.assistant
         property_obj.save()
         messages.success(request, "Property approved successfully.")
         return redirect('properties_tobe_approved')
-
     return render(request, 'properties/property_approve_confirm.html', {'property': property_obj})
-
 
