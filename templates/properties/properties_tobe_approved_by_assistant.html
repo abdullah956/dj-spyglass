@@ -28,7 +28,7 @@
           <a href="{{ property.document.url }}" class="btn btn-info" download>Download Document</a>
         {% endif %}
 
-        <a href="{% url 'property_approve' property.id %}" class="btn btn-primary">Approve</a>
+        <a href="{% url 'property_approve_by_assistant' property.id %}" class="btn btn-primary">Approve</a>
       </li>
     {% empty %}
       <li>No properties awaiting approval.</li>

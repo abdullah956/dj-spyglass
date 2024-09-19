@@ -9,9 +9,18 @@
     Bathrooms: {{ property.bathrooms }}<br />
     Square Feet: {{ property.square_feet }}<br />
   </p>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Approve</button>
-    <a href="{% url 'properties_tobe_approved' %}" class="btn btn-secondary">Cancel</a>
-  </form>
+  {% if user.role == 'Agent' %}
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary">Approve</button>
+      <a href="{% url 'properties_tobe_approved' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  {% endif %}
+  {% if user.role == 'Assistant' %}
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary">Approve</button>
+      <a href="{% url 'properties_to_be_approved_by_assistant' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  {% endif %}
 {% endblock %}
