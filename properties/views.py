@@ -5,6 +5,7 @@ from django.contrib import messages
 from .forms import PropertyForm
 from django.core.mail import send_mail
 from django.conf import settings
+from users.models import User
 
 # to create properties
 def property_create(request):
@@ -82,6 +83,9 @@ def property_approve(request, property_id):
         homeowner_email = property_obj.homeowner.user.email
         subject = 'Your Property has been Approved'
         message = f"Dear {property_obj.homeowner.user.name},\n\nYour property '{property_obj.address}' has been approved successfully!\n\nBest regards,\nThe Team"
+        super_admin = User.objects.filter(role='SuperAdmin').first()
+        if super_admin:
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [super_admin.email])
         send_mail(subject, message, settings.EMAIL_HOST_USER, [homeowner_email])
         messages.success(request, "Property approved successfully.")
         return redirect('properties_tobe_approved')
@@ -139,6 +143,9 @@ def property_approve_by_assistant(request, property_id):
         homeowner_email = property_obj.homeowner.user.email
         subject = 'Your Property has been Approved'
         message = f"Dear {property_obj.homeowner.user.name},\n\nYour property '{property_obj.address}' has been approved successfully!\n\nBest regards,\nThe Team"
+        super_admin = User.objects.filter(role='SuperAdmin').first()
+        if super_admin:
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [super_admin.email])
         send_mail(subject, message, settings.EMAIL_HOST_USER, [homeowner_email])
         messages.success(request, "Property approved successfully on behalf of the agent.")
         return redirect('properties_to_be_approved_by_assistant')
