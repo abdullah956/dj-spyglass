@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home_view , register_view , login_view , logout_view , verify_otp, password_reset_request, verify_otp_for_password_reset, password_change
+from .views import contact_view,home_view , register_view , login_view , logout_view , verify_otp, password_reset_request, verify_otp_for_password_reset, password_change
 
 urlpatterns = [
     # for home 
@@ -18,4 +18,6 @@ urlpatterns = [
     path('verify-otp-for-password-reset/', verify_otp_for_password_reset, name='verify_otp_for_password_reset'),
     # to change password
     path('password-change/<int:user_id>/', password_change, name='password_change'),
+    # for contact
+    path('contact', contact_view, name='contact'),
 ]

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User , Agent , Homeowner , Assistant
+from .models import User , Agent , Homeowner , Assistant , Contact
 from .forms import UserCreationForm, UserChangeForm
 
 class UserAdmin(BaseUserAdmin):
@@ -30,3 +30,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Agent)
 admin.site.register(Homeowner)
 admin.site.register(Assistant)
+admin.site.register(Contact)

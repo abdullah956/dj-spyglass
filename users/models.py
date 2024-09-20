@@ -51,3 +51,11 @@ class Assistant(BasedModel):
 
     def __str__(self):
         return f"Assistant: {self.user.email}"
+
+class Contact(BasedModel):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    address = models.TextField()
+    
+    def __str__(self):
+        return f'{self.name} - {self.email}'

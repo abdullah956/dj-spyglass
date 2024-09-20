@@ -7,7 +7,7 @@ from django.conf import settings
 import pyotp
 from users.models import User
 from django.contrib.auth.forms import SetPasswordForm
-from .models import Agent, Homeowner, Assistant, User
+from .models import Agent, Homeowner, Assistant, User , Contact
 from .forms import CustomUserCreationForm
 
 # for home 
@@ -155,3 +155,14 @@ def password_change(request, user_id):
     else:
         form = SetPasswordForm(user)
     return render(request, 'users/password_change.html', {'form': form})
+
+# for contact page 
+def contact_view(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        Contact.objects.create(name=name, email=email, address=address)
+        messages.success(request, 'Your message has been sent successfully!')
+        return redirect('contact')
+    return render(request, 'contact/contact.html')

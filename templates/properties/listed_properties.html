@@ -42,6 +42,9 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'listed_properties' %}">Listings</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+            </li>
             {% if user.role == 'Agent' or user.role == 'Assistant' %}
               <li class="nav-item">
                 <a class="contact nav-link" href="{% url 'dashboard' %}">Dashboard</a>
