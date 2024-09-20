@@ -5,10 +5,12 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 import pyotp
-from users.models import User
 from django.contrib.auth.forms import SetPasswordForm
+from properties.models import Property
 from .models import Agent, Homeowner, Assistant, User , Contact , NewsletterSubscription
 from .forms import CustomUserCreationForm , UserEditForm
+from openpyxl import Workbook
+from django.http import HttpResponse
 
 # for home 
 def home_view(request):
@@ -192,3 +194,46 @@ def edit_profile(request):
         form = UserEditForm(instance=user)
 
     return render(request, 'users/profile_edit.html', {'form': form})
+
+# admin dashboard
+def admin_dashboard(request):
+    total_agents = Agent.objects.count()
+    total_assistants = Assistant.objects.count()
+    total_homeowners = Homeowner.objects.count()
+    total_properties = Property.objects.count()
+    total_subscribers = NewsletterSubscription.objects.count()
+
+    context = {
+        'total_agents': total_agents,
+        'total_assistants': total_assistants,
+        'total_homeowners': total_homeowners,
+        'total_properties': total_properties,
+        'total_subscribers': total_subscribers,
+    }
+    
+    return render(request, 'users/dashboard_landingpage.html', context)
+
+# subscriber lists
+def subscribers_list(request):
+    subscribers = NewsletterSubscription.objects.all()
+    context = {
+        'subscribers': subscribers,
+    }
+    return render(request, 'users/subscribers_list.html', context)
+
+# download subcribers
+def download_subscribers(request):
+    subscribers = NewsletterSubscription.objects.all()
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.title = 'Subscribers'
+    
+    worksheet.append(['Email'])
+    for subscriber in subscribers:
+        worksheet.append([subscriber.email])
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=subscribers.xlsx'
+    
+    workbook.save(response)
+    return response

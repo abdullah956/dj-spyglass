@@ -1,0 +1,49 @@
+{% extends 'users/admin_dashboard.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Admin Dashboard</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Agents</h5>
+                    <p class="card-text">{{ total_agents }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Assistants</h5>
+                    <p class="card-text">{{ total_assistants }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Homeowners</h5>
+                    <p class="card-text">{{ total_homeowners }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Properties</h5>
+                    <p class="card-text">{{ total_properties }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Subscribers</h5>
+                    <p class="card-text">{{ total_subscribers }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

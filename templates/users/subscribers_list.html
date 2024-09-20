@@ -1,0 +1,30 @@
+{% extends 'users/admin_dashboard.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Subscribers List</h2>
+    <a href="{% url 'download_subscribers' %}" class="btn btn-success mb-3">Download Subscribers (Excel)</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Date Subscribed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subscriber in subscribers %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ subscriber.email }}</td>
+                    <td>{{ subscriber.created_at|date:"Y-m-d" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No subscribers found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
