@@ -47,7 +47,7 @@
             </li>
             {% if user.role == 'SuperAdmin' %}
               <li class="nav-item">
-                <a class="contact nav-link" href="{% url 'admin_dashboard'%}">Dashboard</a>
+                <a class="contact nav-link" href="{% url 'admin_dashboard' %}">Dashboard</a>
               </li>
             {% endif %}
             {% if user.role == 'Agent' or user.role == 'Assistant' %}
@@ -160,7 +160,9 @@
           </div>
 
           <!-- Join Now Button -->
-          <a href="#" class="join-now-btn">Join Now</a>
+          {% if not user.is_authenticated %}
+            <a href="{% url 'register'%}" class="join-now-btn">Join Now</a>
+          {% endif %}
         </div>
 
         <!-- Right Column: Image Gallery -->
@@ -189,7 +191,7 @@
       <div class="banner-overlay"></div>
       <div class="banner-content">
         <h2>Unlock privileged access to property documents<br />and connect with industry experts.</h2>
-        <a href="#" class="btn-view-properties">View Properties</a>
+        <a href="{% url 'listed_properties'%}" class="btn-view-properties">View Properties</a>
       </div>
     </div>
 
@@ -203,7 +205,7 @@
 
       <!-- Right Side: Button -->
       <div>
-        <a href="#" class="btn-view-all">View All</a>
+        <a href="{% url 'listed_properties'%}" class="btn-view-all">View All</a>
       </div>
     </div>
 
@@ -451,7 +453,7 @@
         <!-- Add more testimonials as needed -->
       </div>
     </div>
-
+    {% if not user.is_authenticated %}
     <div class="container">
       <div class="get-started-section">
         <!-- Left Side: Person Image -->
@@ -471,7 +473,7 @@
         </div>
       </div>
     </div>
-
+    {% endif %}
     <footer class="footer mt-5">
       <div class="container">
         <div class="row">
