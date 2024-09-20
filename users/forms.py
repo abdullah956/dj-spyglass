@@ -37,3 +37,9 @@ class CustomUserCreationForm(UserCreationForm):
             'password1': forms.PasswordInput(),
             'password2': forms.PasswordInput(),
         }
+
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['name','phone', 'company', 'state', 'business_address']

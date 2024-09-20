@@ -1,0 +1,45 @@
+{% extends 'agent/dashboard.html' %}
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Edit Your Information</h2>
+    <form method="post" class="shadow p-4 rounded">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="form-label" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+        {{ form.name }}
+        {% for error in form.name.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+        {{ form.phone }}
+        {% for error in form.phone.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="{{ form.company.id_for_label }}">{{ form.company.label }}</label>
+        {{ form.company }}
+        {% for error in form.company.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="{{ form.state.id_for_label }}">{{ form.state.label }}</label>
+        {{ form.state }}
+        {% for error in form.state.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="{{ form.business_address.id_for_label }}">{{ form.business_address.label }}</label>
+        {{ form.business_address }}
+        {% for error in form.business_address.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+  </div>
+{% endblock %}

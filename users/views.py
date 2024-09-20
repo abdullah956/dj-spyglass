@@ -1,5 +1,5 @@
 from .forms import CustomUserCreationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect , get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -8,7 +8,7 @@ import pyotp
 from users.models import User
 from django.contrib.auth.forms import SetPasswordForm
 from .models import Agent, Homeowner, Assistant, User , Contact , NewsletterSubscription
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm , UserEditForm
 
 # for home 
 def home_view(request):
@@ -177,3 +177,18 @@ def newsletter_view(request):
             messages.success(request, 'Thank you for subscribing to our newsletter!')
         return redirect('home')
     return render(request, 'home.html')
+
+#  edit user profile
+def edit_profile(request):
+    user = get_object_or_404(User, email=request.user.email)
+
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "User information updated successfully.")
+            return redirect('edit_profile')
+    else:
+        form = UserEditForm(instance=user)
+
+    return render(request, 'users/profile_edit.html', {'form': form})

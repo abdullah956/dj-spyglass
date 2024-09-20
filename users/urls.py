@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import newsletter_view,contact_view,home_view , register_view , login_view , logout_view , verify_otp, password_reset_request, verify_otp_for_password_reset, password_change
+from .views import edit_profile, newsletter_view,contact_view,home_view , register_view , login_view , logout_view , verify_otp, password_reset_request, verify_otp_for_password_reset, password_change
 
 urlpatterns = [
     # for home 
@@ -22,4 +22,6 @@ urlpatterns = [
     path('contact/', contact_view, name='contact'),
     # for newsletter
     path('newsletter/', newsletter_view, name='newsletter'),
+    # edit profile
+    path('edit-profile/', edit_profile, name='edit_profile'),
 ]

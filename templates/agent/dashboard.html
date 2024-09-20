@@ -91,8 +91,12 @@
                   <a href="{% url 'agent_profile' %}"><p>Agent Profile</p></a>
                 </li>
               </ul>
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'edit_profile' %}"><p>Edit Agent Profile</p></a>
+                </li>
+              </ul>
             {% endif %}
-
             {% if user.role == 'Assistant' %}
               {% comment %} <ul class="nav nav-secondary">
                 <li class="nav-item">
