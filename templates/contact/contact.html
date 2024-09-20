@@ -164,8 +164,11 @@
           <div class="col-md-4">
             <div class="footer-subscribe">
               <p>Subscribe to our Newsletter!</p>
-              <input type="email" placeholder="Email address" />
-              <button><i class="fas fa-arrow-right"></i></button>
+              <form method="post" action="{% url 'newsletter' %}">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Email address" required />
+                <button type="submit"><i class="fas fa-arrow-right"></i></button>
+              </form>
             </div>
             <div class="social-icons">
               <h5>Follow Us On</h5>

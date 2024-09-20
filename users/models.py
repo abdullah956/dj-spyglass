@@ -59,3 +59,10 @@ class Contact(BasedModel):
     
     def __str__(self):
         return f'{self.name} - {self.email}'
+
+class NewsletterSubscription(BasedModel):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.email} (Subscribed on: {self.subscribed_at.strftime('%Y-%m-%d %H:%M:%S')})"

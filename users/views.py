@@ -7,7 +7,7 @@ from django.conf import settings
 import pyotp
 from users.models import User
 from django.contrib.auth.forms import SetPasswordForm
-from .models import Agent, Homeowner, Assistant, User , Contact
+from .models import Agent, Homeowner, Assistant, User , Contact , NewsletterSubscription
 from .forms import CustomUserCreationForm
 
 # for home 
@@ -165,3 +165,15 @@ def contact_view(request):
         messages.success(request, 'Your message has been sent successfully!')
         return redirect('contact')
     return render(request, 'contact/contact.html')
+
+# for newsletter
+def newsletter_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if NewsletterSubscription.objects.filter(email=email).exists():
+            messages.warning(request, 'You are already subscribed!')
+        else:
+            NewsletterSubscription.objects.create(email=email)
+            messages.success(request, 'Thank you for subscribing to our newsletter!')
+        return redirect('home')
+    return render(request, 'home.html')
