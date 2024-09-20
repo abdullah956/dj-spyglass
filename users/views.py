@@ -67,7 +67,6 @@ def login_view(request):
                 request.session['otp_code'] = otp_code
                 return redirect('verify_otp')
         else:
-            messages.error(request, 'Invalid email or password.')
             return redirect('login')
 
     return render(request, 'users/login.html')
