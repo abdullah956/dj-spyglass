@@ -6,9 +6,16 @@ from .forms import PropertyForm
 from django.core.mail import send_mail
 from django.conf import settings
 from users.models import User
+import stripe
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
+
 
 # to create properties
 def property_create(request):
+    print("User authenticated:", request.user.is_authenticated)
+    print("Session ID in redirected view:", request.session.session_key)
     try:
         homeowner = Homeowner.objects.get(user=request.user)
     except Homeowner.DoesNotExist:
@@ -150,3 +157,41 @@ def property_approve_by_assistant(request, property_id):
         messages.success(request, "Property approved successfully on behalf of the agent.")
         return redirect('properties_to_be_approved_by_assistant')
     return render(request, 'properties/property_approve_confirm.html', {'property': property_obj})
+
+# payment for property upload 
+stripe.api_key = settings.STRIPE_LIVE_SECRET_KEY
+def create_checkout_session(request):
+    if request.method == 'GET':
+        YOUR_DOMAIN = "http://127.0.0.1:8000" 
+        print("Session before redirect:", request.session.session_key)
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[
+                {
+                    'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': 'Property Upload Fee',
+                    },
+                    'unit_amount': 500,
+                    },
+                    'quantity': 1,
+                }
+            ],
+            mode='payment',
+            success_url=f'{YOUR_DOMAIN}/properties/create/',
+            cancel_url=f'{YOUR_DOMAIN}',
+        )
+        return redirect(checkout_session.url, code=303)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+# propery limit check
+def check_property_limit(request):
+    if request.user.is_authenticated:
+        homeowner = Homeowner.objects.filter(user=request.user).first()
+        if homeowner:
+            property_count = Property.objects.filter(homeowner=homeowner).count()
+            if property_count >= 10:
+                messages.error(request, "You cannot upload more than 10 properties.")
+                return redirect('home')
+    return redirect('create_checkout_session')

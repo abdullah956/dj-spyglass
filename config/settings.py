@@ -149,5 +149,8 @@ EMAIL_HOST_PASSWORD = 'kyjdwlhepwzwptsm'
 OTP_SECRET_KEY = 'base32secret3232'
 
 # stripe fake
-#STRIPE_LIVE_SECRET_KEY = os.getenv("STRIPE_LIVE_SECRET_KEY")
-#STRIPE_LIVE_PUBLIC_KEY = os.getenv("STRIPE_LIVE_PUBLIC_KEY")
+STRIPE_LIVE_SECRET_KEY = 'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
+STRIPE_LIVE_PUBLIC_KEY = 'pk_test_TYooMQauvdEDq54NiTphI7jx'
+
+SESSION_COOKIE_AGE = 1209600  # 2 weeks (in seconds)
+SESSION_COOKIE_SECURE = True  # Only if using HTTPS
