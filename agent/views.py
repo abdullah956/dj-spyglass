@@ -178,3 +178,8 @@ def agent_profile(request):
     user = request.user
     agent = Agent.objects.get(user=user)
     return render(request, 'agent/agent_profile.html', {'agent': agent})
+
+# agent profile by id\
+def agent_profile_by_ID(request, agent_id):
+    agent = get_object_or_404(Agent, id=agent_id)
+    return render(request, 'agent/agent_profile_by_ID.html', {'agent': agent})
