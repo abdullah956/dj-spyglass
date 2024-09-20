@@ -66,3 +66,5 @@ class NewsletterSubscription(BasedModel):
     
     def __str__(self):
         return f"{self.email} (Subscribed on: {self.subscribed_at.strftime('%Y-%m-%d %H:%M:%S')})"
+    
+    

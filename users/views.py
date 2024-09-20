@@ -237,3 +237,23 @@ def download_subscribers(request):
     
     workbook.save(response)
     return response
+
+# contacts 
+def contact_list(request):
+    contacts = Contact.objects.all()
+    return render(request, 'users/contact_list.html', {'contacts': contacts})
+
+# contact download
+def download_contacts_excel(request):
+    contacts = Contact.objects.all()
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.title = 'Contacts'
+    headers = ['Name', 'Email', 'Address']
+    worksheet.append(headers)
+    for contact in contacts:
+        worksheet.append([contact.name, contact.email, contact.address])
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="contacts.xlsx"'
+    workbook.save(response)
+    return response
