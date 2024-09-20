@@ -162,8 +162,7 @@
                 {% if user.is_authenticated %}
                   <p class="property-concession">Concession: {{ property.compensation }}%</p>
                 {% endif %}
-
-                <p class="property-location">{{ property.address }}, {{ property.state }}</p>
+                <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank"><p class="property-location">{{ property.address }}, {{ property.state }}</p></a>
                 <p class="property-details">
                   <i class="fas fa-bed property-icons"></i> {{ property.bedrooms }} Beds
                   <span class="mx-2"></span>
