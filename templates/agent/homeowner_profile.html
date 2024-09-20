@@ -2,5 +2,31 @@
 
 {% block content %}
   <h1>Homeowner Profile</h1>
-  <p><strong>Email:</strong> {{ homeowner.user.email }}</p>
+  <p>
+    <strong>Name:</strong> {{ homeowner.user.name }}
+  </p>
+  <p>
+    <strong>Email:</strong> {{ homeowner.user.email }}
+  </p>
+  <p>
+    <strong>Role:</strong> {{ homeowner.user.get_role_display }}
+  </p>
+  <p>
+    <strong>Phone:</strong> {{ homeowner.user.phone }}
+  </p>
+  <p>
+    <strong>Company:</strong> {{ homeowner.user.company }}
+  </p>
+  <p>
+    <strong>State:</strong> {{ homeowner.user.state }}
+  </p>
+  <p>
+    <strong>Business Address:</strong> {{ homeowner.user.business_address }}
+  </p>
+  <p>
+    <strong>Is Verified:</strong> {{ homeowner.user.is_verified }}
+  </p>
+  <p>
+    <strong>Username:</strong> {{ homeowner.user.username }}
+  </p>
 {% endblock %}

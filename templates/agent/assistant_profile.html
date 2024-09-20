@@ -2,5 +2,31 @@
 
 {% block content %}
   <h1>Assistant Profile</h1>
-  <p><strong>Email:</strong> {{ assistant.user.email }}</p>
+  <p>
+    <strong>Name:</strong> {{ assistant.user.name }}
+  </p>
+  <p>
+    <strong>Email:</strong> {{ assistant.user.email }}
+  </p>
+  <p>
+    <strong>Role:</strong> {{ assistant.user.get_role_display }}
+  </p>
+  <p>
+    <strong>Phone:</strong> {{ assistant.user.phone }}
+  </p>
+  <p>
+    <strong>Company:</strong> {{ assistant.user.company }}
+  </p>
+  <p>
+    <strong>State:</strong> {{ assistant.user.state }}
+  </p>
+  <p>
+    <strong>Business Address:</strong> {{ assistant.user.business_address }}
+  </p>
+  <p>
+    <strong>Is Verified:</strong> {{ assistant.user.is_verified }}
+  </p>
+  <p>
+    <strong>Username:</strong> {{ assistant.user.username }}
+  </p>
 {% endblock %}
