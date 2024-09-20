@@ -3,6 +3,8 @@ from users.models import Agent , Homeowner , Assistant
 from .models import Property , ConnectionRequest
 from django.contrib import messages
 from .forms import PropertyForm
+from django.core.mail import send_mail
+from django.conf import settings
 
 # to create properties
 def property_create(request):
@@ -77,6 +79,10 @@ def property_approve(request, property_id):
         property_obj.approval_status = True
         property_obj.assistant = agent.assistant
         property_obj.save()
+        homeowner_email = property_obj.homeowner.user.email
+        subject = 'Your Property has been Approved'
+        message = f"Dear {property_obj.homeowner.user.name},\n\nYour property '{property_obj.address}' has been approved successfully!\n\nBest regards,\nThe Team"
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [homeowner_email])
         messages.success(request, "Property approved successfully.")
         return redirect('properties_tobe_approved')
     return render(request, 'properties/property_approve_confirm.html', {'property': property_obj})
@@ -116,21 +122,24 @@ def property_approve_by_assistant(request, property_id):
     if request.user.role == 'Assistant':
         try:
             assistant_profile = Assistant.objects.get(user=request.user)
-            agent_profile = Agent.objects.get(assistant=assistant_profile)
+            property_obj = get_object_or_404(Property, id=property_id)
+            agent_profile = property_obj.agent
+            if agent_profile.assistant != assistant_profile:
+                messages.error(request, 'You do not have permission to approve this property.')
+                return redirect('home')
         except Assistant.DoesNotExist:
             messages.error(request, 'You need to be an assistant to approve properties.')
             return redirect('home')
-        except Agent.DoesNotExist:
-            messages.error(request, 'You must be assigned to an agent to approve properties.')
-            return redirect('home')
-
-        property_obj = get_object_or_404(Property, id=property_id, agent=agent_profile)
     else:
         messages.error(request, "You do not have permission to approve this property.")
         return redirect('home')
     if request.method == 'POST':
         property_obj.approval_status = True
         property_obj.save()
+        homeowner_email = property_obj.homeowner.user.email
+        subject = 'Your Property has been Approved'
+        message = f"Dear {property_obj.homeowner.user.name},\n\nYour property '{property_obj.address}' has been approved successfully!\n\nBest regards,\nThe Team"
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [homeowner_email])
         messages.success(request, "Property approved successfully on behalf of the agent.")
         return redirect('properties_to_be_approved_by_assistant')
     return render(request, 'properties/property_approve_confirm.html', {'property': property_obj})
