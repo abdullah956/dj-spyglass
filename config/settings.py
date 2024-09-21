@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'properties',
     'homeowner',
     'assistant',
+    'subscriptions',
 ]
 
 MIDDLEWARE = [

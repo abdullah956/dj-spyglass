@@ -10,6 +10,7 @@ urlpatterns = [
     path('agent/',include('agent.urls')),
     path('assistant/',include('assistant.urls')),
     path('properties/',include('properties.urls')),
+    path('subscriptions/',include('subscriptions.urls')),
 ]
 
 if settings.DEBUG:
