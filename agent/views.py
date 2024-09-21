@@ -12,7 +12,31 @@ from subscriptions.models import Subscription
 def dashboard_view(request):
     subscription = Subscription.objects.filter(user=request.user, is_active=True).first()
     if subscription:
-        return render(request, 'agent/dashboard.html')
+        context = {}
+        if request.user.role == 'Agent':
+            agent = Agent.objects.filter(user=request.user).first()
+            if agent:
+                homeowner = agent.homeowner
+                assistant = agent.assistant
+                properties = Property.objects.filter(agent=agent)
+                context = {
+                    'user_role': 'Agent',
+                    'homeowner': homeowner,
+                    'assistant' : assistant,
+                    'properties_count': properties.count(),
+                }
+        
+        elif request.user.role == 'Assistant':
+            assistant = Assistant.objects.filter(user=request.user).first()
+            if assistant:
+                connected_agents = Agent.objects.filter(assistant=assistant)
+                properties_count = sum(Property.objects.filter(agent=agent).count() for agent in connected_agents)
+                context = {
+                    'user_role': 'Assistant',
+                    'connected_agents': connected_agents,
+                    'properties_count': properties_count,
+                }
+        return render(request, 'agent/dashboard_landing_agent_assistant.html', context)
     else:
         messages.error(request, "Please buy a subscription to access the dashboard.")
         return redirect('home')

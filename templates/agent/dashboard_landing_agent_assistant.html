@@ -1,0 +1,24 @@
+{% extends 'agent/dashboard.html' %}
+
+{% block content %}
+  <h1>Dashboard</h1>
+
+  {% if user_role == 'Agent' %}
+    <h2>Connected Homeowner: {{ homeowner.user.email }}</h2>
+    <h2>Connected Assistant: {{ assistant.user.email }}</h2>
+    <p>You have {{ properties_count }} properties listed.</p>
+
+  {% elif user_role == 'Assistant' %}
+    <h2>Connected Agents:</h2>
+    <ul>
+      {% for agent in connected_agents %}
+        <li>{{ agent.user.email }}</li>
+      {% endfor %}
+    </ul>
+    <p>Total Properties Managed: {{ properties_count }}</p>
+
+  {% else %}
+    <h2>Your Properties:</h2>
+    <p>You have {{ properties_count }} properties listed.</p>
+  {% endif %}
+{% endblock %}

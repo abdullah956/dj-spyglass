@@ -123,3 +123,8 @@ def subscription_success(request, subscription_id):
 def subscription_cancel(request):
     messages.error(request, 'Subscription canceled. Please try again.')
     return redirect('home')
+
+# for payment history
+def payment_history(request):
+    subscriptions = Subscription.objects.filter(user=request.user)
+    return render(request, 'subscriptions/payment_history.html', {'subscriptions': subscriptions})
