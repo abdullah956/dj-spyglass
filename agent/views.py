@@ -6,12 +6,16 @@ from properties.models import Property
 from django.contrib import messages
 from users.models import User , Homeowner
 from django.db.models import Count, Q
-
+from subscriptions.models import Subscription
 
 # for dashbaord
 def dashboard_view(request):
-    return render(request, 'agent/dashboard.html')
-
+    subscription = Subscription.objects.filter(user=request.user, is_active=True).first()
+    if subscription:
+        return render(request, 'agent/dashboard.html')
+    else:
+        messages.error(request, "Please buy a subscription to access the dashboard.")
+        return redirect('home')
 
 # to see all avaible homeowners
 def all_homeowners(request):
