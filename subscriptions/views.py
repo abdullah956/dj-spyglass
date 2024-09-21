@@ -8,6 +8,7 @@ from .models import Subscription
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
+from django.core.mail import send_mail
 
 stripe.api_key = settings.STRIPE_LIVE_SECRET_KEY
 
@@ -116,11 +117,28 @@ def subscription_success(request, subscription_id):
     subscription.payment_successful = True
     subscription.is_active = True
     subscription.save()
+    send_mail(
+        'Subscription Activated',
+        f'Your subscription has been activated successfully!\n'
+        f'Type: {subscription.subscription_type.capitalize()}\n'
+        f'Start Date: {start_date.strftime("%Y-%m-%d %H:%M:%S")}\n'
+        f'End Date: {end_date.strftime("%Y-%m-%d %H:%M:%S")}',
+        settings.DEFAULT_FROM_EMAIL,  
+        [request.user.email],
+        fail_silently=False,
+    )
     messages.success(request, 'Subscription activated successfully!')
     return redirect('home')
 
 # if subscription failed
 def subscription_cancel(request):
+    send_mail(
+        'Subscription Canceled',
+        'Your subscription has been canceled. If this was a mistake, please contact support.',
+        settings.DEFAULT_FROM_EMAIL,
+        [request.user.email],
+        fail_silently=False,
+    )
     messages.error(request, 'Subscription canceled. Please try again.')
     return redirect('home')
 
