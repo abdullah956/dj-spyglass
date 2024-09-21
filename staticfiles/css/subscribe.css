@@ -1,0 +1,77 @@
+
+body {
+    background: radial-gradient(circle at top right, #e0c4f6 30%, #bc7fcd 30%);
+    font-family: "Poppins", sans-serif;
+  }
+  .form-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    width: 80%;
+  }
+  .form-container h2 {
+    margin-bottom: 20px;
+    color: #7b2cbf;
+  }
+  .form-container .btn-primary {
+    background-color: #7b2cbf;
+    border-color: #7b2cbf;
+  }
+  
+  .form-group {
+    margin-top: 3%;
+    height: 50px;
+  }
+  .form-group {
+    position: relative;
+  }
+  
+  .form-group input,
+  select {
+    height: 100%;
+  }
+  
+  .ellipse-17 {
+    border-radius: 34.5px;
+    background: linear-gradient(180deg, #86469c, rgba(188, 127, 205, 0));
+    transform: rotate(30deg);
+    width: 69px;
+    height: 69px;
+  }
+  
+  .image-container {
+    margin-top: 40px;
+    padding: 30px;
+    text-align: center;
+    background: url("/images/subscribe.png") no-repeat center center;
+    background-size: cover;
+    height: 100vh; /* Adjust this height value as needed */
+    border: 1px solid #ddd;
+    border-radius: 20px;
+  }
+  
+  .separator {
+    border-top: 2px solid #7b2cbf; /* Purple color */
+    margin: 20px auto;
+    width: 70%;
+  }
+  
+  .btn-primary {
+    margin: 20px auto;
+    width: 220px;
+    border-radius: 70px;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .toggle-password i {
+    color: #7b2cbf;
+    font-size: 18px;
+  }
+  
