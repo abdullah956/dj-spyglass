@@ -26,6 +26,16 @@
       .alert-container .alert {
         margin-top: 10px; /* Additional styling for alerts */
       }
+      .btn-purple{
+        
+        background-color: purple;
+        padding: 5px 10px;
+        color: white;
+      }
+
+      a{
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
@@ -33,6 +43,8 @@
       <h2 class="text-center mb-4" style="color: blueviolet">
         All Agents Available
       </h2>
+
+      <a href="{% url 'home' %}" class="btn btn-purple mx-4 mb-4">Back to Home</a>
       {% if messages %}
       <div class="alert-container">
         {% for message in messages %}
@@ -46,27 +58,28 @@
         {% endfor %}
       </div>
       {% endif %}
-    </div>
-  <ul>
+      <ul class="">
     {% for request in requests %}
-      <li>
+      <li class="d-flex mb-4">
         Request from {{ request.sender }} to {{ request.receiver }} - 
         Status: 
-        <form method="post" action="{% url 'agent_invites_for_assistant' %}">
+        <form method="post" action="{% url 'agent_invites_for_assistant' %}"  >
                 {% csrf_token %}
                 <input type="hidden" name="request_id" value="{{ request.id }}">
-                <select name="status">
+                <select name="status" class="mx-2" >
                     {% for key, value in request.STATUS_CHOICES %}
                         <option value="{{ key }}" {% if request.status == key %}selected{% endif %}>{{ value }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="btn btn-primary btn-md mx-3">Update</button>
+                <button type="submit" class="btn btn-purple btn-sm mx-3">Update</button>
             </form>
       </li>
     {% empty %}
       <li>No connection requests found.</li>
     {% endfor %}
   </ul>
+    </div>
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap JS and dependencies -->

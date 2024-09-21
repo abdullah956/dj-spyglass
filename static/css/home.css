@@ -371,7 +371,7 @@ footer {
 /* Banner Section */
 .banner-section {
     position: relative;
-    background-image: url("/images/register.png"); /* Replace with your actual background image */
+     /* Replace with your actual background image */
     background-size: cover;
     background-position: center;
     height: 300px;
