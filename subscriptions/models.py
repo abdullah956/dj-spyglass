@@ -2,8 +2,9 @@ from django.db import models
 from users.models import User
 from datetime import timedelta
 from django.utils import timezone
+from config.models import BasedModel
 
-class Subscription(models.Model):
+class Subscription(BasedModel):
     SUBSCRIPTION_TYPES = (
         ('monthly', 'Monthly'),
         ('yearly', 'Yearly'),
@@ -14,6 +15,7 @@ class Subscription(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
+    payment_successful = models.BooleanField(default=False)
     def save(self, *args, **kwargs):
         if not self.end_date:
             if self.subscription_type == 'monthly':
@@ -26,4 +28,4 @@ class Subscription(models.Model):
         if timezone.now() > self.end_date:
             self.is_active = False
     def __str__(self):
-        return f"{self.user.username} - {self.subscription_type}"
+        return f"{self.user.email} - {self.subscription_type}"

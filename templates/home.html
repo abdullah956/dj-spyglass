@@ -161,7 +161,7 @@
 
           <!-- Join Now Button -->
           {% if not user.is_authenticated %}
-            <a href="{% url 'register'%}" class="join-now-btn">Join Now</a>
+            <a href="{% url 'register' %}" class="join-now-btn">Join Now</a>
           {% endif %}
         </div>
 
@@ -191,7 +191,7 @@
       <div class="banner-overlay"></div>
       <div class="banner-content">
         <h2>Unlock privileged access to property documents<br />and connect with industry experts.</h2>
-        <a href="{% url 'listed_properties'%}" class="btn-view-properties">View Properties</a>
+        <a href="{% url 'listed_properties' %}" class="btn-view-properties">View Properties</a>
       </div>
     </div>
 
@@ -205,7 +205,7 @@
 
       <!-- Right Side: Button -->
       <div>
-        <a href="{% url 'listed_properties'%}" class="btn-view-all">View All</a>
+        <a href="{% url 'listed_properties' %}" class="btn-view-all">View All</a>
       </div>
     </div>
 
@@ -310,90 +310,173 @@
       </div>
     </div>
 
-    <!-- Pricing Plans Section -->
-    <div class="pricing-section">
-      <h4>Find Perfect Plan</h4>
-      <h2>Pricing Plans</h2>
-
-      <div class="container">
-        <div class="row">
-          <!-- Free Plan -->
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="pricing-card">
-              <div class="pricing-icon">
-                <i class="fas fa-rocket"></i> <!-- Free Plan Icon -->
+    {% if user.is_authenticated and user.role == 'Assistant' %}
+      <!-- Pricing Plans Section -->
+      <div class="pricing-section">
+        <h4>Find Perfect Plan</h4>
+        <h2>Pricing Plans</h2>
+        <div class="container">
+          <div class="row">
+            <!-- Free Plan -->
+            {% comment %} <div class="col-lg-4 col-md-6 mb-4">
+              <div class="pricing-card">
+                <div class="pricing-icon">
+                  <i class="fas fa-rocket"></i> <!-- Free Plan Icon -->
+                </div>
+                <h3>Free</h3>
+                <p>Get started with basic features</p>
+                <h1>$0</h1>
+                <p>per month</p>
+                <ul class="pricing-features">
+                  <li>
+                    <i class="fas fa-check"></i> Feature 1
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 2
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 3
+                  </li>
+                </ul>
+                <a href="#" class="btn-pricing">Get Started</a>
               </div>
-              <h3>Free</h3>
-              <p>Get started with basic features</p>
-              <h1>$0</h1>
-              <p>per month</p>
-              <ul class="pricing-features">
-                <li>
-                  <i class="fas fa-check"></i> Feature 1
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Feature 2
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Feature 3
-                </li>
-              </ul>
-              <a href="#" class="btn-pricing">Get Started</a>
+            </div> {% endcomment %}
+            <!-- Monthly Plan (Featured) -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="pricing-card featured">
+                <div class="pricing-icon">
+                  <i class="fas fa-gem"></i> <!-- Monthly Plan Icon -->
+                </div>
+                <h3>Monthly Subscription</h3>
+                <p>Unlock advanced features and benefits</p>
+                <h1>$2</h1>
+                <p>per month</p>
+                <ul class="pricing-features">
+                  <li>
+                    <i class="fas fa-check"></i> Feature 1
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 2
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 3
+                  </li>
+                </ul>
+                <a href="{% url 'subscribe_assistant' 'monthly' %}" class="btn-pricing">Subscribe Now</a>
+              </div>
             </div>
-          </div>
-
-          <!-- Monthly Plan (Featured) -->
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="pricing-card featured">
-              <div class="pricing-icon">
-                <i class="fas fa-gem"></i> <!-- Monthly Plan Icon -->
+            <!-- Yearly Plan -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="pricing-card">
+                <div class="pricing-icon">
+                  <i class="fas fa-fire"></i> <!-- Yearly Plan Icon -->
+                </div>
+                <h3>Yearly Subscription</h3>
+                <p>Save 20% with annual billing</p>
+                <h1>$20</h1>
+                <p>per year</p>
+                <ul class="pricing-features">
+                  <li>
+                    <i class="fas fa-check"></i> Feature 1
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 2
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 3
+                  </li>
+                </ul>
+                <a href="{% url 'subscribe_assistant' 'yearly' %}" class="btn-pricing">Subscribe Now</a>
               </div>
-              <h3>Monthly Subscription</h3>
-              <p>Unlock advanced features and benefits</p>
-              <h1>$49</h1>
-              <p>per month</p>
-              <ul class="pricing-features">
-                <li>
-                  <i class="fas fa-check"></i> Feature 1
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Feature 2
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Feature 3
-                </li>
-              </ul>
-              <a href="#" class="btn-pricing">Subscribe Now</a>
-            </div>
-          </div>
-
-          <!-- Yearly Plan -->
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="pricing-card">
-              <div class="pricing-icon">
-                <i class="fas fa-fire"></i> <!-- Yearly Plan Icon -->
-              </div>
-              <h3>Yearly Subscription</h3>
-              <p>Save 20% with annual billing</p>
-              <h1>$499</h1>
-              <p>per year</p>
-              <ul class="pricing-features">
-                <li>
-                  <i class="fas fa-check"></i> Feature 1
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Feature 2
-                </li>
-                <li>
-                  <i class="fas fa-check"></i> Feature 3
-                </li>
-              </ul>
-              <a href="#" class="btn-pricing">Subscribe Now</a>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    {% endif %}
+
+    {% if user.is_authenticated and user.role == 'Agent' %}
+      <!-- Pricing Plans Section -->
+      <div class="pricing-section">
+        <h4>Find Perfect Plan</h4>
+        <h2>Pricing Plans</h2>
+        <div class="container">
+          <div class="row">
+            <!-- Free Plan -->
+            {% comment %} <div class="col-lg-4 col-md-6 mb-4">
+              <div class="pricing-card">
+                <div class="pricing-icon">
+                  <i class="fas fa-rocket"></i> <!-- Free Plan Icon -->
+                </div>
+                <h3>Free</h3>
+                <p>Get started with basic features</p>
+                <h1>$0</h1>
+                <p>per month</p>
+                <ul class="pricing-features">
+                  <li>
+                    <i class="fas fa-check"></i> Feature 1
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 2
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 3
+                  </li>
+                </ul>
+                <a href="#" class="btn-pricing">Get Started</a>
+              </div>
+            </div> {% endcomment %}
+            <!-- Monthly Plan (Featured) -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="pricing-card featured">
+                <div class="pricing-icon">
+                  <i class="fas fa-gem"></i> <!-- Monthly Plan Icon -->
+                </div>
+                <h3>Monthly Subscription</h3>
+                <p>Unlock advanced features and benefits</p>
+                <h1>$10</h1>
+                <p>per month</p>
+                <ul class="pricing-features">
+                  <li>
+                    <i class="fas fa-check"></i> Feature 1
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 2
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 3
+                  </li>
+                </ul>
+                <a href="{% url 'subscribe_agent' 'monthly' %}" class="btn-pricing">Subscribe Now</a>
+              </div>
+            </div>
+            <!-- Yearly Plan -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="pricing-card">
+                <div class="pricing-icon">
+                  <i class="fas fa-fire"></i> <!-- Yearly Plan Icon -->
+                </div>
+                <h3>Yearly Subscription</h3>
+                <p>Save 20% with annual billing</p>
+                <h1>$100</h1>
+                <p>per year</p>
+                <ul class="pricing-features">
+                  <li>
+                    <i class="fas fa-check"></i> Feature 1
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 2
+                  </li>
+                  <li>
+                    <i class="fas fa-check"></i> Feature 3
+                  </li>
+                </ul>
+                <a href="{% url 'subscribe_agent' 'yearly' %}" class="btn-pricing">Subscribe Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
 
     <div class="container testimonial-section">
       <div class="testimonial-text">
@@ -454,25 +537,25 @@
       </div>
     </div>
     {% if not user.is_authenticated %}
-    <div class="container">
-      <div class="get-started-section">
-        <!-- Left Side: Person Image -->
-        <div class="get-started-image">
-          <img src="{% static 'images/home-man.png' %}" alt="Person Image" />
-        </div>
+      <div class="container">
+        <div class="get-started-section">
+          <!-- Left Side: Person Image -->
+          <div class="get-started-image">
+            <img src="{% static 'images/home-man.png' %}" alt="Person Image" />
+          </div>
 
-        <!-- Middle: Text Content -->
-        <div class="get-started-content">
-          <h2>Get Started Today</h2>
-          <p>Join Spyglass and take the first step towards achieving your real estate dreams. Sign up now and experience the future of real estate transactions.</p>
-        </div>
+          <!-- Middle: Text Content -->
+          <div class="get-started-content">
+            <h2>Get Started Today</h2>
+            <p>Join Spyglass and take the first step towards achieving your real estate dreams. Sign up now and experience the future of real estate transactions.</p>
+          </div>
 
-        <!-- Right Side: Button -->
-        <div class="get-started-button-container">
-          <a href="/register" class="get-started-button">Register Now</a>
+          <!-- Right Side: Button -->
+          <div class="get-started-button-container">
+            <a href="/register" class="get-started-button">Register Now</a>
+          </div>
         </div>
       </div>
-    </div>
     {% endif %}
     <footer class="footer mt-5">
       <div class="container">
