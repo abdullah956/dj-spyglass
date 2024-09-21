@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import download_contacts_excel,contact_list,download_subscribers,subscribers_list,admin_dashboard,edit_profile, newsletter_view,contact_view,home_view , register_view , login_view , logout_view , verify_otp, password_reset_request, verify_otp_for_password_reset, password_change
+from .views import download_subscriptions_excel,all_subscriptions_view,download_contacts_excel,contact_list,download_subscribers,subscribers_list,admin_dashboard,edit_profile, newsletter_view,contact_view,home_view , register_view , login_view , logout_view , verify_otp, password_reset_request, verify_otp_for_password_reset, password_change
 urlpatterns = [
     # for home 
     path('', home_view, name='home'),
@@ -33,4 +33,8 @@ urlpatterns = [
     path('contacts/', contact_list, name='contact_list'),
     # contact downlodd
     path('contacts/download/', download_contacts_excel, name='download_contacts_excel'),
+    # all subscriptions
+    path('all-subscriptions/', all_subscriptions_view, name='all_subscriptions'),
+    # downlaad subscriptions
+    path('subscriptions/download/', download_subscriptions_excel, name='download_subscriptions_excel'),
 ]

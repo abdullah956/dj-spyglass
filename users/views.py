@@ -11,6 +11,8 @@ from .models import Agent, Homeowner, Assistant, User , Contact , NewsletterSubs
 from .forms import CustomUserCreationForm , UserEditForm
 from openpyxl import Workbook
 from django.http import HttpResponse
+from subscriptions.models import Subscription
+import pytz
 
 # for home 
 def home_view(request):
@@ -255,5 +257,38 @@ def download_contacts_excel(request):
         worksheet.append([contact.name, contact.email, contact.address])
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="contacts.xlsx"'
+    workbook.save(response)
+    return response
+
+
+# all subscriptions view
+def all_subscriptions_view(request):
+    subscriptions = Subscription.objects.all()
+    return render(request, 'users/all_subscriptions.html', {'subscriptions': subscriptions})
+
+#download subscription
+def download_subscriptions_excel(request):
+    subscriptions = Subscription.objects.all()
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.title = 'Subscriptions'
+    headers = ['User', 'Subscription Type', 'Active', 'Amount', 'Start Date', 'End Date', 'Payment Successful']
+    worksheet.append(headers)
+
+    for subscription in subscriptions:
+        start_date = subscription.start_date.astimezone(pytz.UTC).isoformat()
+        end_date = subscription.end_date.astimezone(pytz.UTC).isoformat()
+        worksheet.append([
+            subscription.user.email,
+            subscription.subscription_type,
+            subscription.is_active,
+            subscription.amount,
+            start_date,
+            end_date,
+            subscription.payment_successful
+        ])
+    
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="subscriptions.xlsx"'
     workbook.save(response)
     return response

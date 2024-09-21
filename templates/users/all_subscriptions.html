@@ -1,0 +1,32 @@
+{% extends 'users/admin_dashboard.html' %}
+
+{% block content %}
+  <h1>All Subscriptions</h1>
+  <a href="{% url 'download_subscriptions_excel' %}" class="btn btn-success">Download as Excel</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Subscription Type</th>
+        <th>Active</th>
+        <th>Amount</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Payment Successful</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subscription in subscriptions %}
+        <tr>
+          <td>{{ subscription.user.email }}</td>
+          <td>{{ subscription.subscription_type }}</td>
+          <td>{{ subscription.is_active }}</td>
+          <td>${{ subscription.amount }}</td>
+          <td>{{ subscription.start_date }}</td>
+          <td>{{ subscription.end_date }}</td>
+          <td>{{ subscription.payment_successful }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
