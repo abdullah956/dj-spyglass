@@ -52,6 +52,8 @@ body{
     border-bottom-right-radius: 100% 130vh;
 }
 
+
+
 .carousel-container {
     width:380px;
     border-radius: 15px;
@@ -95,16 +97,62 @@ body{
         margin-bottom: 20px;
     }
 }
+
+@media (max-width: 512px) {
+    .contact-content h1{
+        font-size: 25px;
+    }
+    
+}
+
+@media (max-width: 330px) {
+    .contact-content h1{
+        font-size: 20px;
+    }
+    
+}
+
+.ellipse-14 {
+    border-radius: 34.5px;
+    background: linear-gradient(180deg, hsl(285, 100%, 95%), rgba(188, 127, 205, 0));
+    transform: rotate(10deg);
+    width: 39px;
+    height: 39px;
+    position: absolute;
+    right: 50px;
+    /* margin-top: -25px; */
+    /* right: 10px; */
+    /* top: 50%;  */
+    
+    /* transform: translateY(-50%) rotate(30deg);  */
+}
+
+
+.ellipse-15 {
+    border-radius: 34.5px;
+    background: linear-gradient(180deg, #f0c1ff, rgba(188, 127, 205, 0));
+    transform: rotate(30deg);
+    width: 39px;
+    height: 39px;
+    position: absolute;
+    margin-top: -25px;
+    /* right: 10px; */
+    /* top: 50%;  */
+    
+    /* transform: translateY(-50%) rotate(30deg);  */
+}
+
 .ellipse-16 {
     border-radius: 34.5px;
     background: linear-gradient(180deg, #86469c, rgba(188, 127, 205, 0));
     transform: rotate(30deg);
     width: 39px;
     height: 39px;
-    position: absolute;
-    right: 10px; /* Adjust this value to move the element inward from the right edge */
-    top: 50%; /* Center vertically within its container */
-    transform: translateY(-50%) rotate(30deg); /* Center vertically and rotate */
+    /* position: absolute; */
+    right: 10px;
+    /* top: 50%;  */
+    
+    /* transform: translateY(-50%) rotate(30deg);  */
 }
 .ellipse-17 {
     border-radius: 34.5px;
@@ -174,7 +222,7 @@ body{
     }
 }
 .stylish-search {
-    margin-top: 20px;
+    margin-top: -100px;
     /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  */
     box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
     display: flex;
@@ -183,6 +231,7 @@ body{
     border-radius: 15px; /* Rounded corners for the search container */
     position: relative;
     padding-right: 60px; 
+    background-color: white;
 }
 
 .stylish-search .form-control {
@@ -247,25 +296,34 @@ footer{
 .footer-links a:hover {
     text-decoration: underline;
 }
+
+
+.footer-button{
+    background-color: white;
+    width: 265px;
+    padding: 5px;
+    border-radius: 50px;
+}
+
+
 .footer-subscribe input {
     border-radius: 20px 0 0 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     padding: 10px;
-    width: calc(100% - 80px);
-    /* display: inline-block; */
+    display: inline-block;
     max-width: 200px;
 }
 .footer-subscribe button {
-    border-radius: 0 20px 20px 0;
+    border-radius: 25px;
     border: none;
     background-color: purple;
     color: white;
-    padding: 10px;
+    padding: 10px 15px;
     cursor: pointer;
     display: inline-block;
 }
 .footer-subscribe button i {
-    margin-left: 5px;
+    margin-left: 0px;
 }
 .social-icons a {
     color:  purple;
@@ -276,11 +334,18 @@ footer{
     color: purple;
 }
 @media (max-width: 768px) {
+    
+
     .footer-subscribe input {
-        width: calc(100% - 60px);
+        
+        max-width: 140px;
     }
-    .footer-subscribe button {
-        width: 60px;
+
+    .footer-button{
+        
+        width: 205px;
+        padding: 5px;
+       
     }
 }
 .property-section {
@@ -306,11 +371,12 @@ footer{
 .subscribe-btn-container {
     background-color: #86469c; /* Purple background */
     color: white;
-    border-radius: 40px;
-    padding: 15px 40px;
+    border-radius: 30px;
+    padding: 25px 60px;
     display: inline-block;
     text-align: center;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    width: 100%;
 }
 
 .subscribe-btn-container p {
@@ -324,7 +390,7 @@ footer{
     color: #86469c;
     border: none;
     border-radius: 20px;
-    padding: 8px 20px;
+    padding: 5px 20px;
     font-weight: 600;
     margin-top: 15px;
     cursor: pointer;

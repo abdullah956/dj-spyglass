@@ -11,6 +11,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/home.css' %}" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
+    
   </head>
 
   <body>
@@ -108,12 +111,18 @@
                   <img src="{% static 'images/register.png' %}" alt="Image 3" />
                 </div>
               </div>
+              <ol class="carousel-indicators">
+                <li data-target="#carouselExample" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExample" data-slide-to="1"></li>
+                <li data-target="#carouselExample" data-slide-to="2"></li>
+              </ol>
+            
               <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="fa fa-chevron-left" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
               </a>
               <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="fa fa-chevron-right" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
               </a>
             </div>
@@ -122,7 +131,14 @@
       </div>
     </div>
 
-    <div class="ellipse-17"></div>
+    <div class="container d-flex justify-content-between">
+      <div class="ellipse-17"></div>
+    <!-- <div class="ellipse-16"></div> -->
+    <div class="ellipse-16 mt-5"></div>
+
+    </div>
+
+    
 
     <div class="container section-container">
       <div class="row">
@@ -135,6 +151,7 @@
           <!-- Feature 1 -->
           <div class="feature-card">
             <i class="fas fa-file-alt feature-icon"></i>
+             <!-- <img src="{% static 'images/icon1.png' %}" class="feature-icon" alt=""> -->
             <div>
               <h5 class="feature-title">Exclusive Property Documents</h5>
               <p class="feature-description">Access essential documents like floor plans, legal agreements, and market insights to gain a competitive edge.</p>
@@ -144,6 +161,7 @@
           <!-- Feature 2 -->
           <div class="feature-card">
             <i class="fas fa-users feature-icon"></i>
+             <!-- <img src="{% static 'images/icon2.png' %}" class="feature-icon" alt=""> -->
             <div>
               <h5 class="feature-title">Network with Professionals</h5>
               <p class="feature-description">Connect with agents, builders, and experts. Share knowledge and build partnerships to enhance your success.</p>
@@ -153,6 +171,7 @@
           <!-- Feature 3 -->
           <div class="feature-card">
             <i class="fas fa-chart-line feature-icon"></i>
+             <!-- <img src="{% static 'images/icon3.png' %}" class="feature-icon" alt=""> -->
             <div>
               <h5 class="feature-title">Stay Market Savvy</h5>
               <p class="feature-description">Stay informed on market trends and investment opportunities. Make data-driven decisions to stay ahead.</p>
@@ -192,7 +211,7 @@
       <div class="banner-overlay"></div>
       <div class="banner-content">
         <h2>Unlock privileged access to property documents<br />and connect with industry experts.</h2>
-        <a href="{% url 'listed_properties' %}" class="btn-view-properties">View Properties</a>
+        <a href="{% url 'listed_properties' %}" class="btn-view-properties mt-5">View Properties</a>
       </div>
     </div>
 
@@ -212,9 +231,12 @@
 
     {% load static %}
     <div class="container card-container">
-      <div class="row">
-        <!-- Property Card 1 -->
-        <div class="col-md-4">
+      <div class="row ">
+
+        <div class="container slick-carousel">
+
+           <!-- Property Card 1 -->
+        <div class="col-md-4 col-sm-6">
           <div class="property-card">
             <img src="{% static 'images/login.png' %}" alt="Property Image" />
             <div class="property-info">
@@ -233,7 +255,7 @@
         </div>
 
         <!-- Property Card 2 -->
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6">
           <div class="property-card">
             <img src="{% static 'images/login.png' %}" alt="Property Image" />
             <div class="property-info">
@@ -252,7 +274,7 @@
         </div>
 
         <!-- Property Card 3 -->
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6">
           <div class="property-card">
             <img src="{% static 'images/login.png' %}" alt="Property Image" />
             <div class="property-info">
@@ -269,6 +291,28 @@
             </div>
           </div>
         </div>
+      
+
+        <div class="col-md-4 col-sm-6">
+          <div class="property-card">
+            <img src="{% static 'images/login.png' %}" alt="Property Image" />
+            <div class="property-info">
+              <p class="property-price">$568999.00</p>
+              <span class="float-right email-btn"><i class="fas fa-envelope"></i> Email</span>
+              <p class="property-concession">Concession: 1.00%</p>
+              <p class="property-location">21315 N 61st St, Phoenix, 85054</p>
+              <p class="property-details">
+                <i class="fas fa-bed property-icons"></i> 4 Beds
+                <span class="mx-2"></span>
+                <i class="fas fa-bath property-icons"></i> 3 Bath
+              </p>
+              <a href="#" class="property-doc-btn">Property Document <i class="fas fa-cloud-download-alt"></i></a>
+            </div>
+          </div>
+        </div>
+
+        </div>
+       
       </div>
     </div>
 
@@ -284,7 +328,8 @@
           <!-- Feature Card 1 -->
           <div class="col-lg-4 col-md-4 mb-4">
             <div class="featured-card">
-              <i class="fas fa-file-alt"></i>
+              <!-- <i class="fas fa-file-alt"></i> -->
+               <img src="{% static 'images/icon1.png' %}" alt="">
               <h5>Access Property Documents</h5>
               <p>Gain exclusive access to a wide range of property documents, including floor plans, legal agreements, and market insights.</p>
             </div>
@@ -293,7 +338,8 @@
           <!-- Feature Card 2 -->
           <div class="col-lg-4 col-md-4 mb-4">
             <div class="featured-card">
-              <i class="fas fa-users"></i>
+              <!-- <i class="fas fa-users"></i> -->
+               <img src="{% static 'images/icon2.png' %}" alt="">
               <h5>Connect with Professionals</h5>
               <p>Join our vibrant community of agents, builders, and real estate experts. Collaborate, share knowledge, and forge valuable partnerships.</p>
             </div>
@@ -302,7 +348,8 @@
           <!-- Feature Card 3 -->
           <div class="col-lg-4 col-md-4 mb-4">
             <div class="featured-card">
-              <i class="fas fa-chart-line"></i>
+              <!-- <i class="fas fa-chart-line"></i> -->
+               <img src="{% static 'images/icon3.png' %}" alt="">
               <h5>Stay Market-Informed</h5>
               <p>Stay up-to-date with the latest market trends, investment opportunities, and industry best practices to make informed decisions.</p>
             </div>
@@ -487,8 +534,8 @@
 
         <!-- Slider Controls Positioned Below the Text -->
         <div class="slider-controls">
-          <div class="slider-control-prev" onclick="prevTestimonial()">&#10094;</div>
-          <div class="slider-control-next" onclick="nextTestimonial()">&#10095;</div>
+          <div class="slider-control-prev" onclick="prevTestimonial()"><i class="fa fa-arrow-left"></i></div>
+          <div class="slider-control-next" onclick="nextTestimonial()"><i class="fa fa-arrow-right"></i></div>
         </div>
       </div>
 
@@ -499,7 +546,7 @@
           <span class="testimonial-quote">“</span>
           <p class="testimonial-content">Spyglass made the home-buying process incredibly smooth and stress-free. The access to essential property documents and connection to reliable real estate agents helped me find my dream home without any hassle.</p>
           <div class="testimonial-author">
-            <img src="https://via.placeholder.com/50" alt="Author Image" />
+            <img src="{% static 'images/profile1.png' %}" style="width: 50px;" alt="Author Image" />
             <div>
               <p>
                 <strong>Emily S.</strong>
@@ -519,7 +566,7 @@
           <span class="testimonial-quote">“</span>
           <p class="testimonial-content">Spyglass made the entire process of buying and selling property so much easier. The platform is efficient, and I highly recommend it for anyone in the market.</p>
           <div class="testimonial-author">
-            <img src="https://via.placeholder.com/50" alt="Author Image" />
+            <img src="{% static 'images/profile1.png' %}" style="width: 50px;" alt="Author Image" />
             <div>
               <p>
                 <strong>John D.</strong>
@@ -591,8 +638,12 @@
           <div class="col-md-4">
             <div class="footer-subscribe">
               <p>Subscribe to our Newsletter!</p>
-              <input type="email" placeholder="Email address" />
+              <div class="footer-button">
+                <input type="email" placeholder="Email address" />
               <button><i class="fas fa-arrow-right"></i></button>
+
+              </div>
+              
             </div>
             <div class="social-icons">
               <h5>Follow Us On</h5>
@@ -625,6 +676,44 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('.slick-carousel').slick({
+            infinite: true,
+            slidesToShow: 3,  // Default setting for larger screens
+            slidesToScroll: 1,
+            arrows: true,
+            // prevArrow: '<button type="button" class="slick-prev" style="background: #00c7d7; border-radius: 50%;"></button>',
+            // nextArrow: '<button type="button" class="slick-next" style="background: #00c7d7; border-radius: 50%;"></button>',
+            autoplay: true,  // Prevents auto-scrolling
+            responsive: [
+                {
+                    breakpoint: 1024,  // Devices less than 1024px wide
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 800,  // Devices less than 1024px wide
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 600,  // Devices less than 600px wide
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    });
+    
+    </script>
     
 
  

@@ -52,11 +52,11 @@ body {
     border-bottom-right-radius: 100% 130vh;
 }
 
-/* .contact-content {
+.contact-content {
     max-width: 100%; 
-} */
+}
 
-.carousel-container {
+/* .carousel-container {
     width: 350px;
     border-radius: 15px;
 }
@@ -86,7 +86,73 @@ body {
 
 .carousel-control-next-icon {
     background-image: url("https://img.icons8.com/ios-glyphs/30/grey/chevron-right.png");
+} */
+
+.carousel-container {
+    /* position: relative; */
+    width: 350px;
+    height: 260px;
+    /* margin: auto;  */
+    border-radius: 15px;
+    /* overflow: hidden;  */
 }
+
+.carousel-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    width: 35px; /* Arrow button width */
+    height: 35px;
+    color: #000;
+    text-align: center;
+    /* background: none;  */
+    justify-content: center;
+    border-radius: 50%;
+    margin-top: 100px;
+
+}
+
+.carousel-control-prev {
+    left: -20px;
+    background-color: #ffffff;
+}
+
+.carousel-control-next {
+    right: -20px;
+    background-color: #ffffff;
+
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+    z-index: 5555;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.carousel-indicators li {
+    display: inline-block;
+    width: 50px;
+    height: 4px;
+    margin: 1px;
+    /* text-indent: -999px; */
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* border-radius: 50%; */
+}
+
+.carousel-indicators .active {
+    background-color: #fff;
+}
+
 
 @media (max-width: 768px) {
     .contact-content,
@@ -105,10 +171,11 @@ body {
     transform: rotate(30deg);
     width: 39px;
     height: 39px;
-    position: absolute;
-    right: 10px; /* Adjust this value to move the element inward from the right edge */
-    top: 50%; /* Center vertically within its container */
-    transform: translateY(-50%) rotate(30deg); /* Center vertically and rotate */
+    /* position: absolute; */
+    right: 10px;
+    /* top: 50%;  */
+    
+    /* transform: translateY(-50%) rotate(30deg);  */
 }
 .ellipse-17 {
     border-radius: 34.5px;
@@ -210,25 +277,33 @@ footer {
 .footer-links a:hover {
     text-decoration: underline;
 }
+
+.footer-button{
+    background-color: white;
+    width: 265px;
+    padding: 5px;
+    border-radius: 50px;
+}
+
+
 .footer-subscribe input {
     border-radius: 20px 0 0 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     padding: 10px;
-    width: calc(100% - 80px);
-    /* display: inline-block; */
+    display: inline-block;
     max-width: 200px;
 }
 .footer-subscribe button {
-    border-radius: 0 20px 20px 0;
+    border-radius: 25px;
     border: none;
     background-color: purple;
     color: white;
-    padding: 10px;
+    padding: 10px 15px;
     cursor: pointer;
     display: inline-block;
 }
 .footer-subscribe button i {
-    margin-left: 5px;
+    margin-left: 0px;
 }
 .social-icons a {
     color: purple;
@@ -238,15 +313,22 @@ footer {
 .social-icons a:hover {
     color: purple;
 }
+
 @media (max-width: 768px) {
+    
+
     .footer-subscribe input {
-        width: calc(100% - 60px);
+        
+        max-width: 140px;
     }
-    .footer-subscribe button {
-        width: 60px;
+
+    .footer-button{
+        
+        width: 205px;
+        padding: 5px;
+       
     }
 }
-
 /* Section Styling */
 .section-container {
     padding: 60px 20px;
@@ -397,7 +479,7 @@ footer {
 
 /* Text Content */
 .banner-content {
-    position: relative;
+    /* position: relative; */
     color: white;
     text-align: center;
     z-index: 1;
@@ -406,7 +488,7 @@ footer {
 .banner-content h2 {
     font-size: 24px;
     /* font-weight: 600; */
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 
 /* Button */
@@ -418,6 +500,7 @@ footer {
     border-radius: 30px;
     font-size: 16px;
     text-decoration: none;
+
 }
 
 .banner-content .btn-view-properties:hover {
@@ -460,7 +543,7 @@ footer {
     background-color: transparent;
     color: purple;
     border: 2px solid purple;
-    padding: 10px 25px;
+    padding: 10px 55px;
     border-radius: 30px;
     font-size: 16px;
     text-decoration: none;
@@ -591,12 +674,12 @@ footer {
     transform: translateY(-10px);
 }
 
-.featured-card i {
-    font-size: 40px;
-    color: #b16eff;
-    background-color: rgba(177, 110, 255, 0.2);
-    padding: 15px;
-    border-radius: 50%;
+.featured-card img {
+    width: 100px;
+    /* color: #b16eff; */
+    /* background-color: rgba(177, 110, 255, 0.2); */
+    /* padding: 15px; */
+    border-radius: 50px;
     margin-bottom: 20px;
 }
 
@@ -856,7 +939,7 @@ footer {
 .get-started-section {
     background-color: #86469c;
     border-radius: 40px;
-    padding: 20px 30px;
+    padding: 40px 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -870,7 +953,7 @@ footer {
 /* Left Side: Image */
 .get-started-section img {
     width: 200px;
-    height: 220px;
+    height: 260px;
     object-fit: cover;
     margin-top: -140px; /* Move the image upwards */
     position: relative;

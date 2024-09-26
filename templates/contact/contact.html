@@ -124,8 +124,9 @@
           </form>
         </div>
         <!-- Contact Info Section -->
-        <div class="col-md-4 purple-bg">
+        <div class="col-md-4 purple-bg text-left">
           <div class="contact-info">
+            <h3>Contact Info</h3>
             <a href="tel:+12788999722"><i class="fas fa-phone-alt"></i> +1 278-899-9722</a>
             <a href="mailto:info@agentspyglass.com"><i class="fas fa-envelope"></i> info@agentspyglass.com</a>
           </div>
@@ -150,8 +151,9 @@
               </p>
             </div>
             <div class="footer-contact">
+             
               <p>
-                <i class="fas fa-phone-alt"></i> +1 278-899-9722
+                <i class="fa-light fa-phone-flip" ></i> +1 278-899-9722
               </p>
               <p>
                 <i class="fas fa-envelope"></i> info@agentspyglass.com
@@ -171,11 +173,12 @@
               <p>Subscribe to our Newsletter!</p>
               <form method="post" action="{% url 'newsletter' %}">
                 {% csrf_token %}
-                <input type="email" name="email" placeholder="Email address" required />
-                <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                <div class="footer-button">
+                  <input type="email" placeholder="Email address" />
+                <button><i class="fas fa-arrow-right"></i></button>
               </form>
             </div>
-            <div class="social-icons">
+            <div class="social-icons mt-3">
               <h5>Follow Us On</h5>
               <a href="#"><i class="fab fa-facebook-f"></i></a>
               <a href="#"><i class="fab fa-instagram"></i></a>
