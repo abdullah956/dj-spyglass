@@ -54,16 +54,16 @@ body{
 
 
 
-.carousel-container {
+/* .carousel-container {
     width:380px;
     border-radius: 15px;
 
 }
 
 .carousel-item img {
-    width: 100%; /* Make the image fill the width of its container */
-    height: 250px; /* Set a fixed height */
-    object-fit: cover; /* Ensure the image scales correctly without distorting */
+    width: 100%; 
+    height: 250px; 
+    object-fit: cover;
     border-radius: 15px;
 }
 /* .contact-section {
@@ -73,18 +73,87 @@ body{
     font-size: 16px;
     margin-top: 15px;
 }
-.carousel-control-prev-icon,
+/* .carousel-control-prev-icon,
 .carousel-control-next-icon {
     background-color: white;
     border-radius: 50%;
     padding: 10px;
-}
-.carousel-control-prev-icon {
+} */
+/* .carousel-control-prev-icon {
     background-image: url('https://img.icons8.com/ios-glyphs/30/grey/chevron-left.png');
 }
 .carousel-control-next-icon {
     background-image: url('https://img.icons8.com/ios-glyphs/30/grey/chevron-right.png');
+}  */
+
+
+
+.carousel-container {
+    /* position: relative; */
+    width: 350px;
+    height: 260px;
+    /* margin: auto;  */
+    border-radius: 15px;
+    /* overflow: hidden;  */
 }
+
+.carousel-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    width: 35px; /* Arrow button width */
+    height: 35px;
+    color: #000;
+    text-align: center;
+    /* background: none;  */
+    justify-content: center;
+    border-radius: 50%;
+    margin-top: 100px;
+
+}
+
+.carousel-control-prev {
+    left: -20px;
+    background-color: #ffffff;
+}
+
+.carousel-control-next {
+    right: -20px;
+    background-color: #ffffff;
+
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+    z-index: 5555;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.carousel-indicators li {
+    display: inline-block;
+    width: 50px;
+    height: 4px;
+    margin: 1px;
+    /* text-indent: -999px; */
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* border-radius: 50%; */
+}
+
+.carousel-indicators .active {
+    background-color: #fff;
+}
+
+
 @media (max-width: 768px) {
     .contact-content, .carousel-container {
         justify-content: center;
