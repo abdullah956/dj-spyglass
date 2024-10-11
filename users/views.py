@@ -171,15 +171,29 @@ def contact_view(request):
     return render(request, 'contact/contact.html')
 
 # for newsletter
+from django.db import IntegrityError
 def newsletter_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
+        
+        # Check if the email field is empty
+        if not email:
+            messages.error(request, 'Please enter a valid email address.')
+            return redirect('home')
+
+        # Check if the email already exists
         if NewsletterSubscription.objects.filter(email=email).exists():
             messages.warning(request, 'You are already subscribed!')
         else:
-            NewsletterSubscription.objects.create(email=email)
-            messages.success(request, 'Thank you for subscribing to our newsletter!')
+            try:
+                # Attempt to create the subscription
+                NewsletterSubscription.objects.create(email=email)
+                messages.success(request, 'Thank you for subscribing to our newsletter!')
+            except IntegrityError:
+                messages.error(request, 'There was an error with your subscription. Please try again.')
+
         return redirect('home')
+    
     return render(request, 'home.html')
 
 #  edit user profile
