@@ -49,6 +49,11 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
             {% if user.role == 'Agent' %}
+            <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'dashboard' %}"><p>Dashboard</p></a>
+                </li>
+              </ul>
               <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'all_homeowners' %}"><p>Request Homeowner</p></a>
