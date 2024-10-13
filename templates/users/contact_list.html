@@ -10,7 +10,8 @@
           <th>#</th>
           <th>Name</th>
           <th>Email</th>
-          <th>Address</th>
+          <th>Message</th>
+          <th>Action</th> <!-- New column for action -->
         </tr>
       </thead>
       <tbody>
@@ -20,10 +21,13 @@
             <td>{{ contact.name }}</td>
             <td>{{ contact.email }}</td>
             <td>{{ contact.address }}</td>
+            <td>
+              <a href="mailto:{{ contact.email }}?subject=Reply to your message&body=Hi {{ contact.name }},%0A%0A" class="btn btn-primary btn-sm">Reply</a>
+            </td>
           </tr>
         {% empty %}
           <tr>
-            <td colspan="4" class="text-center">No contacts found.</td>
+            <td colspan="5" class="text-center">No contacts found.</td>
           </tr>
         {% endfor %}
       </tbody>

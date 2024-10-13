@@ -287,7 +287,7 @@ def download_contacts_excel(request):
     workbook = Workbook()
     worksheet = workbook.active
     worksheet.title = 'Contacts'
-    headers = ['Name', 'Email', 'Address']
+    headers = ['Name', 'Email', 'Message']
     worksheet.append(headers)
     for contact in contacts:
         worksheet.append([contact.name, contact.email, contact.address])
