@@ -16,15 +16,15 @@
   </head>
   <body>
     {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </li>
-    {% endfor %}
-  </ul>
-{% endif %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
 
     <div class="container-fluid mt-5">
       <div class="row no-gutters">
@@ -37,29 +37,24 @@
             <form action="" method="post">
               {% csrf_token %}
               <div class="form-group">
-                
                 <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required />
               </div>
 
               <div class="form-group">
-                
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required />
               </div>
 
               <div class="form-group position-relative">
-                
                 <input type="password" class="form-control" id="password" name="password1" placeholder="Password" required />
                 <span class="toggle-password"><i class="fa fa-eye" aria-hidden="true"></i></span>
               </div>
 
               <div class="form-group position-relative">
-                
                 <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password" required />
                 <span class="toggle-password"><i class="fa fa-eye" aria-hidden="true"></i></span>
               </div>
 
               <div class="form-group">
-                
                 <select class="form-control" id="role" name="role" required>
                   <option value="" disabled selected>Select Role</option>
                   <option value="Agent">Agent</option>
@@ -69,26 +64,24 @@
               </div>
 
               <div class="form-group">
-                
                 <input type="text" class="form-control" id="company" name="company" placeholder="Company" required />
               </div>
 
               <div class="form-group">
-                
+                <select class="form-control" id="state" name="state" required>
+                  <option value="">Select a state</option>
+                </select>
+              </div>
+
+              <div class="form-group">
                 <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" required />
               </div>
 
               <div class="form-group">
-                
-                <input type="text" class="form-control" id="state" name="state" placeholder="State" required />
-              </div>
-
-              <div class="form-group">
-                
                 <textarea class="form-control" id="business_address" name="business_address" rows="3" placeholder="Business Address" required></textarea>
               </div>
 
-              <button style="margin-top: 100px;"type="submit" class="btn btn-primary btn-block">Register</button>
+              <button style="margin-top: 100px;" type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
           </div>
         </div>
@@ -122,6 +115,22 @@
           this.querySelector('i').classList.toggle('fa-eye-slash')
         })
       })
+    </script>
+    <script src="{% static 'js/states.json' %}"></script>
+    <script>
+      fetch('/static/js/states.json')
+        .then((response) => response.json())
+        .then((states) => {
+          const stateSelect = document.getElementById('state')
+      
+          states.forEach((state) => {
+            const option = document.createElement('option')
+            option.value = state.name
+            option.textContent = state.name
+            stateSelect.appendChild(option)
+          })
+        })
+        .catch((error) => console.error('Error fetching states:', error))
     </script>
   </body>
 </html>
