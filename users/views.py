@@ -16,7 +16,8 @@ import pytz
 
 # for home 
 def home_view(request):
-    return render(request, 'home.html')
+    properties = Property.objects.all()
+    return render(request, 'home.html', {'properties': properties})
 
 # to register
 def register_view(request):

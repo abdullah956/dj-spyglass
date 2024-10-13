@@ -13,7 +13,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
-    
+    <style>
+      .copy-link-btn{
+        padding: 4px 8px;
+        background-color: #86469c;
+        color: white;
+        border-radius: 30px;
+        cursor: pointer;
+      }
+    </style>
   </head>
 
   <body>
@@ -229,92 +237,48 @@
       </div>
     </div>
 
-    {% load static %}
-    <div class="container card-container">
-      <div class="row ">
+{% load static %}
+<div class="container card-container">
+    <div class="slick-carousel">
+        {% for property in properties %}
+        <div class="property-slide">
+            <div class="property-card">
+                <img src="{{ property.property_images.url }}" alt="Property Image" />
+                <div class="property-info">
+                    <p class="property-price">${{ property.price }}</p>
 
-        <div class="container slick-carousel">
+                    <!-- Copy Link Button with Agent Profile URL -->
+                    <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/agent/profilebyID/{{ property.agent.id }}/')">
+                        <i class="fas fa-link"></i> Copy Link
+                    </span>
 
-           <!-- Property Card 1 -->
-        <div class="col-md-4 col-sm-6">
-          <div class="property-card">
-            <img src="{% static 'images/login.png' %}" alt="Property Image" />
-            <div class="property-info">
-              <p class="property-price">$150000.00</p>
-              <span class="float-right email-btn"><i class="fas fa-envelope"></i> Email</span>
-              <p class="property-concession">Concession: 100.00%</p>
-              <p class="property-location">jane street, Ak, 23123</p>
-              <p class="property-details">
-                <i class="fas fa-bed property-icons"></i> 3 Beds
-                <span class="mx-2"></span>
-                <i class="fas fa-bath property-icons"></i> 3 Bath
-              </p>
-              <a href="#" class="property-doc-btn">Property Document <i class="fas fa-cloud-download-alt"></i></a>
+                    {% if user.is_authenticated %}
+                        <p class="property-concession">Concession: {{ property.compensation }}%</p>
+                    {% endif %}
+
+                    <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank">
+                        <p class="property-location">{{ property.address }}, {{ property.state }}</p>
+                    </a>
+
+                    <p class="property-details">
+                        <i class="fas fa-bed property-icons"></i> {{ property.bedrooms }} Beds
+                        <span class="mx-2"></span>
+                        <i class="fas fa-bath property-icons"></i> {{ property.bathrooms }} Bath
+                    </p>
+
+                    <span>
+                        <p><strong>Agent:</strong> {{ property.agent.user.name }}</p>
+                    </span>
+
+                    <a href="{{ property.contract.url }}" class="property-doc-btn">
+                        Property Document <i class="fas fa-cloud-download-alt"></i>
+                    </a>
+                </div>
             </div>
-          </div>
         </div>
-
-        <!-- Property Card 2 -->
-        <div class="col-md-4 col-sm-6">
-          <div class="property-card">
-            <img src="{% static 'images/login.png' %}" alt="Property Image" />
-            <div class="property-info">
-              <p class="property-price">$896000.00</p>
-              <span class="float-right email-btn"><i class="fas fa-envelope"></i> Email</span>
-              <p class="property-concession">Concession: 2.00%</p>
-              <p class="property-location">121 S MOUNTAIN AVE, Upland, 91786</p>
-              <p class="property-details">
-                <i class="fas fa-bed property-icons"></i> 3 Beds
-                <span class="mx-2"></span>
-                <i class="fas fa-bath property-icons"></i> 2 Bath
-              </p>
-              <a href="#" class="property-doc-btn">Property Document <i class="fas fa-cloud-download-alt"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Property Card 3 -->
-        <div class="col-md-4 col-sm-6">
-          <div class="property-card">
-            <img src="{% static 'images/login.png' %}" alt="Property Image" />
-            <div class="property-info">
-              <p class="property-price">$568999.00</p>
-              <span class="float-right email-btn"><i class="fas fa-envelope"></i> Email</span>
-              <p class="property-concession">Concession: 1.00%</p>
-              <p class="property-location">21315 N 61st St, Phoenix, 85054</p>
-              <p class="property-details">
-                <i class="fas fa-bed property-icons"></i> 4 Beds
-                <span class="mx-2"></span>
-                <i class="fas fa-bath property-icons"></i> 3 Bath
-              </p>
-              <a href="#" class="property-doc-btn">Property Document <i class="fas fa-cloud-download-alt"></i></a>
-            </div>
-          </div>
-        </div>
-      
-
-        <div class="col-md-4 col-sm-6">
-          <div class="property-card">
-            <img src="{% static 'images/login.png' %}" alt="Property Image" />
-            <div class="property-info">
-              <p class="property-price">$568999.00</p>
-              <span class="float-right email-btn"><i class="fas fa-envelope"></i> Email</span>
-              <p class="property-concession">Concession: 1.00%</p>
-              <p class="property-location">21315 N 61st St, Phoenix, 85054</p>
-              <p class="property-details">
-                <i class="fas fa-bed property-icons"></i> 4 Beds
-                <span class="mx-2"></span>
-                <i class="fas fa-bath property-icons"></i> 3 Bath
-              </p>
-              <a href="#" class="property-doc-btn">Property Document <i class="fas fa-cloud-download-alt"></i></a>
-            </div>
-          </div>
-        </div>
-
-        </div>
-       
-      </div>
+        {% endfor %}
     </div>
+</div>
 
     <!-- How It Works Section -->
     <div class="how-it-works-section">
@@ -766,6 +730,17 @@
         }
     };
 </script>
-
+<script>
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(
+          function () {
+            alert('Link copied to clipboard!')
+          },
+          function (err) {
+            alert('Failed to copy link: ', err)
+          }
+        )
+      }
+    </script>
   </body>
 </html>
