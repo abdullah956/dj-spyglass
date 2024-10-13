@@ -31,6 +31,7 @@ def register_view(request):
                 Homeowner.objects.create(user=user)
             elif user.role == 'Assistant':
                 Assistant.objects.create(user=user)
+
             otp = pyotp.TOTP(settings.OTP_SECRET_KEY)
             otp_code = otp.now()
             send_mail(
@@ -40,22 +41,28 @@ def register_view(request):
                 [user.email],
                 fail_silently=False,
             )
+
             request.session['otp_email'] = user.email
             request.session['otp_code'] = otp_code
+            messages.success(request, 'Account created successfully! Please verify your email with the OTP sent.')
             return redirect('verify_otp')
+        else:
+            messages.error(request, 'There was an error in the registration form. Please correct the issues and try again.')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'users/register.html', {'form': form})
 
+    return render(request, 'users/register.html', {'form': form})
 # to login 
 def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(request, username=email, password=password)
+        
         if user is not None:
             if user.is_verified:
                 login(request, user)
+                messages.success(request, 'You have successfully logged in.')
                 return redirect('home')
             else:
                 otp = pyotp.TOTP(settings.OTP_SECRET_KEY)
@@ -69,12 +76,13 @@ def login_view(request):
                 )
                 request.session['otp_email'] = user.email
                 request.session['otp_code'] = otp_code
+                messages.info(request, 'Your account is not verified. Please enter the OTP sent to your email.')
                 return redirect('verify_otp')
         else:
+            messages.error(request, 'Invalid email or password. Please try again.')
             return redirect('login')
 
     return render(request, 'users/login.html')
-
 # to logout
 def logout_view(request):
     logout(request)
@@ -86,28 +94,34 @@ def verify_otp(request):
         user_otp_code = request.POST.get('otp_code')
         session_otp_code = request.session.get('otp_code')
         email = request.session.get('otp_email')
-        
+
         if user_otp_code == session_otp_code:
             try:
                 user = User.objects.get(email=email)
                 user.is_verified = True
                 user.save()
                 login(request, user)
-                return redirect('home') 
+                messages.success(request, 'Your account has been successfully verified and you are now logged in.')
+                return redirect('home')
             except User.DoesNotExist:
-                return render(request, 'users/verify_otp.html', {'error': 'User not found'})
+                messages.error(request, 'User not found. Please try again.')
+                return redirect('verify_otp')
         else:
-            return render(request, 'users/verify_otp.html', {'error': 'Invalid OTP'})
+            messages.error(request, 'Invalid OTP. Please try again.')
+            return redirect('verify_otp')
+
     return render(request, 'users/verify_otp.html')
 
 # to request password reset
 def password_reset_request(request):
     if request.method == 'POST':
         email = request.POST.get('email')
+        
         try:
             user = User.objects.get(email=email)
             otp = pyotp.TOTP(settings.OTP_SECRET_KEY)
             otp_code = otp.now()
+
             send_mail(
                 'Your OTP Code for Password Reset',
                 f'Your OTP code is {otp_code}',
@@ -119,9 +133,12 @@ def password_reset_request(request):
             request.session['otp_email'] = user.email
             request.session['otp_code'] = otp_code
 
+            messages.success(request, 'An OTP has been sent to your email for password reset.')
             return redirect('verify_otp_for_password_reset')
+
         except User.DoesNotExist:
-            return render(request, 'users/password_reset_request.html', {'error': 'Email not found'})
+            messages.error(request, 'The email you entered does not exist.')
+            return redirect('password_reset_request')
 
     return render(request, 'users/password_reset_request.html')
 
@@ -135,11 +152,15 @@ def verify_otp_for_password_reset(request):
         if user_otp_code == session_otp_code:
             try:
                 user = get_user_model().objects.get(email=email)
+                messages.success(request, 'OTP verified successfully. You can now change your password.')
                 return redirect('password_change', user_id=user.id)
             except get_user_model().DoesNotExist:
-                return render(request, 'users/verify_otp_for_password_reset.html', {'error': 'User not found'})
+                messages.error(request, 'User not found. Please try again.')
+                return redirect('verify_otp_for_password_reset')
         else:
-            return render(request, 'users/verify_otp_for_password_reset.html', {'error': 'Invalid OTP'})
+            messages.error(request, 'Invalid OTP. Please try again.')
+            return redirect('verify_otp_for_password_reset')
+
     return render(request, 'users/verify_otp_for_password_reset.html')
 
 # to change password
@@ -171,15 +192,29 @@ def contact_view(request):
     return render(request, 'contact/contact.html')
 
 # for newsletter
+from django.db import IntegrityError
 def newsletter_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
+        
+        # Check if the email field is empty
+        if not email:
+            messages.error(request, 'Please enter a valid email address.')
+            return redirect('home')
+
+        # Check if the email already exists
         if NewsletterSubscription.objects.filter(email=email).exists():
             messages.warning(request, 'You are already subscribed!')
         else:
-            NewsletterSubscription.objects.create(email=email)
-            messages.success(request, 'Thank you for subscribing to our newsletter!')
+            try:
+                # Attempt to create the subscription
+                NewsletterSubscription.objects.create(email=email)
+                messages.success(request, 'Thank you for subscribing to our newsletter!')
+            except IntegrityError:
+                messages.error(request, 'There was an error with your subscription. Please try again.')
+
         return redirect('home')
+    
     return render(request, 'home.html')
 
 #  edit user profile
