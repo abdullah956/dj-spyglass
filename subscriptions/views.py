@@ -104,25 +104,44 @@ def subscribe_agent(request, subscription_type):
 # if subscription successfull
 def subscription_success(request, subscription_id):
     subscription = get_object_or_404(Subscription, id=subscription_id, user=request.user)
+    
     if subscription.payment_successful and subscription.is_active:
         messages.error(request, 'Subscription already active.')
         return redirect('home')
+
     start_date = timezone.now()
+    
     if subscription.subscription_type == 'monthly':
         end_date = start_date + timedelta(days=30)
     else:
         end_date = start_date + timedelta(days=365)
+
     subscription.start_date = start_date
     subscription.end_date = end_date
     subscription.payment_successful = True
     subscription.is_active = True
     subscription.save()
+
+    email_subject = 'Subscription Activated'
+    email_body = (
+        f'Hello {request.user.get_full_name()},\n\n'
+        'We are thrilled to inform you that your subscription has been activated successfully!\n\n'
+        f'**Subscription Details:**\n'
+        f'- **Type:** {subscription.subscription_type.capitalize()}\n'
+        f'- **Start Date:** {start_date.strftime("%Y-%m-%d %H:%M:%S")}\n'
+        f'- **End Date:** {end_date.strftime("%Y-%m-%d %H:%M:%S")}\n\n'
+        'As a valued subscriber, you can enjoy the following benefits:\n'
+        '- Access to premium content\n'
+        '- Priority customer support\n'
+        '- Regular updates and exclusive offers\n\n'
+        'If you have any questions or need assistance, feel free to contact our support team at support@example.com.\n\n'
+        'Thank you for choosing our service!\n\n'
+        'Best Regards,\n'
+        'The Team'
+    )
     send_mail(
-        'Subscription Activated',
-        f'Your subscription has been activated successfully!\n'
-        f'Type: {subscription.subscription_type.capitalize()}\n'
-        f'Start Date: {start_date.strftime("%Y-%m-%d %H:%M:%S")}\n'
-        f'End Date: {end_date.strftime("%Y-%m-%d %H:%M:%S")}',
+        email_subject,
+        email_body,
         settings.DEFAULT_FROM_EMAIL,  
         [request.user.email],
         fail_silently=False,
