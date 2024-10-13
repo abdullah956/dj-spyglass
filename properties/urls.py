@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
+from .views import property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
 
 urlpatterns = [
     # to create properties
@@ -17,4 +17,6 @@ urlpatterns = [
     # stripe fee upload 
     path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),
     path('check-limit/', check_property_limit, name='check_property_limit'),
+    # for search
+    path('search/', property_search, name='property_search'),
 ]

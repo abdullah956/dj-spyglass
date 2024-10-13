@@ -195,3 +195,14 @@ def check_property_limit(request):
                 messages.error(request, "You cannot upload more than 10 properties.")
                 return redirect('home')
     return redirect('create_checkout_session')
+
+# for property search
+def property_search(request):
+    query = request.GET.get('q')
+    properties = Property.objects.all()
+    
+    if query:
+        properties = properties.filter(state__icontains=query)
+
+    return render(request, 'properties/property_search.html', {'properties': properties})
+
