@@ -84,7 +84,7 @@
               <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-user"></i> Login/Register</a>
             {% endif %}
             {% if user.is_authenticated and user.role == 'Homeowner' %}
-              <a class="btn btn-add-listing" href="{% url 'check_property_limit' %}"><i class="fas fa-home"></i> Add Listing</a>
+              <a class="btn btn-add-listing" href="{% url 'process_agent_homeowner' %}"><i class="fas fa-home"></i> Add Listing</a>
             {% endif %}
           </div>
         </div>
