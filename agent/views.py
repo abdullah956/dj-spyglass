@@ -40,19 +40,18 @@ def dashboard_view(request):
     else:
         messages.error(request, "Please buy a subscription to access the dashboard.")
         return redirect('home')
-
+    
 # to see all avaible homeowners
 def all_homeowners(request):
     relevant_statuses = ['P', 'R']
-    relevant_users = ConnectionRequest.objects.filter(
+    excluded_users = ConnectionRequest.objects.filter(
         status__in=relevant_statuses,
         receiver__in=Homeowner.objects.values_list('user', flat=True)
     ).values_list('receiver', flat=True)
     
-    pending_rejected_homeowners = Homeowner.objects.filter(
-        user__in=relevant_users
-    )
-    return render(request, 'agent/all_homeowners.html', {'homeowners': pending_rejected_homeowners})
+    homeowners = Homeowner.objects.exclude(user__in=excluded_users)
+    
+    return render(request, 'agent/all_homeowners.html', {'homeowners': homeowners})
 
 
 # send connection to homeowner
@@ -83,24 +82,24 @@ def homeowner_send_connection_request(request):
 # to see all available assistants
 def all_assistants(request):
     relevant_statuses = ['P', 'R']
-    assistants_with_relevant_requests = Assistant.objects.filter(
-        user__in=ConnectionRequest.objects.filter(
-            status__in=relevant_statuses
-        ).values_list('receiver', flat=True)
-    ).distinct()
-    assistant_ids_with_one_accepted_request = ConnectionRequest.objects.filter(
+    excluded_assistants = ConnectionRequest.objects.filter(
+        status__in=relevant_statuses
+    ).values_list('receiver', flat=True)
+
+    assistants_with_more_than_one_accepted = ConnectionRequest.objects.filter(
         status='A'
     ).values('receiver').annotate(
         num_accepted_requests=Count('id')
     ).filter(
-        num_accepted_requests=1
+        num_accepted_requests__gt=1
     ).values_list('receiver', flat=True)
-    assistants_with_one_accepted_request = Assistant.objects.filter(
-        user__in=assistant_ids_with_one_accepted_request
-    ).distinct()
-    assistants_to_display = assistants_with_relevant_requests | assistants_with_one_accepted_request
-    print(assistants_to_display)
-    print(assistants_to_display)
+
+    assistants_to_display = Assistant.objects.exclude(
+        user__in=excluded_assistants
+    ).exclude(
+        user__in=assistants_with_more_than_one_accepted
+    )
+
     return render(request, 'agent/all_assistants.html', {'assistants': assistants_to_display})
 
 # send connection to assistant

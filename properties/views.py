@@ -207,14 +207,15 @@ def property_search(request):
     return render(request, 'properties/property_search.html', {'properties': properties})
 
 # Function that checks if a homeowner is assigned to an agent
-
 def process_agent_homeowner(request):
     if not check_property_limit(request):
         return redirect('home')
+        
     homeowner = get_object_or_404(Homeowner, user=request.user)
-    agent = get_object_or_404(Agent, homeowner=homeowner)
-    if agent:
+    
+    try:
+        agent = Agent.objects.get(homeowner=homeowner)
         return create_checkout_session(request)
-    else:
+    except Agent.DoesNotExist:
         messages.error(request, "You don't have an assigned agent. Click on Agent Requests in the Navbar.")
-        return redirect('home')  
+        return redirect('home')
