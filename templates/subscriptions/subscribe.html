@@ -24,6 +24,15 @@
           <div class="form-container mx-auto">
             <h2 class="text-center" style="font-size: 40px">Subscribe Now</h2>
             <div class="separator"></div>
+            {% if messages %}
+            
+              {% for message in messages %}
+                <p class="alert alert-{{ message.tags }} alert-dismissible fade show text-danger" role="alert">
+                  {{ message }}
+                </p>
+              {% endfor %}
+            
+          {% endif %}
             <p class="text-center">Complete Your Agent Profile to Subscribe</p>
 
             <form>

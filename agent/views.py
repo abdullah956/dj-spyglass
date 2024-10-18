@@ -99,6 +99,8 @@ def all_assistants(request):
         user__in=assistant_ids_with_one_accepted_request
     ).distinct()
     assistants_to_display = assistants_with_relevant_requests | assistants_with_one_accepted_request
+    print(assistants_to_display)
+    print(assistants_to_display)
     return render(request, 'agent/all_assistants.html', {'assistants': assistants_to_display})
 
 # send connection to assistant

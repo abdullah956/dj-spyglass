@@ -17,7 +17,7 @@ body {
     background-color: #f6f0f9;
     position: fixed;
     /* height: 80px; */
-    top: 38px; /* Start below the top bar */
+    top: 35px; /* Start below the top bar */
     left: 0;
     width: 100%;
     z-index: 1000; /* Ensure it stays above other content */
@@ -29,10 +29,15 @@ body {
 .main-header.sticky {
     top: 0; /* Remove the gap when scrolling past the top bar */
 }
-.navbar-brand {
+/* .navbar-brand {
     color: #86469c;
     font-weight: bold;
     font-size: 35px;
+} */
+
+.navbar-brand img{
+    width: 130px;
+
 }
 .nav-link {
     color: #000000;

@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
     <style>
       .copy-link-btn{
         padding: 4px 8px;
@@ -43,7 +44,7 @@
     <!-- Main Header -->
     <nav class="navbar navbar-expand-lg navbar-light main-header py-3">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}" style="color:  #86469c;">Spyglass</a>
+        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav">
@@ -90,13 +91,22 @@
         </div>
       </div>
     </nav>
+    
+
     {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li class="alert {{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
+  <div id="alertPopup" class="alert alert-{{ message.tags }} alert-dismissible fade" role="alert" 
+    style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050; background-color: purple; color: white; min-width: 300px; max-width: 500px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); text-align: center; display: none;">
+    
+    <strong>Notification: </strong> 
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+    
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color: white;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %}
 
     <div class="contact-section">
       <div class="row justify-content-center" style="width: 90%">
@@ -575,7 +585,7 @@
           <!-- Left Section -->
           <div class="col-md-4">
             <div class="footer-brand">
-              <a class="navbar-brand" href="#" style="color:  #86469c;">Spyglass</a>
+              <a class="navbar-brand" href="{% url 'home' %}" ><img src="{% static 'images/logo.png' %}" alt=""></a>
             </div>
             <div class="footer-location">
               <p>
@@ -609,7 +619,7 @@
               </form>
               
             </div>
-            <div class="social-icons">
+            <div class="social-icons mt-4">
               <h5>Follow Us On</h5>
               <a href="#"><i class="fab fa-facebook-f"></i></a>
               <a href="#"><i class="fab fa-instagram"></i></a>
@@ -741,6 +751,23 @@
           }
         )
       }
+    </script>
+     <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var alertPopup = document.getElementById('alertPopup');
+        
+        // Check if the alert contains valid message content
+        if (alertPopup && alertPopup.innerText.trim() !== '' && alertPopup.innerText.trim() !== 'Notification:') {
+          alertPopup.style.display = 'block'; // Show the alert only when there's a valid message
+          alertPopup.classList.add('show');   // Add Bootstrap's 'show' class to make it visible with fade
+    
+          // Automatically hide the alert after 5 seconds
+          setTimeout(function() {
+            alertPopup.classList.remove('show'); // Remove 'show' class to hide it
+            alertPopup.style.display = 'none';   // Fully hide the alert
+          }, 5000); // 5000 milliseconds = 5 seconds
+        }
+      });
     </script>
   </body>
 </html>
