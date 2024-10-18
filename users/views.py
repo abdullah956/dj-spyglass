@@ -16,7 +16,7 @@ import pytz
 
 # for home 
 def home_view(request):
-    properties = Property.objects.all()
+    properties = Property.objects.filter(approval_status=True)    
     return render(request, 'home.html', {'properties': properties})
 
 # to register

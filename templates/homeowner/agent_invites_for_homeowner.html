@@ -28,6 +28,17 @@
       .alert-container .alert {
         margin-top: 10px; /* Additional styling for alerts */
       }
+
+      .btn-purple{
+        
+        background-color: purple;
+        padding: 5px 10px;
+        color: white;
+      }
+
+      a{
+        text-decoration: none;
+      }
      
     </style>
   </head>
@@ -107,26 +118,6 @@
       <h2 class="text-center mb-4" style="color: blueviolet">
         All Agents Available
       </h2>
-      <ul>
-        {% for request in requests %}
-          <li>
-            Request from {{ request.sender }} to {{ request.receiver }} - 
-            Status: 
-            <form method="post" action="{% url 'agent_invites_for_homeowner' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="request_id" value="{{ request.id }}">
-                    <select name="status">
-                        {% for key, value in request.STATUS_CHOICES %}
-                            <option value="{{ key }}" {% if request.status == key %}selected{% endif %}>{{ value }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" class="btn btn-primary btn-md mx-3">Update</button>
-                </form>
-          </li>
-        {% empty %}
-          <li>No connection requests found.</li>
-        {% endfor %}
-      </ul>
       {% if messages %}
       <div class="alert-container">
         {% for message in messages %}
@@ -140,6 +131,27 @@
         {% endfor %}
       </div>
       {% endif %}
+      <ul>
+        {% for request in requests %}
+          <li class="d-flex mb-4" >
+            Request from {{ request.sender }} to {{ request.receiver }} - 
+            Status: 
+            <form method="post" action="{% url 'agent_invites_for_homeowner' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="request_id" value="{{ request.id }}">
+                    <select name="status">
+                        {% for key, value in request.STATUS_CHOICES %}
+                            <option value="{{ key }}" {% if request.status == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-purple btn-md mx-3">Update</button>
+                </form>
+          </li>
+        {% empty %}
+          <li>No connection requests found.</li>
+        {% endfor %}
+      </ul>
+     
     </div>
 
     <script>
