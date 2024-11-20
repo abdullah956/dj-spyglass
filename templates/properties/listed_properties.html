@@ -196,7 +196,9 @@
 
                 <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/agent/profilebyID/{{ property.agent.id }}/')"><i class="fas fa-link"></i> Copy Link</span>
                 {% if user.is_authenticated %}
-                  <p class="property-concession">Concession: {{ property.compensation }}%</p>
+                {% if property.compensation %}
+                <p class="property-concession">Concession: {{ property.compensation }}{{ property.process }}</p>
+                {% endif %}
                 {% endif %}
                 <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank"><p class="property-location">{{ property.address }}, {{ property.state }}</p></a>
                 <p class="property-details">
