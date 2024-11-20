@@ -206,9 +206,12 @@
                   <span class="mx-2"></span>
                   <i class="fas fa-bath property-icons"></i> {{ property.bathrooms }} Bath
                 </p>
-                <span><p>
-                    <strong>Agent:</strong> {{ property.agent.user.name }}
-                  </p></span>
+              <span>
+  <p onclick="window.location.href='{{ request.scheme }}://{{ request.get_host }}/agent/profilebyID/{{ property.agent.id }}/'">
+    <strong>Agent:</strong> {{ property.agent.user.name }}
+  </p>
+</span>
+
                 <a href="{{ property.contract.url }}" class="property-doc-btn">Property Document <i class="fas fa-cloud-download-alt"></i></a>
 
                 <!-- Agent Information Section -->
