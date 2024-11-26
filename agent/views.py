@@ -212,3 +212,12 @@ def agent_profile(request):
 def agent_profile_by_ID(request, agent_id):
     agent = get_object_or_404(Agent, id=agent_id)
     return render(request, 'agent/agent_profile_by_ID.html', {'agent': agent})
+
+# to show all properties uploaded by agent
+def all_agent_properties_dashboard(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to view properties.")
+        return redirect('login')
+
+    properties = Property.objects.filter(agent__user=request.user)
+    return render(request, 'agent/all_properties_of_agent.html', {'properties': properties})

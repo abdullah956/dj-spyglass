@@ -4,6 +4,7 @@ from django.contrib import messages
 from users.models import Agent, Homeowner , Assistant
 from properties.models import ConnectionRequest
 from properties.forms import PropertyForm
+from properties.models import Property
 
 # to see all invites form the agents and update process
 def agent_invites_for_assistant(request):
@@ -116,3 +117,12 @@ def homeowner_requests_status_by_assistant(request):
         except Homeowner.DoesNotExist:
             continue
     return render(request, 'assistant/homeowner_requests_status_by_assistant.html', {'homeowner_statuses': homeowner_statuses})
+
+# all properties for assistant
+def all_assistant_properties_dashboard(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to view properties.")
+        return redirect('login')
+
+    properties = Property.objects.filter(assistant__user=request.user)
+    return render(request, 'assistant/all_properties_of_assistant.html', {'properties': properties})
