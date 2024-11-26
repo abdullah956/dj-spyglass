@@ -219,3 +219,31 @@ def process_agent_homeowner(request):
     except Agent.DoesNotExist:
         messages.error(request, "You don't have an assigned agent. Click on Agent Requests in the Navbar.")
         return redirect('home')
+
+# property create by agent 
+def agent_property_create(request):
+    agent = Agent.objects.filter(user=request.user).first()
+    if not agent:
+        messages.error(request, "You must be logged in as an agent to create a property.")
+        return redirect('home')
+
+    if not agent.homeowner or not agent.assistant:
+        messages.error(request, "You must have both a homeowner and an assistant assigned to create a property.")
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = PropertyForm(request.POST, request.FILES)
+        if form.is_valid():
+            property_obj = form.save(commit=False)
+            property_obj.homeowner = agent.homeowner
+            property_obj.agent = agent
+            property_obj.assistant = agent.assistant
+            property_obj.state = agent.homeowner.user.state
+            property_obj.save()
+            messages.success(request, 'The property has been successfully created.')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the errors in the form.')
+    else:
+        form = PropertyForm()
+    return render(request, 'properties/property_form.html', {'form': form})

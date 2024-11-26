@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import process_agent_homeowner,property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
+from .views import process_agent_homeowner,agent_property_create,property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
 
 urlpatterns = [
     # to create properties
@@ -21,4 +21,6 @@ urlpatterns = [
     path('search/', property_search, name='property_search'),
     # process agent
     path('process-agent/', process_agent_homeowner, name='process_agent_homeowner'),
+    # property create by agent 
+    path('property-create-by-agent/',agent_property_create , name='agent_property_create'),
 ]
