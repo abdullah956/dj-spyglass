@@ -136,9 +136,9 @@
           <li class="d-flex mb-4" >
             Request from {{ request.sender }} to {{ request.receiver }} - 
             Status: 
-            <form method="post" action="{% url 'agent_invites_for_homeowner' %}">
+            <form method="post" class="mx-2" action="{% url 'agent_invites_for_homeowner' %}">
                     {% csrf_token %}
-                    <input type="hidden" name="request_id" value="{{ request.id }}">
+                    <input type="hidden" name="request_id" value="{{ request.id }}" style="outline:none;border:none">
                     <select name="status">
                         {% for key, value in request.STATUS_CHOICES %}
                             <option value="{{ key }}" {% if request.status == key %}selected{% endif %}>{{ value }}</option>

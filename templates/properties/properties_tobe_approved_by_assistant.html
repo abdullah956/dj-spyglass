@@ -1,37 +1,82 @@
 {% extends 'agent/dashboard.html' %}
 
 {% block content %}
-  <style>
-    li {
+<style>
+    ul {
       list-style-type: none;
+      padding: 0;
     }
-  </style>
-  <h2>Properties Awaiting Approval</h2>
-  <ul>
+    .property-card {
+      background: linear-gradient(145deg, #a8c0ff, #a8c0ff);/* Updated gradient background */
+      border: 1px solid #ccc; /* Lighter grey border */
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .property-detail {
+      flex: 1 1 200px; /* Flex item to allow wrapping */
+      margin-right: 20px;
+      min-width: 160px; /* Minimum width for mobile responsiveness */
+    }
+
+    .btn {
+      padding: 10px 10px; /* Smaller padding for buttons */
+      border-radius: 4px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 12px;
+      margin: 5px 5px 5px 0; /* Smaller margins */
+      display: inline-block;
+    }
+    
+    .btn-info {
+      background-color: #6c757d; /* Grey for a less bright appearance */
+    }
+    
+    .btn-primary {
+      background-color: #28a745; /* Green for a primary action */
+    }
+    
+    .btn-info:hover,
+    .btn-primary:hover {
+      opacity: 0.9; /* Subtle opacity change for hover effect */
+      
+    }
+</style>
+<h2>Properties Awaiting Approval</h2>
+<ul>
     {% for property in properties %}
       <li>
-        <strong>Address:</strong> {{ property.address }}<br />
-        <strong>Price:</strong> {{ property.price }}<br />
-        <strong>State:</strong> {{ property.state }}<br />
-        <strong>Bedrooms:</strong> {{ property.bedrooms }}<br />
-        <strong>Bathrooms:</strong> {{ property.bathrooms }}<br />
-        <strong>Square Feet:</strong> {{ property.square_feet }}<br />
-        <strong>Agent Remarks:</strong> {{ property.agent_remarks }}<br />
-        <strong>Process:</strong> {{ property.process }}<br />
-        <strong>Compensation:</strong> {{ property.compensation }}<br />
-        <strong>Homeowner:</strong> {{ property.homeowner.user.email }}<br />
-
-        {% if property.contract %}
-          <a href="{{ property.contract.url }}" class="btn btn-info" download>Download Contract</a>
-        {% endif %}
-        {% if property.document %}
-          <a href="{{ property.document.url }}" class="btn btn-info" download>Download Document</a>
-        {% endif %}
-
-        <a href="{% url 'property_approve_by_assistant' property.id %}" class="btn btn-primary">Approve</a>
+        <div class="property-card">
+          <div class="property-detail"><strong>Address:</strong> {{ property.address }}</div>
+          <div class="property-detail"><strong>Price:</strong> {{ property.price }}</div>
+          <div class="property-detail"><strong>State:</strong> {{ property.state }}</div>
+          <div class="property-detail"><strong>Bedrooms:</strong> {{ property.bedrooms }}</div>
+          <div class="property-detail"><strong>Bathrooms:</strong> {{ property.bathrooms }}</div>
+          <div class="property-detail"><strong>Square Feet:</strong> {{ property.square_feet }}</div>
+          <div class="property-detail"><strong>Agent Remarks:</strong> {{ property.agent_remarks }}</div>
+          <div class="property-detail"><strong>Process:</strong> {{ property.process }}</div>
+          <div class="property-detail"><strong>Compensation:</strong> {{ property.compensation }}</div>
+          <div class="property-detail"><strong>Homeowner:</strong> {{ property.homeowner.user.email }}</div>
+          <div class="property-detail">
+            {% if property.contract %}
+              <a href="{{ property.contract.url }}" class="btn btn-info" download>Contract</a>
+            {% endif %}
+            {% if property.document %}
+              <a href="{{ property.document.url }}" class="btn btn-info" download>Document</a>
+            {% endif %}
+            <a href="{% url 'property_approve' property.id %}" class="btn btn-info">Approve</a>
+          </div>
+        </div>
       </li>
     {% empty %}
       <li>No properties awaiting approval.</li>
     {% endfor %}
-  </ul>
+</ul>
 {% endblock %}

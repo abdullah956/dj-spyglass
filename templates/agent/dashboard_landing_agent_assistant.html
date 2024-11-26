@@ -1,13 +1,32 @@
 {% extends 'agent/dashboard.html' %}
 
 {% block content %}
-  <h1>Dashboard</h1>
+
+  <h1>My Dashboard</h1>
+  <style>
+    .card-gradient-1 {
+      background: linear-gradient(135deg, #a186be, #d6a3dc); /* Lighter purple gradient */
+      color: white; /* White text color */
+    }
+    
+    
+    .card-gradient-2 {
+      background: linear-gradient(135deg, #ff5e62, #ff9966); /* Red to orange gradient */
+      color: white; /* White text color */
+    }
+    
+    .card-gradient-3 {
+      background: linear-gradient(135deg, #1cd8d2, #93edc7); /* Cyan to light green gradient */
+      color: white; /* White text color */
+    }
+    
+  </style>
 
   <div class="container mt-4">
     {% if user_role == 'Agent' %}
       <div class="row">
         <div class="col-md-4 mb-4">
-          <div class="card">
+          <div class="card card-gradient-1">
             <div class="card-body">
               <h5 class="card-title">Connected Homeowner</h5>
               {% if homeowner %}
@@ -18,9 +37,9 @@
             </div>
           </div>
         </div>
-
+  
         <div class="col-md-4 mb-4">
-          <div class="card">
+          <div class="card card-gradient-2">
             <div class="card-body">
               <h5 class="card-title">Connected Assistant</h5>
               {% if assistant %}
@@ -31,9 +50,9 @@
             </div>
           </div>
         </div>
-
+  
         <div class="col-md-4 mb-4">
-          <div class="card">
+          <div class="card card-gradient-3">
             <div class="card-body">
               <h5 class="card-title">Properties Listed</h5>
               <p class="card-text">You have {{ properties_count }} properties listed.</p>
@@ -41,11 +60,11 @@
           </div>
         </div>
       </div>
-
+  
     {% elif user_role == 'Assistant' %}
       <div class="row">
         <div class="col-md-12 mb-4">
-          <div class="card">
+          <div class="card card-gradient-1">
             <div class="card-body">
               <h5 class="card-title">Connected Agents</h5>
               {% if connected_agents|length == 0 %}
@@ -62,11 +81,11 @@
           </div>
         </div>
       </div>
-
+  
     {% else %}
       <div class="row">
         <div class="col-md-12 mb-4">
-          <div class="card">
+          <div class="card card-gradient-1">
             <div class="card-body">
               <h5 class="card-title">Your Properties</h5>
               <p class="card-text">You have {{ properties_count }} properties listed.</p>
@@ -76,4 +95,5 @@
       </div>
     {% endif %}
   </div>
+  
 {% endblock %}
