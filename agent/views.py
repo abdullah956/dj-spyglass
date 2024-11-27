@@ -7,6 +7,10 @@ from django.contrib import messages
 from users.models import User , Homeowner
 from django.db.models import Count, Q
 from subscriptions.models import Subscription
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.conf import settings
+
 
 # for dashbaord
 def dashboard_view(request):
@@ -50,30 +54,65 @@ def all_homeowners(request):
     ).values_list('receiver', flat=True)
     
     homeowners = Homeowner.objects.exclude(user__in=excluded_users)
-    
+    print(homeowners)
     return render(request, 'agent/all_homeowners.html', {'homeowners': homeowners})
 
 
-# send connection to homeowner
+# # send connection to homeowner
+# def homeowner_send_connection_request(request):
+#     if request.method == 'POST':
+#         homeowner_id = request.POST.get('homeowner_id')
+#         homeowner = get_object_or_404(Homeowner, id=homeowner_id)
+#         agent_profile = Agent.objects.filter(user=request.user, assistant__isnull=False).exists()
+#         agent = get_object_or_404(Agent, user=request.user)
+#         if agent.homeowner:
+#             messages.error(request, 'You already have a connection with a homeowner.')
+#             return redirect('all_homeowners')
+#         if not agent_profile:
+#             messages.error(request, 'You must have an assigned assistant before sending a connection request to a homeowner.')
+#             return redirect('all_homeowners')
+#         existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=homeowner.user).exists()
+#         if existing_request:
+#             messages.error(request, 'You have already sent a connection request to this homeowner.')
+#         else:
+#             ConnectionRequest.objects.create(
+#                 sender=request.user,
+#                 receiver=homeowner.user
+#             )
+#             messages.success(request, 'Connection request sent to the homeowner.')
+#     return redirect('all_homeowners')
+
 def homeowner_send_connection_request(request):
     if request.method == 'POST':
         homeowner_id = request.POST.get('homeowner_id')
         homeowner = get_object_or_404(Homeowner, id=homeowner_id)
         agent_profile = Agent.objects.filter(user=request.user, assistant__isnull=False).exists()
         agent = get_object_or_404(Agent, user=request.user)
+        
         if agent.homeowner:
             messages.error(request, 'You already have a connection with a homeowner.')
             return redirect('all_homeowners')
+        
         if not agent_profile:
             messages.error(request, 'You must have an assigned assistant before sending a connection request to a homeowner.')
             return redirect('all_homeowners')
+        
         existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=homeowner.user).exists()
         if existing_request:
             messages.error(request, 'You have already sent a connection request to this homeowner.')
         else:
-            ConnectionRequest.objects.create(
+            connection_request = ConnectionRequest.objects.create(
                 sender=request.user,
                 receiver=homeowner.user
+            )
+            accept_url = request.build_absolute_uri(
+                reverse('accept_connection_request', args=[connection_request.id])
+            )
+            send_mail(
+                subject='Agent Connection Request',
+                message=f'An agent has sent you a connection request. Click the link to accept: {accept_url}',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[homeowner.user.email],
             )
             messages.success(request, 'Connection request sent to the homeowner.')
     return redirect('all_homeowners')
@@ -102,26 +141,54 @@ def all_assistants(request):
 
     return render(request, 'agent/all_assistants.html', {'assistants': assistants_to_display})
 
-# send connection to assistant
+# # send connection to assistant
+# def assistant_send_connection_request(request):
+#     if request.method == 'POST':
+#         assistant_id = request.POST.get('assistant_id')
+#         assistant = get_object_or_404(Assistant, id=assistant_id)
+#         existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=assistant.user).exists()
+#         agent = get_object_or_404(Agent, user=request.user)
+#         if agent.homeowner:
+#             messages.error(request, 'You already have a connection with a assistant.')
+#             return redirect('all_assistants')
+#         if existing_request:
+#             messages.error(request, 'You have already sent a connection request to this assistant.')
+#         else:
+#             ConnectionRequest.objects.create(
+#                 sender=request.user,
+#                 receiver=assistant.user
+#             )
+#             messages.success(request, 'Connection request sent to the assistant.')
+#     return redirect('all_assistants')
 def assistant_send_connection_request(request):
     if request.method == 'POST':
         assistant_id = request.POST.get('assistant_id')
         assistant = get_object_or_404(Assistant, id=assistant_id)
         existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=assistant.user).exists()
         agent = get_object_or_404(Agent, user=request.user)
-        if agent.homeowner:
-            messages.error(request, 'You already have a connection with a assistant.')
+        
+        if agent.assistant:
+            messages.error(request, 'You already have a connection with an assistant.')
             return redirect('all_assistants')
+        
         if existing_request:
             messages.error(request, 'You have already sent a connection request to this assistant.')
         else:
-            ConnectionRequest.objects.create(
+            connection_request = ConnectionRequest.objects.create(
                 sender=request.user,
                 receiver=assistant.user
             )
+            accept_url = request.build_absolute_uri(
+                reverse('accept_assistant_connection_request', args=[connection_request.id])
+            )
+            send_mail(
+                subject='Agent Connection Request',
+                message=f'An agent has sent you a connection request. Click the link to accept: {accept_url}',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[assistant.user.email],
+            )
             messages.success(request, 'Connection request sent to the assistant.')
     return redirect('all_assistants')
-
 
 # homeowner_requests_status_by_agent 
 def homeowner_requests_status_by_agent(request):

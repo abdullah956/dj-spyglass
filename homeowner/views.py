@@ -40,3 +40,22 @@ def agent_invites_for_homeowner(request):
             messages.error(request, 'Homeowner profile not found.')
         return redirect('agent_invites_for_homeowner')
     return render(request, 'homeowner/agent_invites_for_homeowner.html', {'requests': requests})
+
+# email acceptance
+def email_accept_connection_request(request, request_id):
+    connection_request = get_object_or_404(ConnectionRequest, id=request_id)
+    agent = get_object_or_404(Agent, user=connection_request.sender)
+
+    homeowner = connection_request.receiver.homeowner_profile 
+    if agent.homeowner:
+        messages.error(request, 'This agent is already connected to a homeowner.')
+    elif not homeowner:
+        messages.error(request, 'Homeowner profile not found for the receiver.')
+    else:
+        agent.homeowner = homeowner  
+        agent.save()
+        connection_request.status = 'A'  
+        connection_request.save()
+        messages.success(request, 'You have successfully accepted the connection request.')
+    
+    return redirect('home')

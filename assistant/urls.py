@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import all_assistant_properties_dashboard,agent_invites_for_assistant,assistant_send_connection_request_homeowner,homeowner_requests_status_by_assistant
+from .views import email_accept_assistant_connection_request,all_assistant_properties_dashboard,agent_invites_for_assistant,assistant_send_connection_request_homeowner,homeowner_requests_status_by_assistant
 
 urlpatterns = [
     # to see all agent invites for assistant
@@ -12,6 +12,8 @@ urlpatterns = [
     path('homeowner-requests-status-by-assistant', homeowner_requests_status_by_assistant, name='homeowner_requests_status_by_assistant'),
     # all properties for assistant
     path('all-assistant-properties-dashboard', all_assistant_properties_dashboard, name='all_assistant_properties_dashboard'),
+    #email
+     path('accept_assistant_connection_request/<int:request_id>/', email_accept_assistant_connection_request, name='accept_assistant_connection_request'),
 ]
 
 

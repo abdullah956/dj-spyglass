@@ -126,3 +126,18 @@ def all_assistant_properties_dashboard(request):
 
     properties = Property.objects.filter(assistant__user=request.user)
     return render(request, 'assistant/all_properties_of_assistant.html', {'properties': properties})
+
+# email accceptant
+def email_accept_assistant_connection_request(request, request_id):
+    connection_request = get_object_or_404(ConnectionRequest, id=request_id)
+    agent = get_object_or_404(Agent, user=connection_request.sender)
+    assistant = get_object_or_404(Assistant, user=connection_request.receiver)
+    if agent.assistant:
+        messages.error(request, 'This agent is already connected to an assistant.')
+    else:
+        agent.assistant = assistant  
+        agent.save()
+        connection_request.status = 'A'  
+        connection_request.save()
+        messages.success(request, 'You have successfully accepted the connection request.')
+    return redirect('home')
