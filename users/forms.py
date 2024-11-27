@@ -42,4 +42,26 @@ class CustomUserCreationForm(UserCreationForm):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['name','phone', 'company', 'state', 'business_address']
+        fields = ['name', 'phone', 'company', 'state', 'business_address']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Enter your name'
+            }),
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Enter your phone number'
+            }),
+            'company': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Enter your company name'
+            }),
+            'state': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'business_address': forms.Textarea(attrs={
+                'class': 'form-control', 
+                'rows': 3, 
+                'placeholder': 'Enter your business address'
+            }),
+        }

@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                {% if agent.homeowner %}
+                {% comment %} {% if agent.homeowner %}
                     <h5 class="mt-4">Homeowner Information</h5>
                     <p><strong>Homeowner Email:</strong> {{ agent.homeowner.user.email }}</p>
                     <!-- Add more homeowner details if needed -->
@@ -51,7 +51,7 @@
                     <!-- Add more assistant details if needed -->
                 {% else %}
                     <p class="text-muted mt-2">No assigned assistant.</p>
-                {% endif %}
+                {% endif %} {% endcomment %}
             </div>
         </div>
 
