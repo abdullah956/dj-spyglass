@@ -288,3 +288,14 @@ def all_agent_properties_dashboard(request):
 
     properties = Property.objects.filter(agent__user=request.user)
     return render(request, 'agent/all_properties_of_agent.html', {'properties': properties})
+
+#seacrch
+def searched(request):
+    query = request.GET.get('q', '').strip()  # Use 'q' or 'query' depending on the form field name.
+    print(f"Query: {query}")  # Debugging to check the value of 'query'
+    properties = Property.objects.all()
+
+    if query:
+        properties = properties.filter(state__icontains=query)
+
+    return render(request, 'agent/searched.html', {'properties': properties, 'query': query})

@@ -5,8 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Dashboard</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
 
     <!-- Fonts and icons -->
     <script src="{% static 'assets/js/plugin/webfont/webfont.min.js' %}"></script>
@@ -51,7 +50,7 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
             {% if user.role == 'Agent' %}
-            <ul class="nav nav-secondary">
+              <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'dashboard' %}"><p>Dashboard</p></a>
                 </li>
@@ -166,9 +165,19 @@
             <!-- End Logo Header -->
           </div>
           <!-- Navbar Header -->
+
           <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom" data-background-color="white">
             <div class="container-fluid">
-              <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"></nav>
+              <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
+                <form action="{% url 'searched' %}" method="get">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <button type="submit" class="btn btn-search pe-1"><i class="fa fa-search search-icon"></i></button>
+                    </div>
+                    <input type="text" name="q" placeholder="Search ..." class="form-control" value="{{ request.GET.q }}" />
+                  </div>
+                </form>
+              </nav>
             </div>
           </nav>
           <!-- End Navbar -->
