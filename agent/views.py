@@ -42,8 +42,8 @@ def dashboard_view(request):
                 }
         return render(request, 'agent/dashboard_landing_agent_assistant.html', context)
     else:
-        messages.error(request, "Please buy a subscription to access the dashboard.")
-        return redirect('home')
+        messages.error(request, f"Please buy a subscription to access the dashboard.")
+        return redirect('subscription_page')
     
 # to see all avaible homeowners
 def all_homeowners(request):

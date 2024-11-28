@@ -165,3 +165,7 @@ def subscription_cancel(request):
 def payment_history(request):
     subscriptions = Subscription.objects.filter(user=request.user)
     return render(request, 'subscriptions/payment_history.html', {'subscriptions': subscriptions})
+
+# subscription
+def subscription_page(request):
+    return render(request, 'subscriptions/subscription.html')
