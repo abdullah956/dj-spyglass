@@ -15,6 +15,7 @@ class Property(BasedModel):
     ]
 
     address = models.CharField(max_length=255)
+    favourites = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=12, decimal_places=2)
     state = models.CharField(max_length=100)
     bedrooms = models.IntegerField()

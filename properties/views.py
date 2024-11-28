@@ -247,3 +247,15 @@ def agent_property_create(request):
     else:
         form = PropertyForm()
     return render(request, 'properties/property_form.html', {'form': form})
+
+# alll fav
+def favourites_list(request):
+    properties = Property.objects.filter(favourites=True)
+    return render(request, 'agent/fav.html', {'properties': properties})
+
+# toggle fav
+def toggle_favourite(request, property_id):
+    property = get_object_or_404(Property, id=property_id)
+    property.favourites = not property.favourites
+    property.save()
+    return redirect('favourites_list')
