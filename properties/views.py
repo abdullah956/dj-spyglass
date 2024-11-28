@@ -227,23 +227,23 @@ def agent_property_create(request):
         messages.error(request, "You must be logged in as an agent to create a property.")
         return redirect('home')
 
-    if not agent.homeowner or not agent.assistant:
-        messages.error(request, "You must have both a homeowner and an assistant assigned to create a property.")
-        return redirect('home')
+
 
     if request.method == 'POST':
         form = PropertyForm(request.POST, request.FILES)
         if form.is_valid():
             property_obj = form.save(commit=False)
-            property_obj.homeowner = agent.homeowner
+            property_obj.homeowner = agent.homeowner if agent.homeowner else None
             property_obj.agent = agent
-            property_obj.assistant = agent.assistant
-            property_obj.state = agent.homeowner.user.state
+            property_obj.assistant = agent.assistant if agent.assistant else None
+            # property_obj.state = agent.state if agent.homeowner else None
+            property_obj.approval_status = True
             property_obj.save()
             messages.success(request, 'The property has been successfully created.')
             return redirect('home')
         else:
             messages.error(request, 'Please correct the errors in the form.')
+
     else:
         form = PropertyForm()
     return render(request, 'properties/property_form.html', {'form': form})
