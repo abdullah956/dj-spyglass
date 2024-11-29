@@ -337,7 +337,7 @@
         </div>
       </div>
     </div>
-
+    {% if user.is_authenticated and not active_subscription %}
     {% if user.is_authenticated and user.role == 'Assistant' %}
       <!-- Pricing Plans Section -->
       <div class="pricing-section">
@@ -421,7 +421,8 @@
         </div>
       </div>
     {% endif %}
-
+    {% endif %}
+    {% if user.is_authenticated and not active_subscription %}
     {% if user.is_authenticated and user.role == 'Agent' %}
       <!-- Pricing Plans Section -->
       <div class="pricing-section">
@@ -505,7 +506,7 @@
         </div>
       </div>
     {% endif %}
-
+    {% endif %}
     <div class="container testimonial-section">
       <div class="testimonial-text">
         <h4>Testimonials</h4>

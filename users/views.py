@@ -15,9 +15,17 @@ from subscriptions.models import Subscription
 import pytz
 
 # for home 
+# def home_view(request):
+#     properties = Property.objects.filter(approval_status=True)    
+#     return render(request, 'home.html', {'properties': properties})
 def home_view(request):
-    properties = Property.objects.filter(approval_status=True)    
-    return render(request, 'home.html', {'properties': properties})
+    properties = Property.objects.filter(approval_status=True)
+    active_subscription = None
+    if request.user.is_authenticated:
+        active_subscription = request.user.subscription_set.filter(is_active=True, payment_successful=True).exists()
+    print(active_subscription)
+    return render(request, 'home.html', {'properties': properties, 'active_subscription': active_subscription})
+
 
 # to register
 def register_view(request):
