@@ -27,4 +27,5 @@ urlpatterns = [
     path('all-agent-properties_dashboard',all_agent_properties_dashboard, name='all_agent_properties_dashboard'),
     # searched
     path('searched',searched, name='searched'),
+    
 ]

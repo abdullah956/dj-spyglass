@@ -84,6 +84,10 @@
                   <a href="{% url 'toggle_favourite' property.id %}" class="text-muted">☆ Mark as Favourite</a>
                 {% endif %}
               </p>
+              <a href="{% url 'update_property' property.id %}" class="property-doc-btn">
+                Update Property
+                <i class="fas fa-edit"></i>
+              </a>
             </div>
           </div>
         </div>

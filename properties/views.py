@@ -259,3 +259,20 @@ def toggle_favourite(request, property_id):
     property.favourites = not property.favourites
     property.save()
     return redirect('favourites_list')
+
+# update
+def update_property(request, pk):
+    if not hasattr(request.user, 'agent_profile'):
+        messages.error(request, 'You are not authorized to perform this action.')
+        return redirect('home')
+
+    property = get_object_or_404(Property, id=pk, agent=request.user.agent_profile)
+    if request.method == 'POST':
+        form = PropertyForm(request.POST, request.FILES, instance=property)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Property updated successfully.')
+            return redirect('all_agent_properties_dashboard')
+    else:
+        form = PropertyForm(instance=property)
+    return render(request, 'agent/update_property.html', {'form': form})

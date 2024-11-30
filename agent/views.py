@@ -299,3 +299,4 @@ def searched(request):
         properties = properties.filter(state__icontains=query)
 
     return render(request, 'agent/searched.html', {'properties': properties, 'query': query})
+
