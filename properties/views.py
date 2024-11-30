@@ -276,3 +276,10 @@ def update_property(request, pk):
     else:
         form = PropertyForm(instance=property)
     return render(request, 'agent/update_property.html', {'form': form})
+
+# delete
+def delete_property(request, pk):
+    property = get_object_or_404(Property, pk=pk)
+    property.delete()
+    messages.success(request, "Property deleted successfully.")
+    return redirect('all_agent_properties_dashboard')
