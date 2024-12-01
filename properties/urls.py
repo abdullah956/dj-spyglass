@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import delete_property,update_property,toggle_favourite,favourites_list,process_agent_homeowner,agent_property_create,property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
+from .views import favourite_properties,delete_property,update_property,toggle_favourite,favourites_list,process_agent_homeowner,agent_property_create,property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
 
 urlpatterns = [
     # to create properties
@@ -31,4 +31,6 @@ urlpatterns = [
     path('properties/<int:pk>/update/', update_property, name='update_property'),
     # delete
     path('properties/<int:pk>/delete/', delete_property, name='delete_property'),
+    # fav only
+    path('favourite/', favourite_properties, name='favourite_properties'),
 ]

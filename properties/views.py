@@ -283,3 +283,12 @@ def delete_property(request, pk):
     property.delete()
     messages.success(request, "Property deleted successfully.")
     return redirect('all_agent_properties_dashboard')
+
+# favv all
+def favourite_properties(request):
+    if not hasattr(request.user, 'agent_profile'):
+        return render(request, 'error.html', {'message': 'You are not an agent.'})
+
+    agent = request.user.agent_profile
+    properties = Property.objects.filter(favourites=True, agent=agent)
+    return render(request, 'agent/favprops.html', {'properties': properties})
