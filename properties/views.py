@@ -49,7 +49,10 @@ def property_create(request):
 # listed properties
 def listed_properties(request):
     properties = Property.objects.filter(approval_status=True)
-    return render(request, 'properties/listed_properties.html', {'properties': properties})
+    active_subscription = None
+    if request.user.is_authenticated:
+        active_subscription = request.user.subscription_set.filter(is_active=True, payment_successful=True).exists()
+    return render(request, 'properties/listed_properties.html', {'properties': properties, 'active_subscription': active_subscription})
 
 
 # property lists of agents
