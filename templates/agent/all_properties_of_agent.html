@@ -74,8 +74,15 @@
               <p class="property-price">${{ property.price }}</p>
               <p class="property-location">{{ property.address }}, {{ property.state }}</p>
               <a href="{{ property.contract.url }}" class="property-doc-btn">
-                Property Document
                 <i class="fas fa-cloud-download-alt"></i>
+              </a>
+              <a href="{% url 'update_property' property.id %}" class="btn btn-success">
+
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="{% url 'delete_property' property.id %}" class="btn btn-danger">
+
+                <i class="fas fa-trash"></i>
               </a>
               <p class="property-favourite">
                 {% if property.favourites %}
@@ -84,14 +91,7 @@
                   <a href="{% url 'toggle_favourite' property.id %}" class="text-muted">☆ Mark as Favourite</a>
                 {% endif %}
               </p>
-              <a href="{% url 'update_property' property.id %}" class="property-doc-btn">
-                Update Property
-                <i class="fas fa-edit"></i>
-              </a>
-              <a href="{% url 'delete_property' property.id %}" class="property-doc-btn">
-                Delete Property
-                <i class="fas fa-trash"></i>
-              </a>
+              
             </div>
           </div>
         </div>

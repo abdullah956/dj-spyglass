@@ -178,6 +178,38 @@
                   </div>
                 </form>
               </nav>
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
+                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" aria-haspopup="true"><i class="fa fa-search"></i></a>
+                  <ul class="dropdown-menu dropdown-search animated fadeIn">
+                    <form action="{% url 'searched' %}" method="get">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <button type="submit" class="btn btn-search pe-1"><i class="fa fa-search search-icon"></i></button>
+                    </div>
+                    <input type="text" name="q" placeholder="Search ..." class="form-control" value="{{ request.GET.q }}" />
+                  </div>
+                </form>
+                  </ul>
+                </li>
+
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v menu-icon"></i></a>
+                  <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                    <li>
+                      <div class="notif-scroll scrollbar-outer">
+                        <div class="notif-center">
+                          {% if user_role == 'Agent' %}
+                          <a href="{% url 'edit_profile' %}" class="btn btn-block mb-2">Agent Profile</a>
+                          {% endif %}
+                          <a href="{% url 'payment_history' %}" class="btn btn-block mb-2">Payment History</a>
+                          <a href="{% url 'logout' %}" class="btn btn-block"><i class="fa fa-sign-out"></i> Logout</a>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </div>
           </nav>
           <!-- End Navbar -->
