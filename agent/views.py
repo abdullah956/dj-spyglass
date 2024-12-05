@@ -286,8 +286,16 @@ def all_agent_properties_dashboard(request):
         messages.error(request, "You must be logged in to view properties.")
         return redirect('login')
 
-    properties = Property.objects.filter(agent__user=request.user)
-    return render(request, 'agent/all_properties_of_agent.html', {'properties': properties})
+    # Get all approved properties
+    properties = Property.objects.filter(approval_status=True)
+
+    # Pass user-specific properties for edit/delete permissions
+    user_properties = Property.objects.filter(agent__user=request.user)
+    
+    return render(request, 'agent/all_properties_of_agent.html', {
+        'properties': properties,
+        'user_properties': user_properties
+    })
 
 #seacrch
 def searched(request):
