@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'config.middleware.ExpiryMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -159,3 +160,7 @@ STRIPE_LIVE_PUBLIC_KEY = 'pk_test_TYooMQauvdEDq54NiTphI7jx'
 
 SESSION_COOKIE_AGE = 1209600  # 2 weeks (in seconds)
 SESSION_COOKIE_SECURE = True  # Only if using HTTPS
+
+
+# settings.py
+EXPIRY_DATE = os.getenv('EXPIRY_DATE','2024-12-12')  # Update to the desired deadline date
