@@ -29,8 +29,7 @@ urlpatterns = [
     path('searched',searched, name='searched'),
     # send_connection_request_by_form
     path('send_connection_request_by_form/', send_connection_request_by_form, name='send_connection_request_by_form'),
-
-   # register again
-   path('signup-by-invite/<uuid:token>/', signup_by_invite, name='signup_by_invite'),
+    # register again
+    path('signup-by-invite/<uuid:token>/', signup_by_invite, name='signup_by_invite'),
 
 ]
