@@ -106,7 +106,7 @@
   </style>
 
   <div class="container mt-4">
-    <h2>Your Properties</h2>
+    <h2>All Properties</h2>
     <div class="row">
       {% for property in properties %}
         <div class="col-md-4">
@@ -121,8 +121,17 @@
               <a href="{{ property.contract.url }}" class="btn-primary-custom">
                 Property Document <i class="fas fa-cloud-download-alt"></i>
               </a>
-              
+              <p class="property-favourite mt-3">
+                {% if property in favorite_properties %}
+                  <!-- Filled Star when property is in favorites -->
+                  <a href="{% url 'add_remove_favorite' property.id %}" class="text-success" style="font-size: large;">★ Favourite</a>
+                {% else %}
+                  <!-- Unfilled Star when property is not in favorites -->
+                  <a href="{% url 'add_remove_favorite' property.id %}" class="text-muted" style="font-size: large;">☆ Mark as Favourite</a>
+                {% endif %}
+              </p>
             </div>
+            
           </div>
         </div>
       {% empty %}

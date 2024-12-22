@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import signup_by_invite,send_connection_request_by_form,searched,all_agent_properties_dashboard,agent_profile_by_ID,agent_profile,assistant_profile,homeowner_profile,all_homeowners,assistant_requests_status_by_agent,homeowner_requests_status_by_agent,homeowner_send_connection_request,dashboard_view, all_assistants , assistant_send_connection_request
+from .views import view_favorites,add_remove_favorite,signup_by_invite,send_connection_request_by_form,searched,all_agent_properties_dashboard,agent_profile_by_ID,agent_profile,assistant_profile,homeowner_profile,all_homeowners,assistant_requests_status_by_agent,homeowner_requests_status_by_agent,homeowner_send_connection_request,dashboard_view, all_assistants , assistant_send_connection_request
 urlpatterns = [
     # dashboard for agent and assistant
     path('agent-dashboard/', dashboard_view, name='dashboard'),
@@ -31,5 +31,8 @@ urlpatterns = [
     path('send_connection_request_by_form/', send_connection_request_by_form, name='send_connection_request_by_form'),
     # register again
     path('signup-by-invite/<uuid:token>/', signup_by_invite, name='signup_by_invite'),
-
+    # fav add remove
+    path('property/<int:property_id>/favorite/', add_remove_favorite, name='add_remove_favorite'),
+    #view fav
+    path('favorites/', view_favorites, name='view_favorites')
 ]

@@ -124,8 +124,16 @@ def all_assistant_properties_dashboard(request):
         messages.error(request, "You must be logged in to view properties.")
         return redirect('login')
 
-    properties = Property.objects.filter(assistant__user=request.user)
-    return render(request, 'assistant/all_properties_of_assistant.html', {'properties': properties})
+    # Get properties assigned to the assistant
+    properties = Property.objects.filter(approval_status=True)
+
+    # Get the list of properties that the logged-in user has favorited
+    favorite_properties = Property.objects.filter(favorites__user=request.user)
+
+    return render(request, 'assistant/all_properties_of_assistant.html', {
+        'properties': properties,
+        'favorite_properties': favorite_properties
+    })
 
 # email accceptant
 def email_accept_assistant_connection_request(request, request_id):

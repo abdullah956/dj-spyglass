@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect, get_object_or_404, redirect, get_object_or_404
-from properties.models import ConnectionRequest
+from properties.models import ConnectionRequest, Favorites
 from django.shortcuts import render, get_object_or_404, redirect
 from users.forms import UserCreationForm
 from users.models import  Agent , Assistant
@@ -253,10 +253,14 @@ def all_agent_properties_dashboard(request):
 
     # Pass user-specific properties for edit/delete permissions
     user_properties = Property.objects.filter(agent__user=request.user)
+
+    # Get the list of properties that the logged-in user has favorited
+    favorite_properties = Property.objects.filter(favorites__user=request.user)
     
     return render(request, 'agent/all_properties_of_agent.html', {
         'properties': properties,
-        'user_properties': user_properties
+        'user_properties': user_properties,
+        'favorite_properties': favorite_properties
     })
 
 #seacrch
@@ -357,3 +361,32 @@ def signup_by_invite(request, token):
         form = CustomUserCreationForm()
     
     return render(request, 'agent/signup_by_invite.html', {'form': form})
+
+
+
+# to add or remove fav 
+def add_remove_favorite(request, property_id):
+    property_obj = Property.objects.get(id=property_id)
+    favorite = Favorites.objects.filter(user=request.user, property=property_obj).first()
+    if favorite:
+        favorite.delete()
+    else:
+        Favorites.objects.create(user=request.user, property=property_obj)
+    return redirect('view_favorites')
+
+# view all fav
+def view_favorites(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to view your favorites.")
+        return redirect('login')
+
+    favorites = Favorites.objects.filter(user=request.user)
+    favorite_properties = [favorite.property for favorite in favorites]
+
+    # Get all approved properties (if you want to display all properties, not just favorites)
+    properties = Property.objects.filter(approval_status=True)
+
+    return render(request, 'agent/favorites.html', {
+        'favorite_properties': favorite_properties,
+        'properties': properties,  # This line passes all properties to the template
+    })

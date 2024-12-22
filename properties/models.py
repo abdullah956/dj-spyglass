@@ -5,6 +5,7 @@ from django.db import models
 from users.models import Agent , Homeowner , Assistant
 import uuid
 from django.db import models
+from django.conf import settings
 
 class Property(BasedModel):
     PROCESS_CHOICES = [
@@ -57,3 +58,13 @@ class AgentInvitation(BasedModel):
 
     def __str__(self):
         return f"Invitation to {self.email} ({self.user_type})"
+
+class Favorites(BasedModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'property')
+
+    def __str__(self):
+        return f"{self.user.email} favorited {self.property.address} - {self.property.state}"

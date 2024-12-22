@@ -41,7 +41,7 @@
     
     .property-concession {
       font-size: 14px;
-      color: #A22FDC;
+      color: #a22fdc;
       margin-bottom: 10px;
     }
     
@@ -56,16 +56,16 @@
       color: #555;
       margin-bottom: 15px;
     }
-
+    
     .property-agent {
       font-size: 14px;
       font-weight: bold;
       color: #333;
     }
-
+    
     .btn-copy-link {
       display: inline-block;
-      background-color: #A22FDC;
+      background-color: #a22fdc;
       color: white;
       border-radius: 20px;
       padding: 6px 12px;
@@ -73,17 +73,17 @@
       text-decoration: none;
       margin-bottom: 15px;
     }
-
+    
     .btn-copy-link:hover {
-      background-color: #891ABF;
+      background-color: #891abf;
       color: white;
     }
-
+    
     .btn-primary-custom {
       display: block;
       width: 70%;
       text-align: center;
-      background-color: #891ABF;
+      background-color: #891abf;
       color: white;
       padding: 8px 8px;
       border-radius: 20px;
@@ -97,7 +97,7 @@
       background-color: #9e3ccf;
       color: white;
     }
-
+    
     .btn-primary-custom i {
       margin-left: 8px;
     }
@@ -106,7 +106,7 @@
   <div class="container mt-4">
     <h2>All Favourite Properties</h2>
     <div class="row">
-      {% for property in properties %}
+      {% for property in favorite_properties %}
         <div class="col-md-4">
           <div class="property-card">
             <!-- Image -->
@@ -116,35 +116,31 @@
             <div class="property-info">
               <p class="property-price">${{ property.price }}</p>
               <span class="property-concession">Concession: {{ property.concession_percentage }} %</span>
-              <span class="btn-copy-link mx-5" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/agent/profilebyID/{{ property.agent.id }}/')" >
-                <i class="fas fa-link"></i> Copy Link
-              </span>
+              <span class="btn-copy-link mx-5" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/agent/profilebyID/{{ property.agent.id }}/')"><i class="fas fa-link"></i> Copy Link</span>
               <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank">
-                <p class="property-location text-dark"><b>Address:</b> {{ property.address }}, {{ property.state }}</p>
+                <p class="property-location text-dark">
+                  <b>Address:</b> {{ property.address }}, {{ property.state }}
+                </p>
               </a>
               <p class="property-details">
                 <i class="fas fa-bed"></i> {{ property.bedrooms }} Beds &nbsp;
                 <i class="fas fa-bath"></i> {{ property.bathrooms }} Bath
               </p>
               <p class="property-agent">Agent: {{ property.agent }}</p>
-              <a href="{{ property.contract.url }}" class="btn-primary-custom">
-                Property Document <i class="fas fa-download"></i>
-              </a>
+              <a href="{{ property.contract.url }}" class="btn-primary-custom">Property Document <i class="fas fa-download"></i></a>
 
               <!-- Edit/Delete Buttons -->
               {% if property.agent.user.id == request.user.id %}
-                <a href="{% url 'update_property' property.id %}" class="btn btn-success mt-2">
-                  <i class="fas fa-edit">Edit</i>
-                </a>
-                <a href="{% url 'delete_property' property.id %}" class="btn btn-danger mt-2">
-                  <i class="fas fa-trash">Delete</i>
-                </a>
+                <a href="{% url 'update_property' property.id %}" class="btn btn-success mt-2"><i class="fas fa-edit">Edit</i></a>
+                <a href="{% url 'delete_property' property.id %}" class="btn btn-danger mt-2"><i class="fas fa-trash">Delete</i></a>
               {% endif %}
               <p class="property-favourite mt-3">
-                {% if property.favourites %}
-                  <a href="{% url 'toggle_favourite' property.id %}" class="text-success" style="font-size: large;">★ Favourite</a>
+                {% if property in favorite_properties %}
+                  <!-- Filled Star when property is in favorites -->
+                  <a href="{% url 'add_remove_favorite' property.id %}" class="text-success" style="font-size: large;">★ Favourite</a>
                 {% else %}
-                  <a href="{% url 'toggle_favourite' property.id %}" class="text-muted" style="font-size: large;">☆ Mark as Favourite</a>
+                  <!-- Unfilled Star when property is not in favorites -->
+                  <a href="{% url 'add_remove_favorite' property.id %}" class="text-muted" style="font-size: large;">☆ Mark as Favourite</a>
                 {% endif %}
               </p>
             </div>

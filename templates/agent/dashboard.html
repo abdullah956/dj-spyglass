@@ -114,6 +114,11 @@
               </ul>
               <ul class="nav nav-secondary">
                 <li class="nav-item">
+                  <a href="{% url 'view_favorites' %}"><p>Favourites</p></a>
+                </li>
+              </ul>
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
                   <a href="{% url 'all_agent_properties_dashboard' %}"><p>All Properties</p></a>
                 </li>
               </ul>
@@ -138,6 +143,11 @@
               <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'all_assistant_properties_dashboard' %}"><p>All Properties</p></a>
+                </li>
+              </ul>
+              <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'view_favorites' %}"><p>Favourites</p></a>
                 </li>
               </ul>
             {% endif %}
