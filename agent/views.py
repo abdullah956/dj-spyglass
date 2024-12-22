@@ -281,6 +281,9 @@ def send_connection_request_by_form(request):
         user_type = request.POST['user_type']
         agent = Agent.objects.get(user=request.user)  # Current logged-in agent
 
+        if User.objects.filter(email=email).exists():
+            messages.error(request, f"An account with the email {email} already exists. Invitation cannot be sent.")
+            return redirect('send_connection_request_by_form')
         # Check if an invitation already exists for this email and user_type
         existing_invitation = AgentInvitation.objects.filter(email=email, user_type=user_type, is_used=True).first()
         
@@ -357,12 +360,14 @@ def signup_by_invite(request, token):
             
             messages.success(request, "Account created successfully.")
             return redirect('login')  # Redirect to login page after successful sign-up
+        else:
+            messages.error(request, "There were errors in the form. Please correct them and try again.")
+            return render(request, 'agent/signup_by_invite.html', {'form': form})
+    
     else:
         form = CustomUserCreationForm()
     
     return render(request, 'agent/signup_by_invite.html', {'form': form})
-
-
 
 # to add or remove fav 
 def add_remove_favorite(request, property_id):
