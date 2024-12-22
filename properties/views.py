@@ -50,10 +50,17 @@ def property_create(request):
 def listed_properties(request):
     properties = Property.objects.filter(approval_status=True)
     active_subscription = None
+    is_homeowner = False  # Default value
+    
     if request.user.is_authenticated:
         active_subscription = request.user.subscription_set.filter(is_active=True, payment_successful=True).exists()
-    return render(request, 'properties/listed_properties.html', {'properties': properties, 'active_subscription': active_subscription})
-
+        is_homeowner = request.user.role == 'Homeowner'  # Check if the user is a homeowner
+    
+    return render(request, 'properties/listed_properties.html', {
+        'properties': properties,
+        'active_subscription': active_subscription,
+        'is_homeowner': is_homeowner
+    })
 
 # property lists of agents
 def properties_tobe_approved(request):
