@@ -66,7 +66,7 @@
                 <a class="contact nav-link" href="{% url 'dashboard' %}">Dashboard</a>
               </li>
             {% endif %}
-            {% if user.role == 'Homeowner' %}
+            {% comment %} {% if user.role == 'Homeowner' %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'agent_invites_for_homeowner' %}">Requests</a>
               </li>
@@ -75,7 +75,7 @@
               <li class="nav-item">
                 <a class="contact nav-link" href="">Requests</a>
               </li>
-            {% endif %}
+            {% endif %} {% endcomment %}
           </ul>
           <div class="d-flex align-items-center">
             {% if user.is_authenticated %}

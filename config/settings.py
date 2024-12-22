@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'assistant',
     'subscriptions',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'config.middleware.ExpiryMiddleware',
+    #'config.middleware.ExpiryMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -163,4 +162,4 @@ SESSION_COOKIE_SECURE = True  # Only if using HTTPS
 
 
 # settings.py
-EXPIRY_DATE = os.getenv('EXPIRY_DATE','2024-12-12')  # Update to the desired deadline date
+EXPIRY_DATE = os.getenv('EXPIRY_DATE')  # Update to the desired deadline date

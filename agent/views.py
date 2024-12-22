@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect, get_object_or_404, redirect, get_object_or_404
 from properties.models import ConnectionRequest
 from django.shortcuts import render, get_object_or_404, redirect
+from users.forms import UserCreationForm
 from users.models import  Agent , Assistant
-from properties.models import Property
+from properties.models import Property, AgentInvitation
 from django.contrib import messages
 from users.models import User , Homeowner
 from django.db.models import Count, Q
@@ -10,7 +11,9 @@ from subscriptions.models import Subscription
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.conf import settings
-
+from django.contrib.auth import login, authenticate
+from users.forms import CustomUserCreationForm
+from django.http import Http404
 
 # for dashbaord
 def dashboard_view(request):
@@ -58,30 +61,7 @@ def all_homeowners(request):
     return render(request, 'agent/all_homeowners.html', {'homeowners': homeowners})
 
 
-# # send connection to homeowner
-# def homeowner_send_connection_request(request):
-#     if request.method == 'POST':
-#         homeowner_id = request.POST.get('homeowner_id')
-#         homeowner = get_object_or_404(Homeowner, id=homeowner_id)
-#         agent_profile = Agent.objects.filter(user=request.user, assistant__isnull=False).exists()
-#         agent = get_object_or_404(Agent, user=request.user)
-#         if agent.homeowner:
-#             messages.error(request, 'You already have a connection with a homeowner.')
-#             return redirect('all_homeowners')
-#         if not agent_profile:
-#             messages.error(request, 'You must have an assigned assistant before sending a connection request to a homeowner.')
-#             return redirect('all_homeowners')
-#         existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=homeowner.user).exists()
-#         if existing_request:
-#             messages.error(request, 'You have already sent a connection request to this homeowner.')
-#         else:
-#             ConnectionRequest.objects.create(
-#                 sender=request.user,
-#                 receiver=homeowner.user
-#             )
-#             messages.success(request, 'Connection request sent to the homeowner.')
-#     return redirect('all_homeowners')
-
+# send connection to homeowner
 def homeowner_send_connection_request(request):
     if request.method == 'POST':
         homeowner_id = request.POST.get('homeowner_id')
@@ -141,25 +121,7 @@ def all_assistants(request):
 
     return render(request, 'agent/all_assistants.html', {'assistants': assistants_to_display})
 
-# # send connection to assistant
-# def assistant_send_connection_request(request):
-#     if request.method == 'POST':
-#         assistant_id = request.POST.get('assistant_id')
-#         assistant = get_object_or_404(Assistant, id=assistant_id)
-#         existing_request = ConnectionRequest.objects.filter(sender=request.user, receiver=assistant.user).exists()
-#         agent = get_object_or_404(Agent, user=request.user)
-#         if agent.homeowner:
-#             messages.error(request, 'You already have a connection with a assistant.')
-#             return redirect('all_assistants')
-#         if existing_request:
-#             messages.error(request, 'You have already sent a connection request to this assistant.')
-#         else:
-#             ConnectionRequest.objects.create(
-#                 sender=request.user,
-#                 receiver=assistant.user
-#             )
-#             messages.success(request, 'Connection request sent to the assistant.')
-#     return redirect('all_assistants')
+# send connection to assistant
 def assistant_send_connection_request(request):
     if request.method == 'POST':
         assistant_id = request.POST.get('assistant_id')
@@ -308,3 +270,90 @@ def searched(request):
 
     return render(request, 'agent/searched.html', {'properties': properties, 'query': query})
 
+#send_connection_request_by_form.html
+def send_connection_request_by_form(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        user_type = request.POST['user_type']
+        agent = Agent.objects.get(user=request.user)  # Current logged-in agent
+
+        # Check if an invitation already exists for this email and user_type
+        existing_invitation = AgentInvitation.objects.filter(email=email, user_type=user_type, is_used=True).first()
+        
+        if existing_invitation:
+            messages.error(request, f"An invitation has already been sent to {email} as a {user_type}.")
+            return redirect('send_connection_request_by_form')
+
+        # Check if email is already associated with a Homeowner or Assistant
+        if user_type == 'homeowner' and Homeowner.objects.filter(user__email=email).exists():
+            messages.error(request, "This homeowner already exists.")
+            return redirect('send_connection_request_by_form')
+        
+        if user_type == 'assistant' and Assistant.objects.filter(user__email=email).exists():
+            messages.error(request, "This assistant already exists.")
+            return redirect('send_connection_request_by_form')
+
+        # Create the invitation
+        invitation = AgentInvitation.objects.create(
+            email=email,
+            user_type=user_type,
+            agent=agent
+        )
+
+        # Send email with the invitation link
+        full_link = request.build_absolute_uri(reverse('signup_by_invite', args=[invitation.token]))
+
+        send_mail(
+            'Agent Invitation',
+            f'You have been invited to join as a {user_type}.\nPlease register using the following link: {full_link}',
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+            fail_silently=False,
+        )
+
+        messages.success(request, "Invitation sent successfully.")
+        return redirect('send_connection_request_by_form')
+    
+    return render(request, 'agent/send_connection_request_by_form.html')
+
+
+# registration
+def signup_by_invite(request, token):
+    try:
+        invitation = AgentInvitation.objects.get(token=token, is_used=False)
+    except AgentInvitation.DoesNotExist:
+        raise Http404("Invalid or expired invitation.")
+    
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Save the user
+            
+            # Assign the correct role to the user based on invitation
+            user.role = invitation.user_type.capitalize()  # Set the role to 'Homeowner' or 'Assistant'
+            user.save()
+
+            # Assign the user to the correct model based on invitation
+            if invitation.user_type == 'homeowner':
+                homeowner = Homeowner.objects.create(user=user)
+                # Link the homeowner to the agent
+                agent = invitation.agent
+                agent.homeowner = homeowner
+                agent.save()
+            else:
+                assistant = Assistant.objects.create(user=user)
+                # Link the assistant to the agent
+                agent = invitation.agent
+                agent.assistant = assistant
+                agent.save()
+            
+            # Mark the invitation as used
+            invitation.is_used = True
+            invitation.save()
+            
+            messages.success(request, "Account created successfully.")
+            return redirect('login')  # Redirect to login page after successful sign-up
+    else:
+        form = CustomUserCreationForm()
+    
+    return render(request, 'agent/signup_by_invite.html', {'form': form})

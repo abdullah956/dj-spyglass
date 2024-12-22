@@ -55,32 +55,32 @@
                   <a href="{% url 'dashboard' %}"><p>Dashboard</p></a>
                 </li>
               </ul>
-              <ul class="nav nav-secondary">
+              {% comment %} <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'all_homeowners' %}"><p>Request Homeowner</p></a>
                 </li>
-              </ul>
-              <ul class="nav nav-secondary">
+              </ul> {% endcomment %}
+              {% comment %} <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'homeowner_requests_status_by_agent' %}"><p>Homeowner Requests Status</p></a>
                 </li>
-              </ul>
+              </ul> {% endcomment %}
               <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'homeowner_profile' %}"><p>Homeowner Profile</p></a>
                 </li>
               </ul>
 
-              <ul class="nav nav-secondary">
+              {% comment %} <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'all_assistants' %}"><p>Request Assistants</p></a>
                 </li>
-              </ul>
-              <ul class="nav nav-secondary">
+              </ul> {% endcomment %}
+              {% comment %} <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'assistant_requests_status_by_agent' %}"><p>Assistant Requests Status</p></a>
                 </li>
-              </ul>
+              </ul> {% endcomment %}
               <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'assistant_profile' %}"><p>Assistant Profile</p></a>
@@ -94,9 +94,14 @@
               </ul>
               <ul class="nav nav-secondary">
                 <li class="nav-item">
-                  <a href="{% url 'favourite_properties' %}"><p>Favourites</p></a>
+                  <a href="{% url 'send_connection_request_by_form' %}"><p>Send Email Invite</p></a>
                 </li>
               </ul>
+              {% comment %} <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'favourite_properties' %}"><p>Favourites</p></a>
+                </li>
+              </ul> {% endcomment %}
               {% comment %} <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'agent_profile' %}"><p>Agent Profile</p></a>
@@ -119,16 +124,17 @@
                   <a href="{% url 'all_homeowners_for_assistant' %}"><p>Homeowner Requests</p></a>
                 </li>
               </ul> {% endcomment %}
-              <ul class="nav nav-secondary">
+              {% comment %} <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'homeowner_requests_status_by_assistant' %}"><p>Homeowner Requests Status</p></a>
                 </li>
-              </ul>
+              </ul> {% endcomment %}
               <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'properties_to_be_approved_by_assistant' %}"><p>Property Approval</p></a>
                 </li>
               </ul>
+              
               <ul class="nav nav-secondary">
                 <li class="nav-item">
                   <a href="{% url 'all_assistant_properties_dashboard' %}"><p>All Properties</p></a>

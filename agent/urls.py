@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import searched,all_agent_properties_dashboard,agent_profile_by_ID,agent_profile,assistant_profile,homeowner_profile,all_homeowners,assistant_requests_status_by_agent,homeowner_requests_status_by_agent,homeowner_send_connection_request,dashboard_view, all_assistants , assistant_send_connection_request
+from .views import signup_by_invite,send_connection_request_by_form,searched,all_agent_properties_dashboard,agent_profile_by_ID,agent_profile,assistant_profile,homeowner_profile,all_homeowners,assistant_requests_status_by_agent,homeowner_requests_status_by_agent,homeowner_send_connection_request,dashboard_view, all_assistants , assistant_send_connection_request
 urlpatterns = [
     # dashboard for agent and assistant
     path('agent-dashboard/', dashboard_view, name='dashboard'),
@@ -27,5 +27,10 @@ urlpatterns = [
     path('all-agent-properties_dashboard',all_agent_properties_dashboard, name='all_agent_properties_dashboard'),
     # searched
     path('searched',searched, name='searched'),
-    
+    # send_connection_request_by_form
+    path('send_connection_request_by_form/', send_connection_request_by_form, name='send_connection_request_by_form'),
+
+   # register again
+   path('signup-by-invite/<uuid:token>/', signup_by_invite, name='signup_by_invite'),
+
 ]

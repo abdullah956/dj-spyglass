@@ -3,7 +3,7 @@ from config import settings
 from config.models import BasedModel
 from django.db import models
 from users.models import Agent , Homeowner , Assistant
-
+import uuid
 from django.db import models
 
 class Property(BasedModel):
@@ -47,3 +47,14 @@ class ConnectionRequest(BasedModel):
 
     def __str__(self):
         return f"Request from {self.sender} to {self.receiver} ({self.get_status_display()})"
+    
+    
+class AgentInvitation(BasedModel):
+    email = models.EmailField()
+    user_type = models.CharField(max_length=10, choices=[('homeowner', 'Homeowner'), ('assistant', 'Assistant')])
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    agent = models.ForeignKey('users.Agent', on_delete=models.CASCADE, related_name='invitations')  # Reference 'users.Agent'
+    is_used = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Invitation to {self.email} ({self.user_type})"

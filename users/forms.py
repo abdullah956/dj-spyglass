@@ -32,7 +32,7 @@ class UserCreationForm(UserCreationForm):
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('name', 'email', 'password1', 'password2', 'role', 'company', 'phone', 'state', 'business_address')
+        fields = ('name', 'email', 'password1', 'password2', 'company', 'phone', 'state', 'business_address')
         widgets = {
             'password1': forms.PasswordInput(),
             'password2': forms.PasswordInput(),

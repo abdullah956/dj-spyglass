@@ -1,33 +1,133 @@
 {% extends 'agent/dashboard.html' %}
 
 {% block content %}
-<div class="container mt-4">
+  <style>
+    .container {
+      padding: 20px;
+    }
+    
+    .property-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .property-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    .property-card img {
+      width: 100%;
+      height: 200px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      object-fit: cover;
+    }
+    
+    .property-info {
+      padding: 20px;
+      text-align: left;
+    }
+    
+    .property-price {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .property-concession {
+      font-size: 14px;
+      color: #A22FDC;
+      margin-bottom: 10px;
+    }
+    
+    .property-description {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 20px;
+    }
+    
+    .property-details {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .property-agent {
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .btn-primary-custom {
+      display: block;
+      width: 70%;
+      text-align: center;
+      background-color: #891ABF;
+      color: white;
+      padding: 8px 8px;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn-primary-custom:hover {
+      background-color: #9e3ccf;
+      color: white;
+    }
+
+    .btn-primary-custom i {
+      margin-left: 8px;
+    }
+
+    .property-favourite a {
+      font-size: large;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .property-favourite a.text-success {
+      color: green;
+    }
+
+    .property-favourite a.text-muted {
+      color: gray;
+    }
+
+    .property-favourite a:hover {
+      color: #0056b3;
+    }
+  </style>
+
+  <div class="container mt-4">
     <h2>Your Properties</h2>
     <div class="row">
-        {% for property in properties %}
-            <div class="col-md-4">
-                <div class="property-card">
-                    <img src="{{ property.property_images.url }}" alt="Property Image" class="img-fluid"/>
-                    <div class="property-info">
-                        <p class="property-price">${{ property.price }}</p>
+      {% for property in properties %}
+        <div class="col-md-4">
+          <div class="property-card">
+            <!-- Image -->
+            <img src="{{ property.property_images.url }}" alt="Property Image" />
 
-                        
-                    
-
-                      
-                        <p class="property-location">{{ property.address }}, {{ property.state }}</p>
-
-
-                
-                        <a href="{{ property.contract.url }}" class="property-doc-btn">Property Document 
-                            <i class="fas fa-cloud-download-alt"></i>
-                        </a>
-                    </div>
-                </div>
+            <!-- Info -->
+            <div class="property-info">
+              <p class="property-price">${{ property.price }}</p>
+              <p class="property-location text-dark"><b>Address:</b> {{ property.address }}, {{ property.state }}</p>
+              <a href="{{ property.contract.url }}" class="btn-primary-custom">
+                Property Document <i class="fas fa-cloud-download-alt"></i>
+              </a>
+              
             </div>
-        {% empty %}
-            <p>No properties found.</p>
-        {% endfor %}
+          </div>
+        </div>
+      {% empty %}
+        <p>No properties found.</p>
+      {% endfor %}
     </div>
-</div>
+  </div>
 {% endblock %}

@@ -33,13 +33,9 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            user.role = 'Agent'
             user.save()
-            if user.role == 'Agent':
-                Agent.objects.create(user=user)
-            elif user.role == 'Homeowner':
-                Homeowner.objects.create(user=user)
-            elif user.role == 'Assistant':
-                Assistant.objects.create(user=user)
+            Agent.objects.create(user=user)
 
             otp = pyotp.TOTP(settings.OTP_SECRET_KEY)
             otp_code = otp.now()

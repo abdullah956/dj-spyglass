@@ -88,7 +88,10 @@ def property_approve(request, property_id):
         return redirect('home')
     if request.method == 'POST':
         property_obj.approval_status = True
-        property_obj.assistant = agent.assistant
+        if request.user.role == 'Agent':
+            property_obj.assistant = agent.assistant
+        else :
+            property_obj.assistant = assistant
         property_obj.save()
         homeowner_email = property_obj.homeowner.user.email
         subject = 'Your Property has been Approved'
@@ -138,6 +141,7 @@ def property_approve_by_assistant(request, property_id):
             assistant_profile = Assistant.objects.get(user=request.user)
             property_obj = get_object_or_404(Property, id=property_id)
             agent_profile = property_obj.agent
+            print(agent_profile)
             if agent_profile.assistant != assistant_profile:
                 messages.error(request, 'You do not have permission to approve this property.')
                 return redirect('home')
