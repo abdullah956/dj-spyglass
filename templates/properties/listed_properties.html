@@ -83,8 +83,14 @@
             {% else %}
               <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-user"></i> Login/Register</a>
             {% endif %}
-            {% if user.role == 'Homeowner' %}
-              <a class="btn btn-add-listing" href="{% url 'property_create' %}"><i class="fas fa-home"></i> Add Listing</a>
+            {% if user.is_authenticated and user.role == 'Homeowner' %}
+              <a class="btn btn-add-listing" href="{% url 'process_agent_homeowner' %}"><i class="fas fa-home"></i> Add Listing</a>
+            {% endif %}
+            {% if user.is_authenticated and user.role == 'Agent' %}
+              <a class="btn btn-add-listing" href="{% url 'agent_property_create' %}"><i class="fas fa-home"></i> Add Listing</a>
+            {% endif %}
+            {% if user.is_authenticated and user.role == 'Assistant' %}
+              <a class="btn btn-add-listing" href="{% url 'assistant_property_create' %}"><i class="fas fa-home"></i> Add Listing</a>
             {% endif %}
           </div>
         </div>

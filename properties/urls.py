@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import favourite_properties,delete_property,update_property,toggle_favourite,favourites_list,process_agent_homeowner,agent_property_create,property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
+from .views import assistant_property_create,favourite_properties,delete_property,update_property,toggle_favourite,favourites_list,process_agent_homeowner,agent_property_create,property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
 
 urlpatterns = [
     # to create properties
@@ -23,6 +23,8 @@ urlpatterns = [
     path('process-agent/', process_agent_homeowner, name='process_agent_homeowner'),
     # property create by agent 
     path('property-create-by-agent/',agent_property_create , name='agent_property_create'),
+    # property create by assistant
+    path('assistant/property/create/', assistant_property_create, name='assistant_property_create'),
     # fav 
     path('favourites/', favourites_list, name='favourites_list'),
     # toggle fav

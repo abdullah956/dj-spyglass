@@ -241,8 +241,6 @@ def agent_property_create(request):
         messages.error(request, "You must be logged in as an agent to create a property.")
         return redirect('home')
 
-
-
     if request.method == 'POST':
         form = PropertyForm(request.POST, request.FILES)
         if form.is_valid():
@@ -262,6 +260,30 @@ def agent_property_create(request):
         form = PropertyForm()
     return render(request, 'properties/property_form.html', {'form': form})
 
+# Property create by assistant
+def assistant_property_create(request):
+    assistant = Assistant.objects.filter(user=request.user).first()
+    if not assistant:
+        messages.error(request, "You must be logged in as an assistant to create a property.")
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = PropertyForm(request.POST, request.FILES)
+        if form.is_valid():
+            property_obj = form.save(commit=False)
+            property_obj.homeowner = assistant.agents.first().homeowner if assistant.agents.exists() else None
+            property_obj.assistant = assistant
+            property_obj.agent = assistant.agents.first() if assistant.agents.exists() else None
+            property_obj.approval_status = True
+            property_obj.save()
+            messages.success(request, 'The property has been successfully created.')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the errors in the form.')
+    else:
+        form = PropertyForm()
+
+    return render(request, 'properties/property_form.html', {'form': form})
 # alll fav
 def favourites_list(request):
     properties = Property.objects.filter(favourites=True)
