@@ -328,3 +328,29 @@ def favourite_properties(request):
     agent = request.user.agent_profile
     properties = Property.objects.filter(favourites=True, agent=agent)
     return render(request, 'agent/favprops.html', {'properties': properties})
+
+
+# Update Property for Assistant
+def assistant_update_property(request, pk):
+    if not hasattr(request.user, 'assistant_profile'):
+        messages.error(request, 'You are not authorized to perform this action.')
+        return redirect('home')
+
+    property = get_object_or_404(Property, id=pk, assistant=request.user.assistant_profile)
+    if request.method == 'POST':
+        form = PropertyForm(request.POST, request.FILES, instance=property)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Property updated successfully.')
+            return redirect('all_assistant_properties_dashboard')
+    else:
+        form = PropertyForm(instance=property)
+    return render(request, 'agent/update_property.html', {'form': form})
+
+
+# Delete Property for Assistant
+def assistant_delete_property(request, pk):
+    property = get_object_or_404(Property, pk=pk, assistant=request.user.assistant_profile)
+    property.delete()
+    messages.success(request, "Property deleted successfully.")
+    return redirect('all_assistant_properties_dashboard')

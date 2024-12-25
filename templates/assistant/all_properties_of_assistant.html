@@ -41,7 +41,7 @@
     
     .property-concession {
       font-size: 14px;
-      color: #A22FDC;
+      color: #a22fdc;
       margin-bottom: 10px;
     }
     
@@ -56,18 +56,18 @@
       color: #555;
       margin-bottom: 15px;
     }
-
+    
     .property-agent {
       font-size: 14px;
       font-weight: bold;
       color: #333;
     }
-
+    
     .btn-primary-custom {
       display: block;
       width: 70%;
       text-align: center;
-      background-color: #891ABF;
+      background-color: #891abf;
       color: white;
       padding: 8px 8px;
       border-radius: 20px;
@@ -81,25 +81,25 @@
       background-color: #9e3ccf;
       color: white;
     }
-
+    
     .btn-primary-custom i {
       margin-left: 8px;
     }
-
+    
     .property-favourite a {
       font-size: large;
       text-decoration: none;
       transition: color 0.3s ease;
     }
-
+    
     .property-favourite a.text-success {
       color: green;
     }
-
+    
     .property-favourite a.text-muted {
       color: gray;
     }
-
+    
     .property-favourite a:hover {
       color: #0056b3;
     }
@@ -117,10 +117,15 @@
             <!-- Info -->
             <div class="property-info">
               <p class="property-price">${{ property.price }}</p>
-              <p class="property-location text-dark"><b>Address:</b> {{ property.address }}, {{ property.state }}</p>
-              <a href="{{ property.contract.url }}" class="btn-primary-custom">
-                Property Document <i class="fas fa-cloud-download-alt"></i>
-              </a>
+              <p class="property-location text-dark">
+                <b>Address:</b> {{ property.address }}, {{ property.state }}
+              </p>
+              <a href="{{ property.contract.url }}" class="btn-primary-custom">Property Document <i class="fas fa-cloud-download-alt"></i></a>
+              {% if property.assistant.user.id == request.user.id %}
+                <a href="{% url 'assistant_update_property' property.id %}" class="btn btn-success mt-2"><i class="fas fa-edit">Edit</i></a>
+                <a href="{% url 'assistant_delete_property' property.id %}" class="btn btn-danger mt-2"><i class="fas fa-trash">Delete</i></a>
+              {% endif %}
+
               <p class="property-favourite mt-3">
                 {% if property in favorite_properties %}
                   <!-- Filled Star when property is in favorites -->
@@ -131,7 +136,6 @@
                 {% endif %}
               </p>
             </div>
-            
           </div>
         </div>
       {% empty %}
