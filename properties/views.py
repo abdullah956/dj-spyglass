@@ -21,22 +21,22 @@ def property_create(request):
     except Homeowner.DoesNotExist:
         messages.error(request, "You must be a homeowner to create a property.")
         return redirect('home')
-    agent = Agent.objects.filter(homeowner=homeowner).first()
-    if not agent:
-        messages.error(request, "You must be connected with an agent before creating a property.")
-        return redirect('home')
+
     property_count = Property.objects.filter(homeowner=homeowner).count()
     if property_count >= 10:
         messages.error(request, "You cannot upload more than 10 properties.")
         return redirect('home')
+
     if request.method == 'POST':
         form = PropertyForm(request.POST, request.FILES)
         if form.is_valid():
             property_obj = form.save(commit=False)
             property_obj.homeowner = homeowner
+            agent = Agent.objects.filter(homeowner=homeowner).first()
             property_obj.agent = agent
             property_obj.state = homeowner.user.state
-            property_obj.assistant = agent.assistant
+            property_obj.assistant = agent.assistant if agent else None
+            property_obj.approval_status = True if not agent else False
             property_obj.save()
             messages.success(request, 'Your property has been successfully created.')
             return redirect('home')
@@ -44,7 +44,10 @@ def property_create(request):
             messages.error(request, 'Please correct the errors in the form.')
     else:
         form = PropertyForm()
+
     return render(request, 'properties/property_form.html', {'form': form})
+
+
 
 # listed properties
 def listed_properties(request):
@@ -224,15 +227,8 @@ def property_search(request):
 def process_agent_homeowner(request):
     if not check_property_limit(request):
         return redirect('home')
-        
-    homeowner = get_object_or_404(Homeowner, user=request.user)
-    
-    try:
-        agent = Agent.objects.get(homeowner=homeowner)
-        return create_checkout_session(request)
-    except Agent.DoesNotExist:
-        messages.error(request, "You don't have an assigned agent. Click on Agent Requests in the Navbar.")
-        return redirect('home')
+    return create_checkout_session(request)
+   
 
 # property create by agent 
 def agent_property_create(request):
