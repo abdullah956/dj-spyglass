@@ -157,6 +157,11 @@
               </li>
             </ul>
             <ul class="nav nav-secondary">
+                <li class="nav-item">
+                  <a href="{% url 'edit_profile' %}"><p>Edit Assistant Profile</p></a>
+                </li>
+              </ul>
+            <ul class="nav nav-secondary">
               <li class="nav-item">
                 <a href="{% url 'home' %}"><p>Home</p></a>
               </li>
@@ -217,6 +222,9 @@
                         <div class="notif-center">
                           {% if user_role == 'Agent' %}
                           <a href="{% url 'edit_profile' %}" class="btn btn-block mb-2">Agent Profile</a>
+                          {% endif %}
+                          {% if user_role == 'Assistant' %}
+                          <a href="{% url 'edit_profile' %}" class="btn btn-block mb-2">Assistant Profile</a>
                           {% endif %}
                           <a href="{% url 'payment_history' %}" class="btn btn-block mb-2">Payment History</a>
                           <a href="{% url 'logout' %}" class="btn btn-block"><i class="fa fa-sign-out"></i> Logout</a>
