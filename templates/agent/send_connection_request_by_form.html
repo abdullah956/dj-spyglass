@@ -1,17 +1,31 @@
 {% extends 'agent/dashboard.html' %}
 
 {% block content %}
-  <form method="post">
-    {% csrf_token %}
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required />
+  <div class="container my-5">
+    <div class="card shadow-lg">
+      <div class="card-header" style="background-color: #A06EBF; color: white;">
+        <h3 class="text-center mb-0">Send Invitation</h3>
+      </div>
+      <div class="card-body">
+        <form method="post" class="p-4">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="email" class="font-weight-bold">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter recipient's email" required />
+          </div>
 
-    <label for="user_type">User Type:</label>
-    <select id="user_type" name="user_type" required>
-      <option value="homeowner">Homeowner</option>
-      <option value="assistant">Assistant</option>
-    </select>
+          <div class="form-group">
+            <label for="user_type" class="font-weight-bold">User Type:</label>
+            <select id="user_type" name="user_type" class="form-control" required>
+              <option value="" disabled selected>Select user type</option>
+              <option value="homeowner">Homeowner</option>
+              <option value="assistant">Assistant</option>
+            </select>
+          </div>
 
-    <button type="submit">Send Invitation</button>
-  </form>
+          <button type="submit" class="btn" style="background-color: #A06EBF; color: white;">Send Invitation</button>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}
