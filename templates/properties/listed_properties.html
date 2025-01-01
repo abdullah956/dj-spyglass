@@ -334,7 +334,24 @@
                 header.classList.remove('sticky');
             }
         };
+        
+
     </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const priceElements = document.querySelectorAll(".property-price");
+
+    priceElements.forEach(priceElement => {
+        const priceValue = parseFloat(priceElement.textContent.replace("$", "").trim());
+
+        if (!isNaN(priceValue)) {
+            const formattedPrice = Math.floor(priceValue).toLocaleString();
+            priceElement.textContent = `$${formattedPrice}`;
+        }
+    });
+});
+
+</script>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
