@@ -265,10 +265,9 @@
                     <p class="property-price">${{ property.price }}</p>
 
                     <!-- Copy Link Button with Agent Profile URL -->
-                    <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/agent/profilebyID/{{ property.agent.id }}/')">
-                        <i class="fas fa-link"></i> Copy Link
-                    </span>
-
+                    <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/properties/{{ property.id }}/')">
+    <i class="fas fa-link"></i> Copy Link
+</span>
                     {% if user.is_authenticated and active_subscription %}
                         <p class="property-concession">Concession: {{ property.compensation }}%</p>
                     {% endif %}
@@ -698,7 +697,21 @@
     });
     
     </script>
-    
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const priceElements = document.querySelectorAll(".property-price");
+
+    priceElements.forEach(priceElement => {
+        const priceValue = parseFloat(priceElement.textContent.replace("$", "").trim());
+
+        if (!isNaN(priceValue)) {
+            const formattedPrice = Math.floor(priceValue).toLocaleString();
+            priceElement.textContent = `$${formattedPrice}`;
+        }
+    });
+});
+
+</script>
 
  
 

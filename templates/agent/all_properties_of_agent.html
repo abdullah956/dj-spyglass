@@ -116,7 +116,9 @@
             <div class="property-info">
               <p class="property-price">${{ property.price }}</p>
               <span class="property-concession">Concession: {{ property.concession_percentage }} %</span>
-              <span class="btn-copy-link mx-5" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/agent/profilebyID/{{ property.agent.id }}/')"><i class="fas fa-link"></i> Copy Link</span>
+              <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/properties/{{ property.id }}/')">
+    <i class="fas fa-link"></i> Copy Link
+</span>
               <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank">
                 <p class="property-location text-dark">
                   <b>Address:</b> {{ property.address }}, {{ property.state }}
@@ -164,4 +166,19 @@
       )
     }
   </script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const priceElements = document.querySelectorAll(".property-price");
+
+    priceElements.forEach(priceElement => {
+        const priceValue = parseFloat(priceElement.textContent.replace("$", "").trim());
+
+        if (!isNaN(priceValue)) {
+            const formattedPrice = Math.floor(priceValue).toLocaleString();
+            priceElement.textContent = `$${formattedPrice}`;
+        }
+    });
+});
+
+</script>
 {% endblock %}

@@ -350,3 +350,9 @@ def assistant_delete_property(request, pk):
     property.delete()
     messages.success(request, "Property deleted successfully.")
     return redirect('all_assistant_properties_dashboard')
+
+#property detail
+def property_detail(request, id):
+    property = get_object_or_404(Property, id=id)
+    print(15)
+    return render(request, 'properties/property_detail.html', {'property': property})

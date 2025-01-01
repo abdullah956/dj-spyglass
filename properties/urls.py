@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import assistant_delete_property,assistant_update_property,assistant_property_create,favourite_properties,delete_property,update_property,toggle_favourite,favourites_list,process_agent_homeowner,agent_property_create,property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
+from .views import property_detail, assistant_delete_property,assistant_update_property,assistant_property_create,favourite_properties,delete_property,update_property,toggle_favourite,favourites_list,process_agent_homeowner,agent_property_create,property_search,check_property_limit,create_checkout_session,listed_properties , properties_tobe_approved , property_approve , property_create,properties_to_be_approved_by_assistant,property_approve_by_assistant
 
 urlpatterns = [
     # to create properties
@@ -39,4 +39,5 @@ urlpatterns = [
     path('assistant/update-property/<int:pk>/', assistant_update_property, name='assistant_update_property'),
     # delete ass
     path('assistant/delete-property/<int:pk>/', assistant_delete_property, name='assistant_delete_property'),
-]
+    path('<int:id>/', property_detail, name='property_detail'),
+    ]
