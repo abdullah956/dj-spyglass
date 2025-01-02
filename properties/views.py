@@ -54,7 +54,6 @@ def listed_properties(request):
     properties = Property.objects.filter(approval_status=True)
     active_subscription = None
     is_homeowner = False  # Default value
-    
     if request.user.is_authenticated:
         active_subscription = request.user.subscription_set.filter(is_active=True, payment_successful=True).exists()
         is_homeowner = request.user.role == 'Homeowner'  # Check if the user is a homeowner

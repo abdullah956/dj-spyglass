@@ -167,8 +167,8 @@
         </div>
     </div>
 </section>
-
-    <div class="container property-section">
+     {% if active_subscription %}
+     <div class="container property-section">
       <div class="row">
         <!-- Text section -->
         <div class="col-md-6">
@@ -187,7 +187,8 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>{% endif %}
+    
 
     <div class="container card-container">
       <div class="row">
