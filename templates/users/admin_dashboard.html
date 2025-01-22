@@ -3,24 +3,35 @@
 <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-
+    <title>Dashboard</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="shortcut icon"
+      href="{% static 'images/favicon.ico' %}"
+      type="image/x-icon"
+    />
 
     <!-- Fonts and icons -->
     <script src="{% static 'assets/js/plugin/webfont/webfont.min.js' %}"></script>
     <script>
       WebFont.load({
-        google: { families: ['Public Sans:300,400,500,600,700'] },
+        google: { families: ["Public Sans:300,400,500,600,700"] },
         custom: {
-          families: ['Font Awesome 5 Solid', 'Font Awesome 5 Regular', 'Font Awesome 5 Brands', 'simple-line-icons'],
-          urls: ["{% static 'assets/css/fonts.min.css' %}"]
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["{% static 'assets/css/fonts.min.css' %}"],
         },
         active: function () {
-          sessionStorage.fonts = true
-        }
-      })
+          sessionStorage.fonts = true;
+        },
+      });
     </script>
 
     <!-- CSS Files -->
@@ -30,21 +41,49 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
+    <style>
+      .card-gradient-1 {
+        background: linear-gradient(135deg, #a186be, #d6a3dc); /* Lighter purple gradient */
+        color: white; /* White text color */
+      }
+      
+      .card-gradient-2 {
+        background: linear-gradient(135deg, #ff5e62, #ff9966); /* Red to orange gradient */
+        color: white; /* White text color */
+      }
+      
+      .card-gradient-3 {
+        background: linear-gradient(135deg, #1cd8d2, #93edc7); /* Cyan to light green gradient */
+        color: white; /* White text color */
+      }
+    </style>
   </head>
 
   <body>
     <div class="wrapper">
       <!-- Sidebar -->
-      <div class="sidebar" data-background-color="dark">
+      <div class="sidebar" data-background-color="white">
         <div class="sidebar-logo">
           <!-- Logo Header -->
-          <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo"><img src="{% static 'assets/img/logo.png' %}" alt="navbar brand" class="navbar-brand" width="150" /></a>
+          <div class="logo-header" data-background-color="white">
+            <a href="index.html" class="logo"
+              ><img
+                src="{% static 'images/logo.png' %}"
+                alt="navbar brand"
+                class="navbar-brand"
+                width="150"
+            /></a>
             <div class="nav-toggle">
-              <button class="btn btn-toggle toggle-sidebar"><i class="gg-menu-right"></i></button>
-              <button class="btn btn-toggle sidenav-toggler"><i class="gg-menu-left"></i></button>
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
             </div>
-            <button class="topbar-toggler more"><i class="gg-more-vertical-alt"></i></button>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
           </div>
           <!-- End Logo Header -->
         </div>
@@ -70,6 +109,11 @@
                 <a href="{% url 'home' %}"><p>Home</p></a>
               </li>
             </ul>
+            <ul class="nav nav-secondary">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}"><p>Logout</p></a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -79,20 +123,37 @@
         <div class="main-header">
           <div class="main-header-logo">
             <!-- Logo Header -->
-            <div class="logo-header" data-background-color="dark">
-              <a href="index.html" class="logo"><img src="{% static 'assets/img/logo.png' %}" alt="navbar brand" class="navbar-brand" width="150" /></a>
+            <div class="logo-header" data-background-color="white">
+              <a href="index.html" class="logo"
+                ><img
+                  src="{% static 'images/logo.png' %}"
+                  alt="navbar brand"
+                  class="navbar-brand"
+                  width="150"
+              /></a>
               <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar"><i class="gg-menu-right"></i></button>
-                <button class="btn btn-toggle sidenav-toggler"><i class="gg-menu-left"></i></button>
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
               </div>
-              <button class="topbar-toggler more"><i class="gg-more-vertical-alt"></i></button>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
             </div>
             <!-- End Logo Header -->
           </div>
           <!-- Navbar Header -->
-          <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom" data-background-color="dark">
+          <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+            data-background-color="white"
+          >
             <div class="container-fluid">
-              <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"></nav>
+              <nav
+                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+              ></nav>
             </div>
           </nav>
           <!-- End Navbar -->
@@ -101,15 +162,12 @@
         <div class="container">
           <div class="page-inner">
             {% if messages %}
-              <div class="alert-container">
-                {% for message in messages %}
-                  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-              </div>
-            {% endif %}
-            {% block content %}
-
-            {% endblock %}
+            <div class="alert-container">
+              {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+            {% endif %} {% block content %} {% endblock %}
           </div>
         </div>
       </div>

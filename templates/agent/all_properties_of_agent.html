@@ -1,184 +1,212 @@
-{% extends 'agent/dashboard.html' %}
+{% extends 'agent/dashboard.html' %} {% block content %}
+<style>
+  .container {
+    padding: 20px;
+  }
 
-{% block content %}
-  <style>
-    .container {
-      padding: 20px;
-    }
-    
-    .property-card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .property-card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    }
-    
-    .property-card img {
-      width: 100%;
-      height: 200px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      object-fit: cover;
-    }
-    
-    .property-info {
-      padding: 20px;
-      text-align: left;
-    }
-    
-    .property-price {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
-    }
-    
-    .property-concession {
-      font-size: 14px;
-      color: #a22fdc;
-      margin-bottom: 10px;
-    }
-    
-    .property-description {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 20px;
-    }
-    
-    .property-details {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 15px;
-    }
-    
-    .property-agent {
-      font-size: 14px;
-      font-weight: bold;
-      color: #333;
-    }
-    
-    .btn-copy-link {
-      display: inline-block;
-      background-color: #a22fdc;
-      color: white;
-      border-radius: 20px;
-      padding: 6px 12px;
-      font-size: 14px;
-      text-decoration: none;
-      margin-bottom: 15px;
-    }
-    
-    .btn-copy-link:hover {
-      background-color: #891abf;
-      color: white;
-    }
-    
-    .btn-primary-custom {
-      display: block;
-      width: 70%;
-      text-align: center;
-      background-color: #891abf;
-      color: white;
-      padding: 8px 8px;
-      border-radius: 20px;
-      font-size: 16px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-    
-    .btn-primary-custom:hover {
-      background-color: #9e3ccf;
-      color: white;
-    }
-    
-    .btn-primary-custom i {
-      margin-left: 8px;
-    }
-  </style>
+  .property-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
 
-  <div class="container mt-4">
-    <h2>All Properties</h2>
-    <div class="row">
-      {% for property in properties %}
-        <div class="col-md-4">
-          <div class="property-card">
-            <!-- Image -->
-            <img src="{{ property.property_images.url }}" alt="Property Image" />
+  .property-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
 
-            <!-- Info -->
-            <div class="property-info">
-              <p class="property-price">${{ property.price }}</p>
-              <span class="property-concession">Concession: {{ property.concession_percentage }} %</span>
-              <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/properties/{{ property.id }}/')">
-    <i class="fas fa-link"></i> Copy Link
-</span>
-              <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank">
-                <p class="property-location text-dark">
-                  <b>Address:</b> {{ property.address }}, {{ property.state }}
-                </p>
-              </a>
-              <p class="property-details">
-                <i class="fas fa-bed"></i> {{ property.bedrooms }} Beds &nbsp;
-                <i class="fas fa-bath"></i> {{ property.bathrooms }} Bath
-              </p>
-              <p class="property-agent">{{ property.agent }}</p>
-              <a href="{{ property.contract.url }}" class="btn-primary-custom">Property Document <i class="fas fa-download"></i></a>
+  .property-card img {
+    width: 100%;
+    height: 200px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    object-fit: cover;
+  }
 
-              <!-- Edit/Delete Buttons -->
-              {% if property.agent.user.id == request.user.id %}
-                <a href="{% url 'update_property' property.id %}" class="btn btn-success mt-2"><i class="fas fa-edit">Edit</i></a>
-                <a href="{% url 'delete_property' property.id %}" class="btn btn-danger mt-2"><i class="fas fa-trash">Delete</i></a>
-              {% endif %}
-              <p class="property-favourite mt-3">
-                {% if property in favorite_properties %}
-                  <!-- Filled Star when property is in favorites -->
-                  <a href="{% url 'add_remove_favorite' property.id %}" class="text-success" style="font-size: large;">★ Favourite</a>
-                {% else %}
-                  <!-- Unfilled Star when property is not in favorites -->
-                  <a href="{% url 'add_remove_favorite' property.id %}" class="text-muted" style="font-size: large;">☆ Mark as Favourite</a>
-                {% endif %}
-              </p>
-            </div>
-          </div>
+  .property-info {
+    padding: 20px;
+    text-align: left;
+  }
+
+  .property-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .property-concession {
+    font-size: 14px;
+    color: #a22fdc;
+    margin-bottom: 10px;
+  }
+
+  .property-description {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+  }
+
+  .property-details {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+  }
+
+  .property-agent {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .copy-link-btn {
+    display: inline-block;
+    background-color: #a22fdc;
+    color: white;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+
+  .copy-link-btn:hover {
+    background-color: #891abf;
+    color: white;
+  }
+
+  .btn-primary-custom {
+    display: block;
+    width: 80%;
+    text-align: center;
+    background-color: #891abf;
+    color: white;
+    padding: 8px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-primary-custom:hover {
+    background-color: #9e3ccf;
+    color: white;
+  }
+
+  .btn-primary-custom i {
+    margin-left: 8px;
+  }
+</style>
+
+<div class="container mt-4">
+  <h2>All Properties</h2>
+  <div class="row">
+    {% for property in properties %}
+    <div class="col-md-4">
+      <div class="property-card">
+        <!-- Image -->
+        <img src="{{ property.property_images.url }}" alt="Property Image" />
+
+        <!-- Info -->
+        <div class="property-info">
+          <p class="property-price">${{ property.price }}</p>
+          <span class="property-concession"
+            >Concession: {{ property.concession_percentage }} %</span
+          >
+          <span
+            class="float-right copy-link-btn"
+            onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/properties/{{ property.id }}/')"
+          >
+            <i class="fas fa-link"></i> Copy Link
+          </span>
+          <a
+            href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}"
+            target="_blank"
+          >
+            <p class="property-location text-dark">
+              <b>Address:</b> {{ property.address }}, {{ property.state }}
+            </p>
+          </a>
+          <p class="property-details">
+            <i class="fas fa-bed"></i> {{ property.bedrooms }} Beds &nbsp;
+            <i class="fas fa-bath"></i> {{ property.bathrooms }} Bath
+          </p>
+          <p class="property-agent">{{ property.agent }}</p>
+          <a href="{{ property.contract.url }}" class="btn-primary-custom"
+            >Property Document <i class="fas fa-download"></i
+          ></a>
+
+          <!-- Edit/Delete Buttons -->
+          {% if property.agent.user.id == request.user.id %}
+          <a
+            href="{% url 'update_property' property.id %}"
+            class="btn btn-sm btn-success mt-2"
+            ><i class="fas fa-edit"> Edit</i></a
+          >
+          <a
+            href="{% url 'delete_property' property.id %}"
+            class="btn btn-sm btn-danger mt-2"
+            ><i class="fas fa-trash"> Delete</i></a
+          >
+          {% endif %}
+          <p class="property-favourite mt-3">
+            {% if property in favorite_properties %}
+            <!-- Filled Star when property is in favorites -->
+            <a
+              href="{% url 'add_remove_favorite' property.id %}"
+              class="text-success"
+              style="font-size: medium"
+              >★ Favourite</a
+            >
+            {% else %}
+            <!-- Unfilled Star when property is not in favorites -->
+            <a
+              href="{% url 'add_remove_favorite' property.id %}"
+              class="text-muted"
+              style="font-size: medium"
+              >☆ Mark as Favourite</a
+            >
+            {% endif %}
+          </p>
         </div>
-      {% empty %}
-        <p>No approved properties found.</p>
-      {% endfor %}
+      </div>
     </div>
+    {% empty %}
+    <p>No approved properties found.</p>
+    {% endfor %}
   </div>
+</div>
 
-  <script>
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(
-        function () {
-          alert('Link copied to clipboard!')
-        },
-        function (err) {
-          alert('Failed to copy link: ', err)
-        }
-      )
-    }
-  </script>
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
+<script>
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(
+      function () {
+        alert("Link copied to clipboard!");
+      },
+      function (err) {
+        alert("Failed to copy link: ", err);
+      }
+    );
+  }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
     const priceElements = document.querySelectorAll(".property-price");
 
-    priceElements.forEach(priceElement => {
-        const priceValue = parseFloat(priceElement.textContent.replace("$", "").trim());
+    priceElements.forEach((priceElement) => {
+      const priceValue = parseFloat(
+        priceElement.textContent.replace("$", "").trim()
+      );
 
-        if (!isNaN(priceValue)) {
-            const formattedPrice = Math.floor(priceValue).toLocaleString();
-            priceElement.textContent = `$${formattedPrice}`;
-        }
+      if (!isNaN(priceValue)) {
+        const formattedPrice = Math.floor(priceValue).toLocaleString();
+        priceElement.textContent = `$${formattedPrice}`;
+      }
     });
-});
-
+  });
 </script>
 {% endblock %}
