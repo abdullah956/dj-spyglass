@@ -85,9 +85,6 @@ def properties_tobe_approved(request):
 def property_approve(request, property_id):
     if request.user.role == 'Agent':
         agent = get_object_or_404(Agent, user=request.user)
-        if agent.assistant is None:
-            messages.error(request, "You must have an assigned assistant to approve properties.")
-            return redirect('properties_tobe_approved')
         property_obj = get_object_or_404(Property, id=property_id, agent=agent)
     elif request.user.role == 'Assistant':
         assistant = get_object_or_404(Assistant, user=request.user)
