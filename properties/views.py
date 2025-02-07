@@ -40,7 +40,7 @@ def property_create(request):
                     break
 
             property_obj.agent = agent
-            property_obj.state = agent.user.state
+            property_obj.state = homeowner.user.state
             property_obj.assistant = agent.assistant if agent else None
             property_obj.approval_status = True if not agent else False
             property_obj.save()

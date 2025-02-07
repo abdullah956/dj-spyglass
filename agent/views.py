@@ -332,36 +332,32 @@ def signup_by_invite(request, token):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Save the user
-            
-            # Assign the correct role to the user based on invitation
-            user.role = invitation.user_type.capitalize()  # Set the role to 'Homeowner' or 'Assistant'
+            user = form.save()
+            user.role = invitation.user_type.capitalize()
+            user.is_verified = True
             user.save()
 
-            # Assign the user to the correct model based on invitation
+            agent = invitation.agent
+
             if invitation.user_type == 'homeowner':
                 homeowner = Homeowner.objects.create(user=user)
-                # Link the homeowner to the agent
-                agent = invitation.agent
-                agent.homeowner = homeowner
+                homeowners_list = agent.homeowners_json
+                homeowners_list.append(homeowner.id)
+                agent.homeowners_json = homeowners_list
                 agent.save()
             else:
                 assistant = Assistant.objects.create(user=user)
-                # Link the assistant to the agent
-                agent = invitation.agent
                 agent.assistant = assistant
                 agent.save()
             
-            # Mark the invitation as used
             invitation.is_used = True
             invitation.save()
             
             messages.success(request, "Account created successfully.")
-            return redirect('login')  # Redirect to login page after successful sign-up
+            return redirect('login')
         else:
             messages.error(request, "There were errors in the form. Please correct them and try again.")
-            return render(request, 'agent/signup_by_invite.html', {'form': form})
-    
+
     else:
         form = CustomUserCreationForm()
     
