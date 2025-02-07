@@ -25,11 +25,13 @@
         <div class="col-md-4 mb-4">
           <div class="card card-gradient-1">
             <div class="card-body">
-              <h5 class="card-title">Connected Homeowner</h5>
-              {% if homeowner %}
-                <p class="card-text">{{ homeowner.user.email }}</p>
+              <h5 class="card-title">Connected Homeowners</h5>
+              {% if homeowners.exists %}
+                {% for homeowner in homeowners %}
+                  <p class="card-text">{{ homeowner.user.email }}</p>
+                {% endfor %}
               {% else %}
-                <p class="card-text">No connected homeowner</p>
+                <p class="card-text">No connected homeowners</p>
               {% endif %}
             </div>
           </div>

@@ -23,16 +23,16 @@ def dashboard_view(request):
         if request.user.role == 'Agent':
             agent = Agent.objects.filter(user=request.user).first()
             if agent:
-                homeowner = agent.homeowner
+                homeowners = Homeowner.objects.filter(id__in=agent.homeowners_json)
                 assistant = agent.assistant
                 properties = Property.objects.filter(agent=agent)
                 context = {
                     'user_role': 'Agent',
-                    'homeowner': homeowner,
-                    'assistant' : assistant,
+                    'homeowners': homeowners,
+                    'assistant': assistant,
                     'properties_count': properties.count(),
                 }
-        
+                print("Homeowners:", homeowners)  
         elif request.user.role == 'Assistant':
             assistant = Assistant.objects.filter(user=request.user).first()
             if assistant:
@@ -45,9 +45,9 @@ def dashboard_view(request):
                 }
         return render(request, 'agent/dashboard_landing_agent_assistant.html', context)
     else:
-        messages.error(request, f"Please buy a subscription to access the dashboard.")
+        messages.error(request, "Please buy a subscription to access the dashboard.")
         return redirect('subscription_page')
-    
+
 # to see all avaible homeowners
 def all_homeowners(request):
     relevant_statuses = ['P', 'R']
@@ -202,17 +202,15 @@ def homeowner_profile(request):
     user = request.user
     try:
         agent = Agent.objects.get(user=user)
-        if agent.homeowner is None:
-            messages.error(request, "Homeowner profile not found.")
+        homeowner_ids = agent.homeowners_json  # Get stored homeowner IDs
+        homeowners = Homeowner.objects.filter(id__in=homeowner_ids)  # Fetch all homeowners
+        if not homeowners:
+            messages.error(request, "No homeowners found.")
             return redirect('dashboard')
-        homeowner = agent.homeowner
     except Agent.DoesNotExist:
         messages.error(request, "Agent profile not found.")
         return redirect('dashboard')
-    except Homeowner.DoesNotExist:
-        messages.error(request, "Homeowner profile not found.")
-        return redirect('dashboard')
-    return render(request, 'agent/homeowner_profile.html', {'homeowner': homeowner})
+    return render(request, 'agent/homeowner_profile.html', {'homeowners': homeowners})
 
 # assistant profile
 def assistant_profile(request):
