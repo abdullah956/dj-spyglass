@@ -32,12 +32,19 @@ def property_create(request):
         if form.is_valid():
             property_obj = form.save(commit=False)
             property_obj.homeowner = homeowner
-            agent = Agent.objects.filter(homeowner=homeowner).first()
+
+            agent = None
+            for a in Agent.objects.all():
+                if homeowner.id in a.homeowners_json:
+                    agent = a
+                    break
+
             property_obj.agent = agent
-            property_obj.state = homeowner.user.state
+            property_obj.state = agent.user.state
             property_obj.assistant = agent.assistant if agent else None
             property_obj.approval_status = True if not agent else False
             property_obj.save()
+
             messages.success(request, 'Your property has been successfully created.')
             return redirect('home')
         else:
@@ -46,6 +53,7 @@ def property_create(request):
         form = PropertyForm()
 
     return render(request, 'properties/property_form.html', {'form': form})
+
 
 
 
@@ -237,7 +245,7 @@ def agent_property_create(request):
         form = PropertyForm(request.POST, request.FILES)
         if form.is_valid():
             property_obj = form.save(commit=False)
-            property_obj.homeowner = agent.homeowner if agent.homeowner else None
+            property_obj.homeowner = None
             property_obj.agent = agent
             property_obj.assistant = agent.assistant if agent.assistant else None
             # property_obj.state = agent.state if agent.homeowner else None
@@ -263,7 +271,7 @@ def assistant_property_create(request):
         form = PropertyForm(request.POST, request.FILES)
         if form.is_valid():
             property_obj = form.save(commit=False)
-            property_obj.homeowner = assistant.agents.first().homeowner if assistant.agents.exists() else None
+            property_obj.homeowner = None
             property_obj.assistant = assistant
             property_obj.agent = assistant.agents.first() if assistant.agents.exists() else None
             property_obj.approval_status = True
