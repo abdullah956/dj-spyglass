@@ -39,5 +39,6 @@ urlpatterns = [
     path('assistant/update-property/<int:pk>/', assistant_update_property, name='assistant_update_property'),
     # delete ass
     path('assistant/delete-property/<int:pk>/', assistant_delete_property, name='assistant_delete_property'),
+    # property detial 
     path('<int:id>/', property_detail, name='property_detail'),
     ]

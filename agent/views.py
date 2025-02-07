@@ -389,3 +389,29 @@ def view_favorites(request):
         'favorite_properties': favorite_properties,
         'properties': properties,  # This line passes all properties to the template
     })
+
+# remove assistant
+def remove_assistant(request, assistant_id):
+    assistant = get_object_or_404(Assistant, id=assistant_id)
+    agent = get_object_or_404(Agent, assistant=assistant)
+
+    agent.assistant = None
+    agent.save()
+    messages.success(request, "Assistant removed successfully.")
+
+    return redirect('dashboard')
+
+
+# remove homeowner 
+def remove_homeowner(request, homeowner_id):
+    homeowner = get_object_or_404(Homeowner, id=homeowner_id)
+    
+    agent = Agent.objects.filter(homeowners_json__isnull=False).first()
+    if agent and homeowner.id in agent.homeowners_json:
+        agent.homeowners_json.remove(homeowner.id)
+        agent.save()
+        messages.success(request, "Homeowner removed successfully.")
+    else:
+        messages.error(request, "Homeowner not found in agent's list.")
+
+    return redirect('dashboard')

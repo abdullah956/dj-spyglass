@@ -66,7 +66,7 @@
         <div class="col-md-4 mb-4">
           <div class="card card-gradient-3">
             <div class="card-body">
-              <a href="{% url 'favourite_properties' %}" class="card-title">Favourites</a>
+              <a href="{% url 'view_favorites' %}" class="card-title">Favourites</a>
             </div>
           </div>
         </div>
@@ -99,13 +99,28 @@
           </div>
         </div>
       </div>
-    {% else %}
-      <div class="row">
-        <div class="col-md-12 mb-4">
-          <div class="card card-gradient-1">
+    <div class="row">
+        
+        
+        <div class="col-md-4 mb-4">
+          <div class="card card-gradient-2">
             <div class="card-body">
-              <h5 class="card-title">Your Properties</h5>
-              <p class="card-text">You have {{ properties_count }} properties listed.</p>
+              <a href="{% url 'all_assistant_properties_dashboard' %}" class="card-title">All Properties</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card card-gradient-3">
+            <div class="card-body">
+              <a href="{% url 'view_favorites' %}" class="card-title">Favourites</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="card card-gradient-2">
+            <div class="card-body">
+              <a href="{% url 'properties_to_be_approved_by_assistant' %}" class="card-title">Property Approval</a>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import view_favorites,add_remove_favorite,signup_by_invite,send_connection_request_by_form,searched,all_agent_properties_dashboard,agent_profile_by_ID,agent_profile,assistant_profile,homeowner_profile,all_homeowners,assistant_requests_status_by_agent,homeowner_requests_status_by_agent,homeowner_send_connection_request,dashboard_view, all_assistants , assistant_send_connection_request
+from .views import remove_homeowner, remove_assistant, view_favorites,add_remove_favorite,signup_by_invite,send_connection_request_by_form,searched,all_agent_properties_dashboard,agent_profile_by_ID,agent_profile,assistant_profile,homeowner_profile,all_homeowners,assistant_requests_status_by_agent,homeowner_requests_status_by_agent,homeowner_send_connection_request,dashboard_view, all_assistants , assistant_send_connection_request
 urlpatterns = [
     # dashboard for agent and assistant
     path('agent-dashboard/', dashboard_view, name='dashboard'),
@@ -34,5 +34,9 @@ urlpatterns = [
     # fav add remove
     path('property/<int:property_id>/favorite/', add_remove_favorite, name='add_remove_favorite'),
     #view fav
-    path('favorites/', view_favorites, name='view_favorites')
+    path('favorites/', view_favorites, name='view_favorites'),
+    # remove assistant 
+    path('remove-assistant/<int:assistant_id>/', remove_assistant, name='remove_assistant'),
+    # remove homeowner 
+    path('remove-homeowner/<int:homeowner_id>/', remove_homeowner, name='remove_homeowner'),
 ]

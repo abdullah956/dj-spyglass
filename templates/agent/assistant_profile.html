@@ -1,69 +1,70 @@
 {% extends 'agent/dashboard.html' %}
 
 {% block content %}
-<style>
-  
-
+  <style>
     .profile-card {
-        background: linear-gradient(145deg, #1e3799, #4a69bd); /* Gradient from darker to lighter blue */
-        border: 2px solid #ffffff; /* White border for clarity */
-        border-radius: 15px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.25); /* Stronger shadow for depth */
-        padding: 30px;
-        max-width: 450px;
-        width: 100%;
-        text-align: left;
+      background: linear-gradient(145deg, #1e3799, #4a69bd); /* Gradient from darker to lighter blue */
+      border: 2px solid #ffffff; /* White border for clarity */
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Stronger shadow for depth */
+      padding: 30px;
+      max-width: 450px;
+      width: 100%;
+      text-align: left;
     }
-
+    
     .profile-card h1 {
-        color: #ffffff;
-        font-size: 26px; /* Emphasizing the title */
-        margin-top: 0;
-        margin-bottom: 20px; /* More space below the header */
+      color: #ffffff;
+      font-size: 26px; /* Emphasizing the title */
+      margin-top: 0;
+      margin-bottom: 20px; /* More space below the header */
     }
-
+    
     .profile-card p {
-        color: #ffffff;
-        line-height: 1.8; /* Improved line height for readability */
-        margin: 10px 0;
-        font-size: 16px; /* Clearer and larger font size */
+      color: #ffffff;
+      line-height: 1.8; /* Improved line height for readability */
+      margin: 10px 0;
+      font-size: 16px; /* Clearer and larger font size */
     }
-
+    
     .profile-card strong {
-        color: #dcdcdc; /* Light grey for highlights */
-        font-weight: bold;
+      color: #dcdcdc; /* Light grey for highlights */
+      font-weight: bold;
     }
-</style>
+  </style>
 
-<div class="profile-card">
+  <div class="profile-card">
     <h1>Assistant Profile</h1>
+    <form method="post" action="{% url 'remove_assistant' assistant.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Remove Assistant</button>
+    </form>
     <p>
-        <strong>Name:</strong> {{ assistant.user.name }}
+      <strong>Name:</strong> {{ assistant.user.name }}
     </p>
     <p>
-        <strong>Email:</strong> {{ assistant.user.email }}
+      <strong>Email:</strong> {{ assistant.user.email }}
     </p>
     <p>
-        <strong>Role:</strong> {{ assistant.user.get_role_display }}
+      <strong>Role:</strong> {{ assistant.user.get_role_display }}
     </p>
     <p>
-        <strong>Phone:</strong> {{ assistant.user.phone }}
+      <strong>Phone:</strong> {{ assistant.user.phone }}
     </p>
     <p>
-        <strong>Company:</strong> {{ assistant.user.company }}
+      <strong>Company:</strong> {{ assistant.user.company }}
     </p>
     <p>
-        <strong>State:</strong> {{ assistant.user.state }}
+      <strong>State:</strong> {{ assistant.user.state }}
     </p>
     <p>
-        <strong>Business Address:</strong> {{ assistant.user.business_address }}
+      <strong>Business Address:</strong> {{ assistant.user.business_address }}
     </p>
     <p>
-        <strong>Is Verified:</strong> {{ assistant.user.is_verified }}
+      <strong>Is Verified:</strong> {{ assistant.user.is_verified }}
     </p>
     <p>
-        <strong>Username:</strong> {{ assistant.user.username }}
+      <strong>Username:</strong> {{ assistant.user.username }}
     </p>
-</div>
-
+  </div>
 {% endblock %}
