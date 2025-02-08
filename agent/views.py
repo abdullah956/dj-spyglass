@@ -393,13 +393,14 @@ def view_favorites(request):
 # remove assistant
 def remove_assistant(request, assistant_id):
     assistant = get_object_or_404(Assistant, id=assistant_id)
-    agent = get_object_or_404(Agent, assistant=assistant)
+    agent = get_object_or_404(Agent, user=request.user, assistant=assistant)
 
     agent.assistant = None
     agent.save()
-    messages.success(request, "Assistant removed successfully.")
 
+    messages.success(request, "Assistant removed successfully.")
     return redirect('dashboard')
+
 
 
 # remove homeowner 
