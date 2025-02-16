@@ -179,21 +179,9 @@
 <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/properties/{{ property.id }}/')">
     <i class="fas fa-link"></i> Copy Link
 </span>
-                {% if user.is_authenticated %}
-    {% if is_homeowner %}
-        {% if property.compensation %}
+               
             <p class="property-concession">Concession: {{ property.compensation }}{{ property.process }}</p>
-        {% else %}
-            <p class="property-process">{{ property.process }}</p>
-        {% endif %}
-    {% else %}
-        {% if property.compensation and active_subscription %}
-            <p class="property-concession">Concession: {{ property.compensation }}{{ property.process }}</p>
-        {% else %}
-            <p class="property-process">{{ property.process }}</p>
-        {% endif %}
-    {% endif %}
-{% endif %}
+       
 
 
                 <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank"><p class="property-location">{{ property.address }}, {{ property.state }}</p></a>

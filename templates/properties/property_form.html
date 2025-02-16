@@ -63,19 +63,19 @@
         </div>
         <div class="form-group">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="document" name="document" required/>
+            <input type="file" class="custom-file-input" id="document" name="document" required onchange="updateFileName(this)">
             <label class="custom-file-label" for="document">Property Document</label>
           </div>
         </div>
         <div class="form-group">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="contract" name="contract" required/>
+            <input type="file" class="custom-file-input" id="contract" name="contract" required onchange="updateFileName(this)">
             <label class="custom-file-label" for="contract">Upload Contract</label>
           </div>
         </div>
         <div class="form-group">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="property_images" name="property_images" multiple />
+            <input type="file" class="custom-file-input" id="property_images" name="property_images" multiple onchange="updateFileName(this)">
             <label class="custom-file-label" for="property_images">Property Images</label>
           </div>
         </div>
@@ -97,6 +97,12 @@
         } else {
           compensationField.disabled = false // Enable the field
         }
+      }
+    </script>
+    <script>
+      function updateFileName(input) {
+        var fileName = input.files.length > 1 ? input.files.length + ' files selected' : input.files[0].name;
+        input.nextElementSibling.innerText = fileName;
       }
     </script>
   </body>
