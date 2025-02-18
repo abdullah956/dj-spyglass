@@ -34,7 +34,7 @@
             
           {% endif %}
             <p class="text-center">Create Account</p>
-            <form action="" method="post">
+            <!-- <form action="" method="post">
               {% csrf_token %}
               <div class="form-group">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required />
@@ -75,14 +75,88 @@
               </div>
 
               <button style="margin-top: 100px;" type="submit" class="btn btn-primary btn-block">Register</button>
+            </form> -->
+            <form action="" method="post">
+              {% csrf_token %}
+            
+              <!-- Full Name -->
+              <div class="form-group">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required />
+                {% if form.name.errors %}
+                  <small class="text-danger">{{ form.name.errors.0 }}</small>
+                {% endif %}
+              </div>
+            
+              <!-- Email -->
+              <div class="form-group">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required />
+                {% if form.email.errors %}
+                  <small class="text-danger">{{ form.email.errors.0 }}</small>
+                {% endif %}
+              </div>
+            
+              <!-- Password -->
+              <div class="form-group position-relative">
+                <input type="password" class="form-control" id="password" name="password1" placeholder="Password" required />
+                <span class="toggle-password"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                {% if form.password1.errors %}
+                  <small class="text-danger">{{ form.password1.errors.0 }}</small>
+                {% endif %}
+              </div>
+            
+              <!-- Confirm Password -->
+              <div class="form-group position-relative">
+                <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password" required />
+                <span class="toggle-password"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                {% if form.password2.errors %}
+                  <small class="text-danger ">{{ form.password2.errors.0 }}</small>
+                {% endif %}
+              </div>
+            
+              <!-- Company -->
+              <div class="form-group">
+                <input type="text" class="form-control" id="company" name="company" placeholder="Company" />
+                {% if form.company.errors %}
+                  <small class="text-danger">{{ form.company.errors.0 }}</small>
+                {% endif %}
+              </div>
+            
+              <!-- State Dropdown -->
+              <div class="form-group">
+                <select class="form-control" id="state" name="state" required>
+                  <option value="">Select a state</option>
+                </select>
+                {% if form.state.errors %}
+                  <small class="text-danger">{{ form.state.errors.0 }}</small>
+                {% endif %}
+              </div>
+            
+              <!-- Phone Number -->
+              <div class="form-group">
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" required />
+                {% if form.phone.errors %}
+                  <small class="text-danger ">{{ form.phone.errors.0 }}</small>
+                {% endif %}
+              </div>
+            
+              <!-- Business Address -->
+              <div class="form-group">
+                <textarea class="form-control" id="business_address" name="business_address" rows="3" placeholder="Business Address" required></textarea>
+                {% if form.business_address.errors %}
+                  <small class="text-danger">{{ form.business_address.errors.0 }}</small>
+                {% endif %}
+              </div>
+            
+              <button style="margin-top: 100px;" type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
+            
           </div>
         </div>
         <!-- Image Section -->
         <div class="col-lg-6 image-container" style="  background: url('{% static 'images/register.png' %}') no-repeat center center;background-repeat: no-repeat;
   background-size: cover;">
           <!-- <img src="https://via.placeholder.com/500x300.png" alt="Image" /> -->
-          <p class="col-lg-6 text-left" style="color: #7b2cbf; font-size: 26px">Discover the world of espionage and intrigue.</p>
+          <p class="col-lg-6 text-left" style="color: #7b2cbf; font-size: 26px">Discover the freedom in Transparency</p>
         </div>
       </div>
     </div>

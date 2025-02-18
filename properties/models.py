@@ -22,7 +22,7 @@ class Property(BasedModel):
     bathrooms = models.IntegerField()
     agent_remarks = models.TextField(blank=True, null=True)
     process = models.CharField(max_length=15, choices=PROCESS_CHOICES)
-    compensation = models.CharField(max_length=255)
+    compensation = models.CharField(max_length=255, blank=True, null=True)
     square_feet = models.IntegerField()
     document = models.FileField(upload_to='document/', blank=True, null=True)
     contract = models.FileField(upload_to='contracts/', blank=True, null=True)

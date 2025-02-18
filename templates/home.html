@@ -171,15 +171,15 @@
         <div class="col-lg-6">
           <div class="section-heading">Who are we</div>
           <h2 class="section-title">Welcome to Transparagent</h2>
-          <p class="section-description">At Transparagent, we bridge the gap between users and essential property documents, industry professionals, and the latest market information. Whether you are buying, selling, or renting, we provide the tools and resources you need to make informed decisions and achieve your real estate goals.</p>
+          <p class="section-description">At Transparagent, we connect agents with key property documents, agent only information and market insights on local and nationwide compensation offerings. Whether you're helping buyers, sellers, or investors, we offer the tools and resources to help you make informed decisions and reach your production goals.</p>
 
           <!-- Feature 1 -->
           <div class="feature-card">
             <i class="fas fa-file-alt feature-icon"></i>
              <!-- <img src="{% static 'images/icon1.png' %}" class="feature-icon" alt=""> -->
             <div>
-              <h5 class="feature-title">Exclusive Property Documents</h5>
-              <p class="feature-description">Access essential documents like floor plans, legal agreements, and market insights to gain a competitive edge.</p>
+              <h5 class="feature-title">Access Exclusive Property Documents</h5>
+              <p class="feature-description">Get Access to compensation agreements and supplemental documents from agents and sellers  (when provided)</p>
             </div>
           </div>
 
@@ -188,8 +188,8 @@
             <i class="fas fa-users feature-icon"></i>
              <!-- <img src="{% static 'images/icon2.png' %}" class="feature-icon" alt=""> -->
             <div>
-              <h5 class="feature-title">Network with Professionals</h5>
-              <p class="feature-description">Connect with agents, builders, and experts. Share knowledge and build partnerships to enhance your success.</p>
+              <h5 class="feature-title">Connect with Industry Professionals</h5>
+              <p class="feature-description">Engage with agents, builders, and experts to exchange insights and forge partnerships that drive your success</p>
             </div>
           </div>
 
@@ -198,8 +198,8 @@
             <i class="fas fa-chart-line feature-icon"></i>
              <!-- <img src="{% static 'images/icon3.png' %}" class="feature-icon" alt=""> -->
             <div>
-              <h5 class="feature-title">Stay Market Savvy</h5>
-              <p class="feature-description">Stay informed on market trends and investment opportunities. Make data-driven decisions to stay ahead.</p>
+              <h5 class="feature-title">Stay Ahead of the Market</h5>
+              <p class="feature-description">Keep up with the latest trends and investment opportunities to make informed, data-driven decisions and maintain a competitive edge with clients.</p>
             </div>
           </div>
 
@@ -269,7 +269,11 @@
     <i class="fas fa-link"></i> Copy Link
 </span>
                     {% if user.is_authenticated and active_subscription %}
+                    {% if  property.compensation %}
                         <p class="property-concession">Concession: {{ property.compensation }}{{ property.process }}</p>
+                        {% else %}
+                        <p class="property-concession">{{ property.process }}</p>
+                    {% endif %}
                     {% endif %}
 
                     <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank">
@@ -527,12 +531,12 @@
         <!-- Testimonial 1 -->
         <div class="testimonial-card active">
           <span class="testimonial-quote">“</span>
-          <p class="testimonial-content">Transparagent made the home-buying process incredibly smooth and stress-free. The access to essential property documents and connection to reliable real estate agents helped me find my dream home without any hassle.</p>
+          <p class="testimonial-content">Transparagent has completely changed the way I work as a real estate agent. Before, finding compensation details was a frustrating and time-consuming process—I had to call other agents, wait for responses, and sometimes deal with vague or incomplete information. Now, I can access everything I need in seconds. Having instant access to compensation details online has not only saved me hours of work but has also made my transactions smoother and more transparent. This platform is a total game-changer for agents who value efficiency and accuracy</p>
           <div class="testimonial-author">
             <img src="{% static 'images/profile1.png' %}" style="width: 50px;" alt="Author Image" />
             <div>
               <p>
-                <strong>Emily S.</strong>
+                <strong>Hina K. Real Estate Broker </strong>
               </p>
               <div class="testimonial-rating">
                 <i class="fas fa-star"></i>
@@ -547,12 +551,12 @@
         <!-- Testimonial 2 -->
         <div class="testimonial-card">
           <span class="testimonial-quote">“</span>
-          <p class="testimonial-content">Transparagent made the entire process of buying and selling property so much easier. The platform is efficient, and I highly recommend it for anyone in the market.</p>
+          <p class="testimonial-content">I can't believe I ever worked without Transparagent! Before using it, I was constantly making and receiving calls just to confirm if the seller was offering any concessions— I'm not going to say it was a huge waste of time and energy, but there are other activities I'd rather focus on. Now, I can log in, check the information instantly, and move forward with confidence. No more back-and-forth calls, no more chasing down answers. It’s exactly what our industry needed to bring more clarity and efficiency to the process. If you're an agent and you're not using Transparagent, you're making your job harder than it needs to be!</p>
           <div class="testimonial-author">
             <img src="{% static 'images/profile2.png' %}" style="width: 50px;" alt="Author Image" />
             <div>
               <p>
-                <strong>John D.</strong>
+                <strong>Raphael A. Real Estate Agent </strong>
               </p>
               <div class="testimonial-rating">
                 <i class="fas fa-star"></i>

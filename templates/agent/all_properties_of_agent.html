@@ -113,10 +113,11 @@
 
         <!-- Info -->
         <div class="property-info">
-          <p class="property-price">${{ property.price }}</p>
-          <span class="property-concession"
-            >Concession: {{ property.compensation }}{{ property.process }}</span
-          >
+          {% if  property.compensation %}
+                        <p class="property-concession">Concession: {{ property.compensation }}{{ property.process }}</p>
+                        {% else %}
+                        <p class="property-concession">{{ property.process }}</p>
+                    {% endif %}
           <span
             class="float-right copy-link-btn"
             onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/properties/{{ property.id }}/')"

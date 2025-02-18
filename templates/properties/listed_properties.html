@@ -174,7 +174,7 @@
         <div class="col-md-6">
           <h6 class="heading">CHECKOUT OUR</h6>
           <h2 class="font-weight-bold">Latest Listed Properties</h2>
-          <p class="property-description">At Spyglass, we offer a diverse portfolio of properties to meet your unique needs and preferences.</p>
+          <p class="property-description">At Transparagent, we offer a diverse portfolio of properties to meet your unique needs and preferences.</p>
         </div>
 
         <!-- Button section -->
@@ -202,22 +202,14 @@
 <span class="float-right copy-link-btn" onclick="copyToClipboard('{{ request.scheme }}://{{ request.get_host }}/properties/{{ property.id }}/')">
     <i class="fas fa-link"></i> Copy Link
 </span>
-                {% if user.is_authenticated %}
-    {% if is_homeowner %}
-        {% if property.compensation %}
-            <p class="property-concession">Concession: {{ property.compensation }}{{ property.process }}</p>
-        {% else %}
-            <p class="property-process">{{ property.process }}</p>
-        {% endif %}
-    {% else %}
-        {% if property.compensation and active_subscription %}
-            <p class="property-concession">Concession: {{ property.compensation }}{{ property.process }}</p>
-        {% else %}
-            <p class="property-process">{{ property.process }}</p>
-        {% endif %}
-    {% endif %}
-{% endif %}
-
+                
+{% if user.is_authenticated and active_subscription %}
+                    {% if  property.compensation %}
+                        <p class="property-concession">Concession: {{ property.compensation }}{{ property.process }}</p>
+                        {% else %}
+                        <p class="property-concession">{{ property.process }}</p>
+                    {% endif %}
+                    {% endif %}
 
                 <a href="https://www.google.com/maps?q={{ property.address }},{{ property.state }}" target="_blank"><p class="property-location">{{ property.address }}, {{ property.state }}</p></a>
                 <p class="property-details">

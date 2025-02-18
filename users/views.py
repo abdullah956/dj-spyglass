@@ -28,6 +28,36 @@ def home_view(request):
 
 
 # to register
+# def register_view(request):
+#     if request.method == 'POST':
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.role = 'Agent'
+#             user.save()
+#             Agent.objects.create(user=user)
+
+#             otp = pyotp.TOTP(settings.OTP_SECRET_KEY)
+#             otp_code = otp.now()
+#             send_mail(
+#                 'Your OTP Code',
+#                 f'Your OTP code is {otp_code}',
+#                 settings.EMAIL_HOST_USER,
+#                 [user.email],
+#                 fail_silently=False,
+#             )
+
+#             request.session['otp_email'] = user.email
+#             request.session['otp_code'] = otp_code
+#             messages.success(request, 'Account created successfully! Please verify your email with the OTP sent.')
+#             return redirect('verify_otp')
+#         else:
+#             messages.error(request, 'There was an error in the registration form. Please correct the issues and try again.')
+#     else:
+#         form = CustomUserCreationForm()
+
+#     return render(request, 'users/register.html', {'form': form})
+
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -57,6 +87,7 @@ def register_view(request):
         form = CustomUserCreationForm()
 
     return render(request, 'users/register.html', {'form': form})
+
 # to login 
 def login_view(request):
     if request.method == 'POST':

@@ -22,7 +22,7 @@
           {% endfor %}
         </div>
       {% endif %}
-      <form method="post" enctype="multipart/form-data" class="form-container">
+      <!-- <form method="post" enctype="multipart/form-data" class="form-container">
         {% csrf_token %}
         <div class="row">
           <div class="col-md-6 form-group">
@@ -34,8 +34,11 @@
         </div>
         <div class="row">
           <div class="col-md-6 form-group">
-            <input type="text" class="form-control" id="state" name="state" required placeholder="State" />
+            <select class="form-control" id="state" name="state" required>
+              <option value="" selected disabled>Select State</option>
+            </select>
           </div>
+          
           <div class="col-md-6 form-group">
             <input type="number" class="form-control" id="bedrooms" name="bedrooms" required placeholder="Bedrooms" />
           </div>
@@ -80,7 +83,113 @@
           </div>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%;">Create</button>
+      </form> -->
+      <form method="post" enctype="multipart/form-data" class="form-container">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <input type="text" class="form-control" id="address" name="address" required placeholder="Address" />
+            {% if form.address.errors %}
+              <small class="text-danger">{{ form.address.errors.0 }}</small>
+            {% endif %}
+          </div>
+          <div class="col-md-6 form-group">
+            <input type="number" class="form-control" id="price" name="price" required placeholder="Price" />
+            {% if form.price.errors %}
+              <small class="text-danger">{{ form.price.errors.0 }}</small>
+            {% endif %}
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <select class="form-control" id="state" name="state" required>
+              <option value="" selected disabled>Select State</option>
+            </select>
+            {% if form.state.errors %}
+              <small class="text-danger">{{ form.state.errors.0 }}</small>
+            {% endif %}
+          </div>
+      
+          <div class="col-md-6 form-group">
+            <input type="number" class="form-control" id="bedrooms" name="bedrooms" required placeholder="Bedrooms" />
+            {% if form.bedrooms.errors %}
+              <small class="text-danger">{{ form.bedrooms.errors.0 }}</small>
+            {% endif %}
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <input type="number" class="form-control" id="bathrooms" name="bathrooms" required placeholder="Bathrooms" />
+            {% if form.bathrooms.errors %}
+              <small class="text-danger">{{ form.bathrooms.errors.0 }}</small>
+            {% endif %}
+          </div>
+          <div class="col-md-6 form-group">
+            <input type="text" class="form-control" id="square_feet" name="square_feet" required placeholder="Square Feet" />
+            {% if form.square_feet.errors %}
+              <small class="text-danger">{{ form.square_feet.errors.0 }}</small>
+            {% endif %}
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <input type="number" class="form-control" id="compensation" name="compensation" placeholder="Compensation" />
+            {% if form.compensation.errors %}
+              <small class="text-danger">{{ form.compensation.errors.0 }}</small>
+            {% endif %}
+          </div>
+          <div class="col-md-6 form-group">
+            <select class="form-control" id="process" name="process">
+              <option value="%">%</option>
+              <option value="$">$</option>
+              <option value="Contact Agent">Contact Agent</option>
+              <option value="Send Offer">Send Offer</option>
+            </select>
+            {% if form.process.errors %}
+              <small class="text-danger">{{ form.process.errors.0 }}</small>
+            {% endif %}
+          </div>
+        </div>
+      
+        <!-- Property Document -->
+        <div class="form-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="document" name="document" required>
+            <label class="custom-file-label" for="document">Property Document</label>
+          </div>
+          {% if form.document.errors %}
+            <small class="text-danger">{{ form.document.errors.0 }}</small>
+          {% endif %}
+        </div>
+      
+        <!-- Upload Contract -->
+        <div class="form-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="contract" name="contract" required>
+            <label class="custom-file-label" for="contract">Upload Contract</label>
+          </div>
+          {% if form.contract.errors %}
+            <small class="text-danger">{{ form.contract.errors.0 }}</small>
+          {% endif %}
+        </div>
+      
+        <!-- Property Images -->
+        <div class="form-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="property_images" name="property_images" multiple>
+            <label class="custom-file-label" for="property_images">Property Images</label>
+          </div>
+          {% if form.property_images.errors %}
+            <small class="text-danger">{{ form.property_images.errors.0 }}</small>
+          {% endif %}
+        </div>
+      
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Create</button>
       </form>
+      
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -104,6 +213,22 @@
         var fileName = input.files.length > 1 ? input.files.length + ' files selected' : input.files[0].name;
         input.nextElementSibling.innerText = fileName;
       }
+    </script>
+    <script src="{% static 'js/states.json' %}"></script>
+    <script>
+      fetch('/static/js/states.json')
+        .then((response) => response.json())
+        .then((states) => {
+          const stateSelect = document.getElementById('state')
+      
+          states.forEach((state) => {
+            const option = document.createElement('option')
+            option.value = state.name
+            option.textContent = state.name
+            stateSelect.appendChild(option)
+          })
+        })
+        .catch((error) => console.error('Error fetching states:', error))
     </script>
   </body>
 </html>

@@ -13,9 +13,11 @@ from django.contrib.auth.decorators import login_required
 
 
 # to create properties
+# 
 def property_create(request):
     print("User authenticated:", request.user.is_authenticated)
     print("Session ID in redirected view:", request.session.session_key)
+
     try:
         homeowner = Homeowner.objects.get(user=request.user)
     except Homeowner.DoesNotExist:
@@ -40,7 +42,6 @@ def property_create(request):
                     break
 
             property_obj.agent = agent
-            property_obj.state = homeowner.user.state
             property_obj.assistant = agent.assistant if agent else None
             property_obj.approval_status = True if not agent else False
             property_obj.save()
@@ -53,6 +54,7 @@ def property_create(request):
         form = PropertyForm()
 
     return render(request, 'properties/property_form.html', {'form': form})
+
 
 
 
