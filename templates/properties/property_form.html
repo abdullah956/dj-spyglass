@@ -230,5 +230,26 @@
         })
         .catch((error) => console.error('Error fetching states:', error))
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        function updateFileName(input) {
+          if (input.files.length > 0) {
+            let fileName = Array.from(input.files)
+              .map(file => file.name)
+              .join(", "); // Join multiple file names if multiple files are uploaded
+            input.nextElementSibling.innerText = fileName;
+          } else {
+            input.nextElementSibling.innerText = "Choose file"; // Default text
+          }
+        }
+    
+        document.querySelectorAll(".custom-file-input").forEach(input => {
+          input.addEventListener("change", function () {
+            updateFileName(this);
+          });
+        });
+      });
+    </script>
+    
   </body>
 </html>
